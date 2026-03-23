@@ -14,10 +14,6 @@ export const SIZES = [
   { label: "100ml", value: "100ml" },
 ];
 
-export const DISCOUNT_CODES: Record<string, number> = {
-  FRESH20: 20,
-  ALUM10: 10,
-};
 
 export const FREE_SHIPPING_THRESHOLD = Number(
   process.env.NEXT_PUBLIC_FREE_SHIPPING_THRESHOLD || 499
@@ -28,9 +24,10 @@ export const SHIPPING_CHARGE = Number(
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Shop", href: "/#products" },
+  { label: "Discover", href: "/#products" },
   { label: "Ingredients", href: "/#ingredients" },
-  { label: "Our Story", href: "/#story" },
+  { label: "Our Story", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const FOOTER_LINKS = {
@@ -45,13 +42,13 @@ export const FOOTER_LINKS = {
     { label: "Our Story", href: "/about" },
     { label: "Ingredients", href: "/#ingredients" },
     { label: "Sustainability", href: "/about#eco" },
-    { label: "Blog", href: "#" },
+    { label: "Scientific Ritual", href: "/about" },
   ],
   support: [
     { label: "Contact Us", href: "/contact" },
-    { label: "FAQs", href: "/#faq" },
-    { label: "Shipping", href: "/contact" },
-    { label: "Returns", href: "/contact" },
+    { label: "Tracking", href: "/cart" },
+    { label: "Shipping Policy", href: "/contact" },
+    { label: "Wholesale", href: "/contact" },
   ],
 };
 

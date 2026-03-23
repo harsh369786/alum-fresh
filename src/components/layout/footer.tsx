@@ -1,10 +1,17 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FOOTER_LINKS, BRAND_NAME } from "@/lib/constants";
 import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/manage")) {
+    return null;
+  }
+
   return (
     <footer className="bg-charcoal text-white/65 px-8 pt-16 pb-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-10 max-w-7xl mx-auto mb-10">

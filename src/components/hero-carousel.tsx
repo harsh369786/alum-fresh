@@ -5,7 +5,7 @@ import AutoPlay from "embla-carousel-autoplay";
 import { Banner } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Leaf, Sparkles, ShieldCheck } from "lucide-react";
 
 interface HeroCarouselProps {
   banners: Banner[];
@@ -15,10 +15,10 @@ const FALLBACK_SLIDES = [
   {
     id: "1",
     title: "Stay Fresh, Naturally.",
-    subtitle: "100% Alum. 0% Chemicals. Pure freshness that lasts all day.",
-    cta_text: "Shop Now",
+    subtitle: "100% Alum. 0% Chemicals. Pure freshness that lasts all day, inspired by ancient rituals.",
+    cta_text: "Explore Collection",
     cta_link: "/category/roll-on",
-    bg_gradient: "linear-gradient(135deg, #08070F 0%, #0E0B1A 100%)",
+    bg_gradient: "linear-gradient(135deg, #F8F4ED 0%, #EDE8DC 100%)",
     image_url: null,
     is_active: true,
     sort_order: 0,
@@ -26,11 +26,11 @@ const FALLBACK_SLIDES = [
   },
   {
     id: "2",
-    title: "Rose Edition.",
-    subtitle: "Infused with rose water for a delicate, feminine freshness.",
+    title: "The Rose Edition.",
+    subtitle: "Infused with organic rose water for a delicate, floral sanctuary of freshness.",
     cta_text: "Shop Rose",
     cta_link: "/category/roll-on",
-    bg_gradient: "linear-gradient(135deg, #1a0820 0%, #08070F 100%)",
+    bg_gradient: "linear-gradient(135deg, #FDF6F4 0%, #F8EBED 100%)",
     image_url: null,
     is_active: true,
     sort_order: 1,
@@ -38,11 +38,11 @@ const FALLBACK_SLIDES = [
   },
   {
     id: "3",
-    title: "Charcoal Edition.",
-    subtitle: "Activated charcoal meets pure alum. The ultimate detox deodorant.",
-    cta_text: "Explore",
+    title: "Charcoal Detox.",
+    subtitle: "Activated charcoal meets pure alum crystal. The ultimate natural detox for your skin.",
+    cta_text: "Discover Pure",
     cta_link: "/category/roll-on",
-    bg_gradient: "linear-gradient(135deg, #0D0B18 0%, #08070F 100%)",
+    bg_gradient: "linear-gradient(135deg, #F0F2F0 0%, #D8DED8 100%)",
     image_url: null,
     is_active: true,
     sort_order: 2,
@@ -50,148 +50,138 @@ const FALLBACK_SLIDES = [
   },
 ];
 
-const SLIDE_EMOJIS = ["🌿", "🌹", "🖤"];
-const GLOW_COLORS = ["rgba(0,212,200,0.15)", "rgba(214,58,249,0.12)", "rgba(160,132,202,0.12)"];
+const GLOW_COLORS = ["rgba(143,175,143,0.1)", "rgba(212,153,138,0.1)", "rgba(122,112,104,0.1)"];
+const EMOJIS = ["🌿", "🌹", "🖤"];
 
 export function HeroCarousel({ banners }: HeroCarouselProps) {
   const slides = banners.length > 0 ? banners : FALLBACK_SLIDES;
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    AutoPlay({ delay: 4000, stopOnInteraction: false }),
+    AutoPlay({ delay: 5000, stopOnInteraction: false }),
   ]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   return (
-    <section className="relative overflow-hidden min-h-screen flex items-center" ref={emblaRef as any}>
-      <div className="flex h-full w-full" style={{ willChange: "transform" }}>
+    <section className="relative overflow-hidden bg-cream" ref={emblaRef as any}>
+      <div className="flex">
         {slides.map((slide, idx) => (
           <div
             key={slide.id}
-            className="relative min-w-full min-h-screen flex items-center justify-center"
-            style={{ background: slide.bg_gradient || "#08070F" }}
+            className="relative min-w-full min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden"
+            style={{ background: slide.bg_gradient || "#F8F4ED" }}
           >
-            {/* Ambient glow for slide */}
+            {/* Ambient Animated Glow */}
             <div
-              className="absolute inset-0 pointer-events-none"
+              className="absolute inset-0 pointer-events-none opacity-50"
               style={{
                 background: `radial-gradient(ellipse at 70% 50%, ${GLOW_COLORS[idx % GLOW_COLORS.length]} 0%, transparent 60%)`,
               }}
             />
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white/40 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full relative z-10">
-              <div className="grid md:grid-cols-2 gap-12 items-center">
-                {/* Text */}
-                <div className="text-center md:text-left">
-                  {/* Trust badge */}
-                  <div className="inline-flex items-center gap-2 glass-card px-4 py-2 rounded-full mb-6">
-                    <span className="w-2 h-2 rounded-full bg-teal animate-pulse" />
-                    <span className="text-xs text-text-muted font-medium">100% Natural · Derma Tested</span>
+            <div className="max-w-7xl mx-auto px-6 md:px-8 w-full relative z-10 flex flex-col md:flex-row items-center gap-16 md:gap-24">
+               {/* Content Block */}
+               <div className="flex-1 text-center md:text-left animate-fade-up">
+                  <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-md border border-parchment px-5 py-2 rounded-full mb-8 shadow-sm">
+                    <span className="w-2 h-2 rounded-full bg-sage-dark animate-pulse" />
+                    <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-charcoal opacity-80">Ancient Wisdom · Modern Form</span>
                   </div>
 
-                  <h1 className="font-syne font-black text-4xl sm:text-5xl md:text-6xl text-text-primary leading-tight mb-4">
-                    {idx === 0 ? (
-                      <>
-                        Stay Fresh,{" "}
-                        <span className="gradient-text">Naturally.</span>
-                      </>
-                    ) : (
-                      <span className="gradient-text">{slide.title}</span>
-                    )}
+                  <h1 className="font-serif italic text-[clamp(2.5rem,8vw,5.5rem)] text-charcoal leading-[1.1] mb-8">
+                     {slide.title}
                   </h1>
-                  <p className="text-text-muted text-base sm:text-lg leading-relaxed mb-8 max-w-lg">
-                    {slide.subtitle}
+                  
+                  <p className="text-[1.1rem] text-warm max-w-lg mb-12 leading-relaxed font-light opacity-90 mx-auto md:mx-0">
+                     {slide.subtitle}
                   </p>
 
-                  {/* CTA buttons */}
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <Button variant="teal" size="lg" asChild>
-                      <Link href={slide.cta_link || "/category/roll-on"}>
-                        {slide.cta_text || "Shop Now"}
-                      </Link>
-                    </Button>
-                    <Button variant="ghost" size="lg" asChild>
-                      <Link href="/about">Our Story</Link>
-                    </Button>
+                  <div className="flex flex-col sm:flex-row gap-5 items-center justify-center md:justify-start">
+                     <Button size="lg" asChild className="px-10 py-7 h-auto text-[0.95rem] shadow-xl group">
+                       <Link href={slide.cta_link || "/category/roll-on"}>
+                         {slide.cta_text || "Discover Collection"} &nbsp;→
+                       </Link>
+                     </Button>
+                     <Link 
+                       href="/about" 
+                       className="text-[0.7rem] uppercase tracking-widest font-black text-warm hover:text-charcoal transition-all underline underline-offset-8"
+                     >
+                       Our Scientific Ritual
+                     </Link>
                   </div>
 
-                  {/* Social proof */}
-                  <div className="mt-8 flex items-center gap-3 justify-center md:justify-start">
-                    <div className="flex -space-x-2">
-                      {["🧑🏽‍🦱","👩🏻","🧑🏿"].map((emoji, i) => (
-                        <div key={i} className="w-8 h-8 rounded-full bg-surface2 border-2 border-surface flex items-center justify-center text-sm">
-                          {emoji}
+                  {/* Social Proof */}
+                  <div className="mt-12 flex items-center gap-4 justify-center md:justify-start pt-8 border-t border-parchment/40">
+                    <div className="flex -space-x-3">
+                      {[1,2,3].map((i) => (
+                        <div key={i} className="w-10 h-10 rounded-full bg-cream border-2 border-white flex items-center justify-center shadow-sm text-sm overflow-hidden">
+                          {["🧑🏽","👩🏻","🧑🏿"][i-1]}
                         </div>
                       ))}
                     </div>
-                    <span className="text-sm text-text-muted">
-                      <span className="text-teal font-semibold">14,000+</span> happy customers
-                    </span>
-                  </div>
-                </div>
-
-                {/* Visual */}
-                <div className="relative flex items-center justify-center">
-                  <div className="relative">
-                    {/* Rotating rings */}
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div
-                        className="w-64 h-64 rounded-full border-2 animate-spin-slow opacity-30"
-                        style={{ borderColor: GLOW_COLORS[idx % GLOW_COLORS.length].replace("0.15","0.6") }}
-                      />
-                      <div
-                        className="absolute w-80 h-80 rounded-full border animate-spin-slower opacity-20"
-                        style={{ borderColor: GLOW_COLORS[idx % GLOW_COLORS.length].replace("0.15","0.4") }}
-                      />
-                    </div>
-
-                    {/* Product orb */}
-                    <div
-                      className="relative w-52 h-52 rounded-full flex items-center justify-center animate-float z-10"
-                      style={{
-                        background: `radial-gradient(circle, ${GLOW_COLORS[idx % GLOW_COLORS.length].replace("0.15","0.25")} 0%, transparent 70%)`,
-                        boxShadow: `0 0 60px ${GLOW_COLORS[idx % GLOW_COLORS.length].replace("0.15","0.4")}`,
-                      }}
-                    >
-                      {slide.image_url ? (
-                        <img src={slide.image_url} alt={slide.title || "Product"} className="w-36 h-36 object-contain" />
-                      ) : (
-                        <span className="text-8xl">{SLIDE_EMOJIS[idx % SLIDE_EMOJIS.length]}</span>
-                      )}
-                    </div>
-
-                    {/* Glass badge overlays */}
-                    <div className="absolute -top-4 -right-4 glass-card px-3 py-1.5 rounded-full animate-float-delayed">
-                      <span className="text-xs font-semibold text-teal">100% Natural ✓</span>
-                    </div>
-                    <div className="absolute -bottom-4 -left-4 glass-card px-3 py-1.5 rounded-full animate-float">
-                      <span className="text-xs font-semibold text-purple-light">Derma Tested ✓</span>
-                    </div>
-                    <div className="absolute top-1/2 -right-8 glass-card px-3 py-1.5 rounded-full">
-                      <span className="text-xs font-semibold text-magenta">0% Chemicals ✓</span>
+                    <div>
+                      <span className="block text-[0.75rem] font-bold text-charcoal uppercase tracking-wider">14,000+ Real Discoveries</span>
+                      <span className="block text-[0.65rem] text-warm italic">Joined the Alum ritual this year</span>
                     </div>
                   </div>
-                </div>
-              </div>
+               </div>
+
+               {/* Visual Block */}
+               <div className="flex-1 relative flex items-center justify-center animate-fade-up" style={{ animationDelay: "0.2s" }}>
+                  <div className="relative group">
+                    {/* Atmospheric Elements */}
+                    <div className="absolute inset-0 bg-sage-light/10 rounded-full blur-[80px] pointer-events-none transition-transform duration-1000 group-hover:scale-125" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full border border-parchment/60 animate-spin-slow opacity-30" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full border border-sage-light/20 animate-spin-slower opacity-20" />
+
+                    {/* Product Orb */}
+                    <div className="relative w-64 h-64 md:w-80 md:h-80 bg-white shadow-[0_25px_80px_rgba(44,44,44,0.08)] rounded-full flex items-center justify-center p-12 border border-parchment animate-float">
+                       <span className="text-[8rem] md:text-[10rem] drop-shadow-2xl transition-transform duration-700 group-hover:scale-110 group-hover:-translate-y-4">
+                          {EMOJIS[idx % EMOJIS.length]}
+                       </span>
+                    </div>
+
+                    {/* Floating Badges */}
+                    <div className="absolute -top-4 -right-8 bg-white/80 backdrop-blur-md border border-parchment px-4 py-2 rounded-full shadow-lg flex items-center gap-2 animate-float" style={{ animationDelay: "1s" }}>
+                       <Leaf className="w-3.5 h-3.5 text-sage-dark" />
+                       <span className="text-[0.6rem] font-black uppercase tracking-widest text-charcoal">Pure Crystal</span>
+                    </div>
+                    <div className="absolute -bottom-6 -left-8 bg-white/80 backdrop-blur-md border border-parchment px-4 py-2 rounded-full shadow-lg flex items-center gap-2 animate-float-delayed">
+                       <ShieldCheck className="w-3.5 h-3.5 text-rose-dark" />
+                       <span className="text-[0.6rem] font-black uppercase tracking-widest text-charcoal">Dermatested</span>
+                    </div>
+                  </div>
+               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Navigation buttons */}
-      <button
-        onClick={scrollPrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full glass-card border border-white/15 flex items-center justify-center hover:border-teal/30 hover:text-teal text-text-muted transition-all"
-      >
-        <ChevronLeft className="w-5 h-5" />
-      </button>
-      <button
-        onClick={scrollNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full glass-card border border-white/15 flex items-center justify-center hover:border-teal/30 hover:text-teal text-text-muted transition-all"
-      >
-        <ChevronRight className="w-5 h-5" />
-      </button>
+      {/* Navigation */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex gap-4">
+        <button
+          onClick={scrollPrev}
+          className="w-12 h-12 rounded-full bg-white border border-parchment flex items-center justify-center text-warm hover:text-charcoal hover:shadow-lg transition-all"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <button
+          onClick={scrollNext}
+          className="w-12 h-12 rounded-full bg-white border border-parchment flex items-center justify-center text-warm hover:text-charcoal hover:shadow-lg transition-all"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Progress Bars */}
+      <div className="absolute left-0 right-0 top-0 h-1 z-30 flex gap-1">
+         {slides.map((_, i) => (
+           <div key={i} className="flex-1 bg-parchment/30 overflow-hidden relative">
+              <div className="absolute inset-0 bg-sage-dark/40 origin-left animate-marquee" style={{ animationDuration: '5s', animationIterationCount: 'infinite' }} />
+           </div>
+         ))}
+      </div>
     </section>
   );
 }

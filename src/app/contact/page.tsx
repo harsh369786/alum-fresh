@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import type { Metadata } from "next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, MapPin, Send, Check, Loader2 } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Check, Loader2, ArrowRight } from "lucide-react";
 
 const schema = z.object({
   name: z.string().min(2, "Name required"),
@@ -22,9 +21,9 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const CONTACT_INFO = [
-  { icon: Mail, label: "Email", value: "hello@alumfresh.in", href: "mailto:hello@alumfresh.in" },
-  { icon: Phone, label: "Phone", value: "+91 98765 43210", href: "tel:+919876543210" },
-  { icon: MapPin, label: "Location", value: "Jaipur, Rajasthan, India", href: "#" },
+  { icon: Mail, label: "Send an Email", value: "hello@alumfresh.in", href: "mailto:hello@alumfresh.in" },
+  { icon: Phone, label: "Call Our Studio", value: "+91 98765 43210", href: "tel:+919876543210" },
+  { icon: MapPin, label: "Visit Us In Jaipur", value: "Rajasthan, India", href: "#" },
 ];
 
 export default function ContactPage() {
@@ -45,7 +44,7 @@ export default function ContactPage() {
         body: JSON.stringify(data),
       });
       setSent(true);
-      toast({ title: "Message sent! 🌿", description: "We'll get back to you within 24 hours.", variant: "success" as any });
+      toast({ title: "Message sent! 🌿", description: "We'll get back to you within 24 hours." });
       reset();
     } catch {
       toast({ title: "Error", description: "Could not send message. Please try again." });
@@ -55,91 +54,117 @@ export default function ContactPage() {
   }
 
   return (
-    <>
-      <section className="pt-28 pb-12 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          <div className="inline-flex items-center gap-2 glass-card px-4 py-1.5 rounded-full mb-6">
-            <span className="text-xs text-teal font-medium">Get in Touch</span>
-          </div>
-          <h1 className="font-syne font-black text-4xl sm:text-5xl text-text-primary mb-4">
-            We&apos;d Love to <span className="gradient-text">Hear From You</span>
+    <main className="min-h-screen pt-32 pb-20 bg-cream/30">
+      {/* Header */}
+      <section className="pt-12 pb-20 px-6 md:px-8 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-sage-light/10 rounded-full blur-[100px] pointer-events-none" />
+        
+        <div className="max-w-4xl mx-auto text-center relative z-10 animate-fade-up">
+          <span className="eyebrow">Contact Us</span>
+          <h1 className="font-serif italic text-[clamp(2.5rem,6vw,4rem)] text-charcoal leading-tight mb-8">
+            We&apos;d love to <em className="text-sage-dark">hear from you.</em>
           </h1>
-          <p className="text-text-muted max-w-md mx-auto">
-            Questions, feedback, wholesale enquiries, or just want to say hi — we&apos;re here.
+          <p className="text-[1.1rem] text-warm max-w-xl mx-auto leading-relaxed font-light">
+            Questions, feedback, or retail enquiries — our team is here to help you navigate your natural journey.
           </p>
         </div>
       </section>
 
-      <section className="pb-20">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="grid md:grid-cols-5 gap-10">
-            {/* Contact Info */}
-            <div className="md:col-span-2 space-y-6">
+      {/* Main Content */}
+      <section className="px-6 md:px-8 pb-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-5 gap-16 lg:gap-24">
+            
+            {/* Info Cards */}
+            <div className="lg:col-span-2 space-y-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
+              <div className="mb-10">
+                 <h2 className="font-serif text-[1.8rem] text-charcoal mb-4">Studio Information</h2>
+                 <p className="text-[0.85rem] text-warm leading-relaxed opacity-80">Our Jaipur studio is where tradition meets formulation. Feel free to reach out during our working hours.</p>
+              </div>
+
               {CONTACT_INFO.map(({ icon: Icon, label, value, href }) => (
-                <a href={href} key={label} className="glass-card rounded-2xl p-5 flex gap-4 items-center hover:-translate-y-1 transition-transform block">
-                  <div className="w-10 h-10 rounded-full bg-teal/10 border border-teal/20 flex items-center justify-center shrink-0">
-                    <Icon className="w-5 h-5 text-teal" />
+                <a 
+                  href={href} 
+                  key={label} 
+                  className="bg-white border border-parchment rounded-[1.5rem] p-6 flex gap-5 items-center hover:shadow-lg hover:border-sage-light transition-all group"
+                >
+                  <div className="w-12 h-12 rounded-full bg-cream flex items-center justify-center shrink-0 text-sage-dark group-hover:scale-110 transition-transform">
+                    <Icon className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs text-text-muted mb-0.5">{label}</p>
-                    <p className="text-text-primary text-sm font-medium">{value}</p>
+                    <p className="text-[0.65rem] font-bold uppercase tracking-widest text-warm mb-0.5 opacity-60">{label}</p>
+                    <p className="text-[0.95rem] text-charcoal font-medium">{value}</p>
                   </div>
+                  <ArrowRight className="ml-auto w-4 h-4 text-parchment group-hover:text-sage-dark group-hover:translate-x-2 transition-all" />
                 </a>
               ))}
 
-              <div className="glass-card rounded-2xl p-5">
-                <h3 className="font-syne font-bold text-sm text-text-primary mb-2">Working Hours</h3>
-                <p className="text-text-muted text-sm">Mon – Sat: 10am – 6pm IST</p>
-                <p className="text-text-muted text-sm">Sunday: Closed</p>
+              <div className="bg-charcoal text-white rounded-[1.5rem] p-8 mt-10 shadow-xl relative overflow-hidden prose-invert">
+                <div className="absolute right-[-20px] bottom-[-20px] opacity-10 rotate-12">
+                   <Mail className="w-32 h-32" />
+                </div>
+                <h3 className="font-serif italic text-xl mb-4 relative z-10">Studio Hours</h3>
+                <div className="space-y-2 text-[0.8rem] font-light opacity-80 relative z-10">
+                  <p className="flex justify-between"><span>Mon – Saturday</span> <span>10 am – 06 pm IST</span></p>
+                  <p className="flex justify-between"><span>Sundays</span> <span>Resting</span></p>
+                </div>
               </div>
             </div>
 
             {/* Form */}
-            <div className="md:col-span-3">
-              <div className="glass-card rounded-2xl p-8">
-                <h2 className="font-syne font-bold text-xl text-text-primary mb-6">Send us a message</h2>
+            <div className="lg:col-span-3 animate-fade-up" style={{ animationDelay: "0.2s" }}>
+              <div className="bg-white border border-parchment rounded-[2.5rem] p-8 md:p-12 shadow-[0_12px_45px_rgba(44,44,44,0.03)] border-t-4 border-t-sage-dark">
+                <h2 className="font-serif text-[2.2rem] text-charcoal mb-8">Send a Message</h2>
 
                 {sent ? (
-                  <div className="text-center py-12">
-                    <div className="w-16 h-16 rounded-full bg-teal/15 border border-teal/30 flex items-center justify-center mx-auto mb-4">
-                      <Check className="w-8 h-8 text-teal" />
+                  <div className="text-center py-20 animate-fade-up">
+                    <div className="w-24 h-24 rounded-full bg-sage-light/20 border border-sage-light/40 flex items-center justify-center mx-auto mb-8 relative">
+                      <Check className="w-10 h-10 text-sage-dark" />
+                      <div className="absolute inset-0 rounded-full animate-ping opacity-20 border-2 border-sage-dark" />
                     </div>
-                    <h3 className="font-syne font-bold text-xl text-text-primary mb-2">Message Sent! 🌿</h3>
-                    <p className="text-text-muted">We&apos;ll get back to you within 24 hours.</p>
-                    <Button variant="ghost" onClick={() => setSent(false)} className="mt-4">Send another message</Button>
+                    <h3 className="font-serif italic text-3xl text-charcoal mb-4">Message delivered.</h3>
+                    <p className="text-warm mb-10 max-w-xs mx-auto text-[0.9rem] leading-relaxed">We&apos;ve received your thoughts and will respond within nature&apos;s cycle (usually 24 hours).</p>
+                    <Button variant="outline" onClick={() => setSent(false)} className="px-10">New Enquiry</Button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label>Name *</Label>
-                        <Input {...register("name")} placeholder="Priya Sharma" className="mt-1" />
-                        {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>}
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <div className="space-y-1.5">
+                        <Label className="text-[0.68rem] uppercase tracking-widest text-warm ml-4">Your Name</Label>
+                        <Input {...register("name")} placeholder="Ayesha Kapoor" className="rounded-full bg-cream/20 border-parchment px-6 h-12 text-[0.85rem] focus-visible:ring-charcoal shadow-sm transition-all" />
+                        {errors.name && <p className="text-rose text-[0.65rem] mt-1 ml-4 font-medium">{errors.name.message}</p>}
                       </div>
-                      <div>
-                        <Label>Email *</Label>
-                        <Input {...register("email")} type="email" placeholder="priya@email.com" className="mt-1" />
-                        {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
+                      <div className="space-y-1.5">
+                        <Label className="text-[0.68rem] uppercase tracking-widest text-warm ml-4">Email Address</Label>
+                        <Input {...register("email")} type="email" placeholder="ayesha@email.com" className="rounded-full bg-cream/20 border-parchment px-6 h-12 text-[0.85rem] focus-visible:ring-charcoal shadow-sm transition-all" />
+                        {errors.email && <p className="text-rose text-[0.65rem] mt-1 ml-4 font-medium">{errors.email.message}</p>}
                       </div>
                     </div>
-                    <div>
-                      <Label>Phone</Label>
-                      <Input {...register("phone")} placeholder="+91 98765 43210" className="mt-1" />
+
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <div className="space-y-1.5">
+                        <Label className="text-[0.68rem] uppercase tracking-widest text-warm ml-4">Phone (Optional)</Label>
+                        <Input {...register("phone")} placeholder="+91 98765 00000" className="rounded-full bg-cream/20 border-parchment px-6 h-12 text-[0.85rem] focus-visible:ring-charcoal shadow-sm transition-all" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label className="text-[0.68rem] uppercase tracking-widest text-warm ml-4">Subject</Label>
+                        <Input {...register("subject")} placeholder="Wholesale / Feedback / Support" className="rounded-full bg-cream/20 border-parchment px-6 h-12 text-[0.85rem] focus-visible:ring-charcoal shadow-sm transition-all" />
+                        {errors.subject && <p className="text-rose text-[0.65rem] mt-1 ml-4 font-medium">{errors.subject.message}</p>}
+                      </div>
                     </div>
-                    <div>
-                      <Label>Subject *</Label>
-                      <Input {...register("subject")} placeholder="How can we help?" className="mt-1" />
-                      {errors.subject && <p className="text-red-400 text-xs mt-1">{errors.subject.message}</p>}
+
+                    <div className="space-y-1.5">
+                      <Label className="text-[0.68rem] uppercase tracking-widest text-warm ml-4">Your Thoughts</Label>
+                      <Textarea {...register("message")} placeholder="Tell us more about your discovery..." className="rounded-[1.5rem] bg-cream/20 border-parchment px-6 py-5 text-[0.85rem] focus-visible:ring-charcoal shadow-sm resize-none transition-all" rows={5} />
+                      {errors.message && <p className="text-rose text-[0.65rem] mt-1 ml-4 font-medium">{errors.message.message}</p>}
                     </div>
-                    <div>
-                      <Label>Message *</Label>
-                      <Textarea {...register("message")} placeholder="Tell us more..." className="mt-1" rows={4} />
-                      {errors.message && <p className="text-red-400 text-xs mt-1">{errors.message.message}</p>}
+
+                    <div className="pt-4">
+                      <Button type="submit" size="lg" className="w-full py-8 text-[1rem] shadow-xl group" disabled={loading}>
+                        {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Send className="w-5 h-5 mr-3 group-hover:translate-x-1 transition-transform" />}
+                        Deliver Message &nbsp;→
+                      </Button>
                     </div>
-                    <Button type="submit" variant="teal" size="lg" className="w-full gap-2" disabled={loading}>
-                      {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                      Send Message
-                    </Button>
                   </form>
                 )}
               </div>
@@ -147,6 +172,6 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-    </>
+    </main>
   );
 }

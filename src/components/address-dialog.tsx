@@ -10,14 +10,15 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { CartItem } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
-import { Check, Loader2, Package } from "lucide-react";
+import { Check, Loader2, Package, Truck, ArrowLeft, ShieldCheck, MapPin, AlertTriangle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 const schema = z.object({
   fullName: z.string().min(2, "Name must be at least 2 characters"),
   phone: z.string().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit Indian mobile number"),
   email: z.string().email("Enter a valid email address"),
-  addressLine1: z.string().min(10, "Enter your full address"),
+  addressLine1: z.string().min(10, "Enter your full address (flat/house no, street, area)"),
   city: z.string().min(2, "Enter city"),
   state: z.string().min(2, "Enter state"),
   pincode: z.string().regex(/^\d{6}$/, "Enter a valid 6-digit pincode"),
@@ -43,9 +44,23 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
   const [formData, setFormData] = useState<FormData | null>(null);
   const [loading, setLoading] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
+  const [orderError, setOrderError] = useState<string | null>(null);
   const router = useRouter();
+  const { toast } = useToast();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) });
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ 
+    resolver: zodResolver(schema),
+    defaultValues: {
+      fullName: "",
+      phone: "",
+      email: "",
+      addressLine1: "",
+      city: "",
+      state: "",
+      pincode: "",
+      notes: "",
+    }
+  });
 
   function onFormSubmit(data: FormData) {
     setFormData(data);
@@ -55,6 +70,7 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
   async function confirmOrder() {
     if (!formData) return;
     setLoading(true);
+    setOrderError(null);
     try {
       const res = await fetch("/api/orders", {
         method: "POST",
@@ -75,13 +91,25 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
       });
       const data = await res.json();
       if (data.id) {
-        setOrderId(data.id.slice(0, 8).toUpperCase());
+        const displayId = typeof data.id === 'string' ? data.id.slice(0, 12).toUpperCase() : String(data.id);
+        setOrderId(displayId);
         setStep("success");
         onSuccess();
-        setTimeout(() => { onOpenChange(false); setStep("form"); router.push("/"); }, 4000);
+        toast({ title: "Order Placed! 🌿", description: `Your order #${displayId} is confirmed.` });
+        setTimeout(() => { 
+          onOpenChange(false); 
+          setStep("form"); 
+          router.push("/"); 
+        }, 5000);
+      } else {
+        const errMsg = data.error || "Something went wrong. Please try again.";
+        setOrderError(errMsg);
+        toast({ title: "Order Failed", description: errMsg, variant: "destructive" });
       }
-    } catch {
-      // error handled gracefully
+    } catch (e: any) {
+      const errMsg = "Network error. Please check your connection.";
+      setOrderError(errMsg);
+      toast({ title: "Connection Error", description: errMsg, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -89,120 +117,202 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
-        {step === "form" && (
-          <>
-            <DialogHeader>
-              <DialogTitle>Delivery Details</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 mt-2">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label>Full Name *</Label>
-                  <Input {...register("fullName")} placeholder="Priya Sharma" className="mt-1" />
-                  {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName.message}</p>}
+      <DialogContent className="max-w-2xl p-0 overflow-hidden bg-white border-parchment rounded-[2.5rem] shadow-2xl">
+        <div className="grid md:grid-cols-5 min-h-[500px]">
+          {/* Sidebar - Progress/Summary Overlay */}
+          <div className="hidden md:flex md:col-span-2 bg-cream/50 p-10 flex-col border-r border-parchment">
+            <div className="mb-12">
+              <span className="eyebrow block mb-4">Final Step</span>
+              <h2 className="font-serif italic text-3xl text-charcoal leading-tight">Securing your <em className="text-sage-dark">natural choice.</em></h2>
+            </div>
+            
+            <div className="space-y-6 flex-1">
+              <div className="flex gap-4">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[0.8rem] font-bold border-2 transition-all ${step === 'form' ? 'bg-charcoal text-white border-charcoal' : 'bg-sage-dark text-white border-sage-dark'}`}>
+                  {step === 'form' ? '01' : <Check className="w-5 h-5" />}
                 </div>
                 <div>
-                  <Label>Phone *</Label>
-                  <Input {...register("phone")} placeholder="9876543210" className="mt-1" />
-                  {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
+                  <p className="text-[0.7rem] font-bold uppercase tracking-widest text-charcoal">Delivery Details</p>
+                  <p className="text-[0.65rem] text-warm mt-0.5">Where shall we send your order?</p>
                 </div>
               </div>
-              <div>
-                <Label>Email *</Label>
-                <Input {...register("email")} type="email" placeholder="priya@email.com" className="mt-1" />
-                {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
-              </div>
-              <div>
-                <Label>Address Line 1 *</Label>
-                <Input {...register("addressLine1")} placeholder="House / Flat, Street, Area" className="mt-1" />
-                {errors.addressLine1 && <p className="text-red-400 text-xs mt-1">{errors.addressLine1.message}</p>}
-              </div>
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <Label>City *</Label>
-                  <Input {...register("city")} placeholder="Mumbai" className="mt-1" />
-                  {errors.city && <p className="text-red-400 text-xs mt-1">{errors.city.message}</p>}
+              <div className="flex gap-4">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[0.8rem] font-bold border-2 transition-all ${step === 'review' ? 'bg-charcoal text-white border-charcoal' : step === 'success' ? 'bg-sage-dark text-white border-sage-dark' : 'bg-white text-warm border-parchment'}`}>
+                  02
                 </div>
                 <div>
-                  <Label>State *</Label>
-                  <Input {...register("state")} placeholder="Maharashtra" className="mt-1" />
-                  {errors.state && <p className="text-red-400 text-xs mt-1">{errors.state.message}</p>}
+                  <p className="text-[0.7rem] font-bold uppercase tracking-widest text-charcoal">Order Review</p>
+                  <p className="text-[0.65rem] text-warm mt-0.5">Quick verify before we ship.</p>
                 </div>
-                <div>
-                  <Label>Pincode *</Label>
-                  <Input {...register("pincode")} placeholder="400001" className="mt-1" />
-                  {errors.pincode && <p className="text-red-400 text-xs mt-1">{errors.pincode.message}</p>}
-                </div>
-              </div>
-              <div>
-                <Label>Order Notes (optional)</Label>
-                <Textarea {...register("notes")} placeholder="Any special instructions..." className="mt-1" rows={2} />
-              </div>
-              <Button type="submit" variant="teal" size="lg" className="w-full mt-2">Review Order</Button>
-            </form>
-          </>
-        )}
-
-        {step === "review" && formData && (
-          <>
-            <DialogHeader>
-              <DialogTitle>Review Your Order</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 mt-2">
-              <div className="glass-card rounded-xl p-4 space-y-2 text-sm">
-                <p className="font-semibold text-text-primary">{formData.fullName}</p>
-                <p className="text-text-muted">{formData.addressLine1}</p>
-                <p className="text-text-muted">{formData.city}, {formData.state} — {formData.pincode}</p>
-                <p className="text-text-muted">{formData.phone} · {formData.email}</p>
-              </div>
-              <div className="space-y-2 text-sm">
-                {items.map(item => (
-                  <div key={`r-${item.productId}`} className="flex justify-between">
-                    <span className="text-text-muted">{item.name} × {item.quantity}</span>
-                    <span className="text-text-primary">{formatPrice(item.price * item.quantity)}</span>
-                  </div>
-                ))}
-              </div>
-              {discount > 0 && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-teal">Discount ({discountCode})</span>
-                  <span className="text-teal">-{formatPrice(discount)}</span>
-                </div>
-              )}
-              <div className="flex justify-between text-sm">
-                <span className="text-text-muted">Shipping</span>
-                <span className={shipping === 0 ? "text-teal" : "text-text-primary"}>{shipping === 0 ? "FREE" : formatPrice(shipping)}</span>
-              </div>
-              <div className="border-t border-white/10 pt-3 flex justify-between">
-                <span className="font-bold text-text-primary">Total</span>
-                <span className="font-syne font-black text-xl gradient-text">{formatPrice(total)}</span>
-              </div>
-              <div className="flex gap-3 pt-2">
-                <Button variant="ghost" onClick={() => setStep("form")} className="flex-1">Back</Button>
-                <Button variant="teal" onClick={confirmOrder} disabled={loading} className="flex-1 gap-2">
-                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                  Confirm Order
-                </Button>
               </div>
             </div>
-          </>
-        )}
 
-        {step === "success" && (
-          <div className="text-center py-8">
-            <div className="w-16 h-16 rounded-full bg-teal/15 border border-teal/30 flex items-center justify-center mx-auto mb-4">
-              <Check className="w-8 h-8 text-teal" />
-            </div>
-            <h2 className="font-syne font-black text-2xl gradient-text mb-2">Order Placed! 🎉</h2>
-            {orderId && <p className="text-text-muted text-sm mb-2">Order ID: <span className="text-teal font-mono font-bold">#{orderId}</span></p>}
-            <p className="text-text-muted text-sm mb-4">We&apos;ll send your order confirmation to your email. Delivery in 3-5 business days.</p>
-            <div className="flex items-center justify-center gap-2 text-teal">
-              <Package className="w-4 h-4" />
-              <span className="text-sm">Redirecting to home...</span>
+            <div className="mt-auto pt-8 border-t border-parchment/60">
+              <div className="flex items-center gap-2 text-sage-dark mb-1">
+                <ShieldCheck className="w-4 h-4" />
+                <span className="text-[0.65rem] font-bold uppercase tracking-wider">Trusted Protection</span>
+              </div>
+              <p className="text-[0.6rem] text-warm leading-snug">Dermatologically tested and ethically sourced alum crystal products.</p>
             </div>
           </div>
-        )}
+
+          {/* Main Content Area */}
+          <div className="md:col-span-3 p-8 md:p-12 overflow-y-auto max-h-[90vh] md:max-h-full">
+            {step === "form" && (
+              <div className="animate-fade-up">
+                <DialogHeader className="mb-8">
+                  <DialogTitle className="font-serif text-2xl text-charcoal">Where should we deliver?</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="space-y-1.5">
+                      <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-4">Full Name</Label>
+                      <Input {...register("fullName")} placeholder="Ayesha Kapoor" className="rounded-full bg-cream/20 border-parchment px-6 h-11 text-[0.85rem] focus-visible:ring-charcoal" />
+                      {errors.fullName && <p className="text-rose text-[0.65rem] mt-1 ml-4 font-medium">{errors.fullName.message}</p>}
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-4">Mobile Number</Label>
+                      <Input {...register("phone")} placeholder="+91 98765 43210" className="rounded-full bg-cream/20 border-parchment px-6 h-11 text-[0.85rem] focus-visible:ring-charcoal" />
+                      {errors.phone && <p className="text-rose text-[0.65rem] mt-1 ml-4 font-medium">{errors.phone.message}</p>}
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-4">Email Address</Label>
+                    <Input {...register("email")} type="email" placeholder="ayesha@example.com" className="rounded-full bg-cream/20 border-parchment px-6 h-11 text-[0.85rem] focus-visible:ring-charcoal" />
+                    {errors.email && <p className="text-rose text-[0.65rem] mt-1 ml-4 font-medium">{errors.email.message}</p>}
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-4">Complete Address</Label>
+                    <Input {...register("addressLine1")} placeholder="Flat, Street, Area" className="rounded-full bg-cream/20 border-parchment px-6 h-11 text-[0.85rem] focus-visible:ring-charcoal" />
+                    {errors.addressLine1 && <p className="text-rose text-[0.65rem] mt-1 ml-4 font-medium">{errors.addressLine1.message}</p>}
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="space-y-1.5">
+                      <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-2">City</Label>
+                      <Input {...register("city")} placeholder="Jaipur" className="rounded-full bg-cream/20 border-parchment px-4 h-11 text-[0.85rem] focus-visible:ring-charcoal text-center" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-2">State</Label>
+                      <Input {...register("state")} placeholder="Raj" className="rounded-full bg-cream/20 border-parchment px-4 h-11 text-[0.85rem] focus-visible:ring-charcoal text-center" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-2">Pincode</Label>
+                      <Input {...register("pincode")} placeholder="302001" className="rounded-full bg-cream/20 border-parchment px-4 h-11 text-[0.85rem] focus-visible:ring-charcoal text-center" />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-4">Delivery Notes (Optional)</Label>
+                    <Textarea {...register("notes")} placeholder="Special instructions for the runner..." className="rounded-[1.5rem] bg-cream/20 border-parchment px-6 py-4 text-[0.85rem] focus-visible:ring-charcoal resize-none" rows={2} />
+                  </div>
+                  
+                  <div className="pt-4">
+                    <Button type="submit" className="w-full py-7 text-[1rem] shadow-lg group">
+                      Review Your Selection &nbsp;→
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {step === "review" && formData && (
+              <div className="animate-fade-up">
+                <DialogHeader className="mb-8">
+                  <DialogTitle className="font-serif text-2xl text-charcoal">Order Verification</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-8">
+                  <div className="bg-cream/40 border border-parchment/60 rounded-[1.5rem] p-6 space-y-3 relative overflow-hidden group">
+                    <div className="absolute right-[-20px] top-[-20px] opacity-5 rotate-12 group-hover:rotate-0 transition-transform">
+                      <MapPin className="w-24 h-24 text-charcoal" />
+                    </div>
+                    <div className="flex items-center gap-2 mb-2">
+                       <p className="text-[0.65rem] font-black uppercase tracking-widest text-sage-dark">Ship to Address</p>
+                    </div>
+                    <p className="font-serif text-[1.2rem] text-charcoal leading-none mb-1">{formData.fullName}</p>
+                    <p className="text-[0.82rem] text-warm leading-snug">{formData.addressLine1}</p>
+                    <p className="text-[0.82rem] text-warm font-medium uppercase tracking-[0.05em]">{formData.city}, {formData.state} — {formData.pincode}</p>
+                    <p className="text-[0.72rem] text-charcoal font-bold mt-2 pt-2 border-t border-parchment/30">{formData.phone} <span className="mx-2 opacity-20">|</span> {formData.email}</p>
+                  </div>
+
+                  <div className="space-y-3 max-h-32 overflow-y-auto pr-2 custom-scrollbar">
+                    {items.map(item => (
+                      <div key={`r-${item.productId}`} className="flex justify-between items-center text-[0.82rem]">
+                        <span className="text-warm italic">{item.name} <em className="text-[0.9em] opacity-60">× {item.quantity}</em></span>
+                        <span className="font-serif text-[1rem] text-charcoal">{formatPrice(item.price * item.quantity)}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="pt-6 border-t border-parchment border-dashed space-y-3 font-medium text-[0.8rem]">
+                    <div className="flex justify-between">
+                      <span className="text-warm uppercase tracking-widest opacity-60">Subtotal</span>
+                      <span className="text-charcoal">{formatPrice(subtotal)}</span>
+                    </div>
+                    {discount > 0 && (
+                      <div className="flex justify-between text-sage-dark">
+                        <span className="uppercase tracking-widest">Promotion ({discountCode})</span>
+                        <span>-{formatPrice(discount)}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between">
+                      <span className="text-warm uppercase tracking-widest opacity-60 flex items-center gap-1.5"><Truck className="w-3.5 h-3.5" /> Shipping</span>
+                      <span className={shipping === 0 ? "text-sage-dark" : "text-charcoal"}>{shipping === 0 ? "Complimentary" : formatPrice(shipping)}</span>
+                    </div>
+                    <div className="pt-4 flex justify-between items-end">
+                      <span className="font-serif italic text-xl text-charcoal">Final Amount</span>
+                      <span className="font-serif text-2xl text-charcoal">{formatPrice(total)}</span>
+                    </div>
+                  </div>
+
+                  {orderError && (
+                    <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-100 rounded-2xl">
+                      <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
+                      <p className="text-[0.75rem] text-red-700">{orderError}</p>
+                    </div>
+                  )}
+                  <div className="flex gap-4 pt-4">
+                    <button 
+                      onClick={() => setStep("form")} 
+                      className="flex-1 flex items-center justify-center gap-2 text-[0.7rem] uppercase font-black text-warm hover:text-charcoal transition-colors group"
+                    >
+                      <ArrowLeft className="w-3.5 h-3.5 transform group-hover:-translate-x-1 transition-transform" />
+                      Edit Details
+                    </button>
+                    <Button 
+                      onClick={confirmOrder} 
+                      disabled={loading} 
+                      className="flex-[2] py-7 text-[0.9rem] shadow-lg"
+                    >
+                      {loading ? <><Loader2 className="w-5 h-5 animate-spin mr-2" /> Placing Order...</> : "Place My Order"}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {step === "success" && (
+              <div className="text-center py-12 animate-fade-up">
+                <div className="w-24 h-24 rounded-full bg-sage-light/20 border border-sage-light/40 flex items-center justify-center mx-auto mb-8 relative">
+                  <Check className="w-12 h-12 text-sage-dark" />
+                  <div className="absolute inset-0 rounded-full animate-ping opacity-20 border-2 border-sage-dark" />
+                </div>
+                <h2 className="font-serif italic text-4xl text-charcoal mb-4">Nature is on the way.</h2>
+                <div className="mb-8">
+                   <span className="text-[0.65rem] uppercase tracking-widest text-warm font-bold block mb-1">Your Order Token</span>
+                   <span className="font-mono text-xl font-black text-charcoal tracking-tighter">#{orderId}</span>
+                </div>
+                <p className="text-[0.88rem] text-warm leading-relaxed mb-12 max-w-[280px] mx-auto">A confirmation has been sent to your email. We&apos;ll notify you when your natural essentials are dispatched.</p>
+                
+                <div className="bg-cream/30 border border-parchment rounded-2xl p-6 flex flex-col items-center gap-4">
+                  <div className="flex items-center gap-3 text-sage-dark font-black text-[0.7rem] uppercase tracking-[0.2em]">
+                    <Package className="w-4 h-4" />
+                    Securely Packing
+                  </div>
+                  <p className="text-[0.6rem] text-warm/60 uppercase">Redirecting home for more discovery...</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );

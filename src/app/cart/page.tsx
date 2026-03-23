@@ -3,10 +3,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
-import { DISCOUNT_CODES, FREE_SHIPPING_THRESHOLD, SHIPPING_CHARGE } from "@/lib/constants";
-import { Minus, Plus, X, ShoppingCart, Tag, Check, ArrowLeft, Truck } from "lucide-react";
+import { FREE_SHIPPING_THRESHOLD, SHIPPING_CHARGE } from "@/lib/constants";
+import { Minus, Plus, X, ShoppingCart, Tag, Check, ArrowLeft, Truck, ShieldCheck, Ticket } from "lucide-react";
 import { AddressDialog } from "@/components/address-dialog";
 import { useToast } from "@/hooks/use-toast";
 
@@ -17,6 +16,14 @@ export default function CartPage() {
   const [appliedCode, setAppliedCode] = useState<string | null>(null);
   const [discountPct, setDiscountPct] = useState(0);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [validCodes, setValidCodes] = useState<Record<string, number>>({});
+
+  React.useEffect(() => {
+    fetch("/api/discounts")
+      .then(res => res.json())
+      .then(data => setValidCodes(data || {}))
+      .catch(console.error);
+  }, []);
 
   const subtotal = getTotal();
   const discountAmount = (subtotal * discountPct) / 100;
@@ -26,200 +33,224 @@ export default function CartPage() {
 
   function applyCode() {
     const code = discountCode.trim().toUpperCase();
-    if (DISCOUNT_CODES[code]) {
+    if (code && validCodes[code]) {
       setAppliedCode(code);
-      setDiscountPct(DISCOUNT_CODES[code]);
-      toast({ title: `Code ${code} applied! 🎉`, description: `${DISCOUNT_CODES[code]}% off applied to your order.`, variant: "success" as any });
+      setDiscountPct(validCodes[code]);
+      toast({ title: `Code ${code} applied! 🎉`, description: `${validCodes[code]}% discount active.` });
     } else {
-      toast({ title: "Invalid code", description: "Please check your discount code and try again." });
+      toast({ title: "Invalid code", description: "Please verify your code and try again." });
     }
   }
 
   if (getItemCount() === 0) {
     return (
-      <div className="min-h-screen pt-24 flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto px-4">
-          <div className="text-8xl mb-6">🛒</div>
-          <h1 className="font-syne font-black text-3xl text-text-primary mb-3">Your cart is empty</h1>
-          <p className="text-text-muted mb-8">Looks like you haven&apos;t added anything yet. Explore our natural deodorant collection.</p>
-          <Button variant="teal" size="lg" asChild>
-            <Link href="/category/roll-on">Shop Now</Link>
+      <main className="min-h-screen pt-32 pb-20 bg-cream/30">
+        <div className="max-w-7xl mx-auto px-6 text-center animate-fade-up">
+          <div className="text-8xl mb-8 select-none">🛒</div>
+          <h1 className="font-serif italic text-4xl text-charcoal mb-4">Your Basket is Breathable</h1>
+          <p className="text-warm max-w-sm mx-auto mb-10 leading-relaxed text-[0.9rem]">It looks like you haven&apos;t added any natural freshness yet. Start exploring our collection for your perfect match.</p>
+          <Button size="lg" asChild className="px-12 py-7 h-auto">
+            <Link href="/category/roll-on">Explore Collection &nbsp;→</Link>
           </Button>
         </div>
-      </div>
+      </main>
     );
   }
 
   return (
-    <>
-      <div className="min-h-screen pt-24 pb-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <Link href="/" className="inline-flex items-center gap-2 text-text-muted hover:text-teal transition-colors text-sm mb-6">
-            <ArrowLeft className="w-4 h-4" />
-            Continue Shopping
-          </Link>
+    <main className="min-h-screen pt-32 pb-20 bg-cream/30">
+      <div className="max-w-7xl mx-auto px-6 md:px-8">
+        <Link 
+          href="/" 
+          className="inline-flex items-center gap-2 text-warm hover:text-charcoal transition-all text-[0.7rem] uppercase tracking-widest mb-12 group"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 transform group-hover:-translate-x-1 transition-transform" />
+          Keep Discovering
+        </Link>
 
-          <h1 className="font-syne font-black text-3xl sm:text-4xl text-text-primary mb-8">
-            Your <span className="gradient-text">Cart</span>
-          </h1>
+        <div className="flex flex-col lg:flex-row gap-16">
+          {/* Main Area */}
+          <div className="flex-1 space-y-12">
+            <div className="animate-fade-up">
+              <span className="eyebrow">Checkout Process</span>
+              <h1 className="text-[clamp(1.8rem,4vw,2.5rem)] font-light text-charcoal leading-tight flex items-baseline gap-4">
+                Your Selection <em className="text-sage-dark text-[0.8em]">{getItemCount()} Items</em>
+              </h1>
+            </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
             {/* Cart Items */}
-            <div className="lg:col-span-2 space-y-4">
-              {items.map((item) => (
-                <div key={`${item.productId}-${item.variant}-${item.size}`} className="glass-card rounded-2xl p-4 flex items-center gap-4">
+            <div className="space-y-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
+              {items.map((item, i) => (
+                <div 
+                  key={`${item.productId}-${item.variant}-${item.size}`} 
+                  className="flex flex-col sm:flex-row sm:items-center gap-6 pb-6 border-b border-parchment group last:border-0"
+                >
                   {/* Image */}
-                  <div className="w-16 h-16 rounded-xl flex items-center justify-center text-3xl bg-white/5 shrink-0">
-                    {item.imageUrl ? (
-                      <img src={item.imageUrl} alt={item.name} className="w-12 h-12 object-contain" />
-                    ) : (
-                      item.variant === "rose" ? "🌹" : item.variant === "charcoal" ? "🖤" : "🌿"
-                    )}
+                  <div className={`w-28 h-28 rounded-2xl flex items-center justify-center text-5xl transition-all duration-500 overflow-hidden ${
+                    item.variant === 'rose' ? 'bg-rose-light' : 
+                    item.variant === 'charcoal' ? 'bg-parchment' : 
+                    'bg-sage-light'
+                  } group-hover:scale-105`}>
+                    {item.variant === "rose" ? "🌸" : item.variant === "charcoal" ? "🫙" : "🌿"}
                   </div>
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-syne font-bold text-sm text-text-primary truncate">{item.name}</h3>
-                    <div className="flex items-center gap-2 mt-1">
-                      {item.variant && (
-                        <Badge variant={item.variant === "rose" ? "magenta" : item.variant === "charcoal" ? "purple" : "teal"} className="text-xs py-0">
-                          {item.variant}
-                        </Badge>
-                      )}
-                      {item.size && <span className="text-xs text-text-muted">{item.size}</span>}
+                    <div className="text-[0.65rem] font-medium tracking-widest uppercase text-sage-dark mb-1">
+                      {item.variant} Edition
+                    </div>
+                    <h3 className="font-serif text-[1.25rem] text-charcoal mb-1 truncate">{item.name}</h3>
+                    <div className="flex items-center gap-3">
+                      <span className="text-[0.72rem] text-warm bg-cream px-2 py-0.5 rounded border border-parchment uppercase tracking-tighter shadow-sm">{item.size}</span>
+                      <span className="text-[0.72rem] text-warm">In Stock</span>
                     </div>
                   </div>
 
-                  {/* Qty controls */}
-                  <div className="flex items-center gap-2 shrink-0">
+                  {/* Qty & Price row for mobile/desktop harmony */}
+                  <div className="flex items-center justify-between sm:justify-start gap-8 mt-2 sm:mt-0">
+                    <div className="flex items-center bg-white border border-parchment rounded-full p-1 shadow-sm">
+                      <button
+                        onClick={() => updateQty(item.productId, item.quantity - 1)}
+                        className="w-7 h-7 rounded-full flex items-center justify-center text-warm hover:text-charcoal hover:bg-cream transition-colors"
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="font-serif text-[1rem] w-8 text-center text-charcoal">{item.quantity}</span>
+                      <button
+                        onClick={() => updateQty(item.productId, item.quantity + 1)}
+                        className="w-7 h-7 rounded-full flex items-center justify-center text-warm hover:text-charcoal hover:bg-cream transition-colors"
+                      >
+                        <Plus className="w-3 h-3" />
+                      </button>
+                    </div>
+
+                    <div className="text-right min-w-[100px]">
+                      <div className="font-serif text-[1.3rem] text-charcoal">{formatPrice(item.price * item.quantity)}</div>
+                      {item.quantity > 1 && (
+                        <div className="text-[0.65rem] text-warm opacity-70 leading-none">@ {formatPrice(item.price)} ea.</div>
+                      )}
+                    </div>
+
                     <button
-                      onClick={() => updateQty(item.productId, item.quantity - 1)}
-                      className="w-7 h-7 rounded-full border border-white/15 flex items-center justify-center text-text-muted hover:text-teal hover:border-teal/40 transition-colors"
+                      onClick={() => removeItem(item.productId)}
+                      className="w-9 h-9 rounded-full flex items-center justify-center text-warm hover:text-rose-dark hover:bg-rose-light/20 transition-all ml-2"
+                      title="Remove Item"
                     >
-                      <Minus className="w-3.5 h-3.5" />
-                    </button>
-                    <span className="text-text-primary font-medium w-6 text-center text-sm">{item.quantity}</span>
-                    <button
-                      onClick={() => updateQty(item.productId, item.quantity + 1)}
-                      className="w-7 h-7 rounded-full border border-white/15 flex items-center justify-center text-text-muted hover:text-teal hover:border-teal/40 transition-colors"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
+                      <X className="w-4 h-4 opacity-50 group-hover:opacity-100" />
                     </button>
                   </div>
-
-                  {/* Price */}
-                  <div className="text-right shrink-0">
-                    <div className="text-text-primary font-bold">{formatPrice(item.price * item.quantity)}</div>
-                    {item.quantity > 1 && (
-                      <div className="text-xs text-text-muted">{formatPrice(item.price)} ea.</div>
-                    )}
-                  </div>
-
-                  {/* Remove */}
-                  <button
-                    onClick={() => removeItem(item.productId)}
-                    className="w-7 h-7 rounded-full flex items-center justify-center text-text-muted hover:text-red-400 transition-colors shrink-0"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
                 </div>
               ))}
             </div>
+          </div>
 
-            {/* Order Summary */}
-            <div className="space-y-4">
-              <div className="glass-card rounded-2xl p-6">
-                <h2 className="font-syne font-bold text-lg text-text-primary mb-4">Order Summary</h2>
+          {/* Sidebar / Summary */}
+          <div className="lg:w-[420px] shrink-0 animate-fade-up" style={{ animationDelay: "0.2s" }}>
+            <div className="sticky top-32 space-y-8">
+              <div className="bg-white border border-parchment rounded-[2.5rem] p-8 md:p-10 shadow-[0_12px_45px_rgba(44,44,44,0.04)]">
+                <h2 className="font-serif italic text-2xl text-charcoal mb-8 border-b border-parchment pb-4">Order Summary</h2>
 
-                <div className="space-y-2 text-sm mb-4">
-                  {items.map((item) => (
-                    <div key={`s-${item.productId}-${item.variant}`} className="flex justify-between">
-                      <span className="text-text-muted truncate max-w-[180px]">
-                        {item.name} × {item.quantity}
-                      </span>
-                      <span className="text-text-primary shrink-0">{formatPrice(item.price * item.quantity)}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="border-t border-white/8 pt-4 space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-text-muted">Subtotal</span>
-                    <span className="text-text-primary">{formatPrice(subtotal)}</span>
+                <div className="space-y-6 mb-10">
+                  <div className="flex justify-between items-baseline">
+                    <span className="text-[0.82rem] text-warm font-medium uppercase tracking-tighter">Subtotal</span>
+                    <span className="font-serif text-[1.3rem] text-charcoal">{formatPrice(subtotal)}</span>
                   </div>
+                  
                   {discountAmount > 0 && (
-                    <div className="flex justify-between">
-                      <span className="text-teal flex items-center gap-1">
-                        <Tag className="w-3.5 h-3.5" /> {appliedCode} ({discountPct}%)
+                    <div className="flex justify-between items-baseline text-sage-dark">
+                      <span className="text-[0.82rem] font-medium uppercase tracking-tighter flex items-center gap-1.5 focus-within:">
+                        <Ticket className="w-3.5 h-3.5" /> Code: {appliedCode}
                       </span>
-                      <span className="text-teal">-{formatPrice(discountAmount)}</span>
+                      <span className="font-serif text-[1.2rem] opacity-90">-{formatPrice(discountAmount)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between">
-                    <span className="text-text-muted flex items-center gap-1">
-                      <Truck className="w-3.5 h-3.5" /> Shipping
+
+                  <div className="flex justify-between items-baseline">
+                    <span className="text-[0.82rem] text-warm font-medium uppercase tracking-tighter flex items-center gap-1.5">
+                      <Truck className="w-3.5 h-3.5 text-sage" /> Shipping
                     </span>
-                    <span className={shipping === 0 ? "text-teal" : "text-text-primary"}>
-                      {shipping === 0 ? "FREE 🎉" : formatPrice(shipping)}
+                    <span className={`font-serif text-[1.1rem] ${shipping === 0 ? "text-sage-dark" : "text-charcoal"}`}>
+                      {shipping === 0 ? "Complimentary" : formatPrice(shipping)}
                     </span>
                   </div>
+
                   {shipping > 0 && (
-                    <p className="text-xs text-text-muted">
-                      Add {formatPrice(FREE_SHIPPING_THRESHOLD - afterDiscount)} more for free shipping
-                    </p>
+                    <div className="bg-sage-light/10 border border-sage-light/20 p-4 rounded-2xl flex items-center justify-between gap-4">
+                      <p className="text-[0.7rem] text-warm leading-tight">Add {formatPrice(FREE_SHIPPING_THRESHOLD - afterDiscount)} more to unlock complimentary shipping.</p>
+                      <Link href="/category/roll-on" className="text-[0.65rem] font-black uppercase text-sage-dark hover:underline underline-offset-4 whitespace-nowrap">Explore</Link>
+                    </div>
                   )}
                 </div>
 
-                <div className="border-t border-white/8 pt-4 mt-4">
-                  <div className="flex justify-between items-center">
-                    <span className="font-syne font-bold text-text-primary">Total</span>
-                    <span className="font-syne font-black text-2xl gradient-text">{formatPrice(total)}</span>
+                <div className="border-t-2 border-dashed border-parchment pt-6 mb-10">
+                  <div className="flex justify-between items-end">
+                    <span className="font-serif italic text-xl text-charcoal">Total Amount</span>
+                    <div className="text-right">
+                      <span className="block text-[clamp(1.8rem,5vw,2.2rem)] font-serif text-charcoal leading-none">
+                        <sub className="text-[0.4em] align-top mr-1 top-[-0.6em] font-sans">₹</sub>
+                        {total}
+                      </span>
+                      <span className="text-[0.65rem] text-warm uppercase tracking-widest opacity-60">incl. all taxes</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Discount code */}
-                <div className="mt-4">
-                  {appliedCode ? (
-                    <div className="flex items-center gap-2 p-3 rounded-xl bg-teal/10 border border-teal/20">
-                      <Check className="w-4 h-4 text-teal" />
-                      <span className="text-teal text-sm font-medium">{appliedCode} applied!</span>
-                      <button
+                {/* Voucher code UI */}
+                {!appliedCode ? (
+                  <div className="flex gap-2 mb-8 bg-cream/30 p-1.5 rounded-full border border-parchment group focus-within:border-charcoal transition-all">
+                    <input
+                      value={discountCode}
+                      onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
+                      placeholder="ENTER VOUCHER"
+                      className="flex-1 h-10 px-4 bg-transparent text-[0.72rem] font-bold tracking-[0.08em] uppercase text-charcoal placeholder:text-warm/40 placeholder:font-medium outline-none"
+                      onKeyDown={(e) => e.key === "Enter" && applyCode()}
+                    />
+                    <button 
+                      onClick={applyCode}
+                      className="px-6 rounded-full bg-charcoal text-white text-[0.68rem] font-medium uppercase tracking-widest hover:bg-sage-dark transition-all"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mb-8 flex items-center gap-3 p-4 bg-sage-light/10 border border-sage-light/30 rounded-2xl">
+                    <Tag className="w-4 h-4 text-sage-dark" />
+                    <div>
+                      <p className="text-[0.7rem] font-bold text-charcoal tracking-wide uppercase">Voucher Active: {appliedCode}</p>
+                      <button 
                         onClick={() => { setAppliedCode(null); setDiscountPct(0); setDiscountCode(""); }}
-                        className="ml-auto text-text-muted hover:text-red-400 text-xs"
+                        className="text-[0.62rem] text-warm hover:text-charcoal underline underline-offset-2 uppercase tracking-tighter"
                       >
-                        Remove
+                        Remove Voucher
                       </button>
                     </div>
-                  ) : (
-                    <div className="flex gap-2">
-                      <input
-                        value={discountCode}
-                        onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
-                        placeholder="Discount code"
-                        className="flex-1 h-10 px-3 rounded-xl border border-white/10 bg-white/5 text-sm text-text-primary placeholder:text-text-muted focus:border-teal focus:outline-none"
-                        onKeyDown={(e) => e.key === "Enter" && applyCode()}
-                      />
-                      <Button variant="ghost" size="sm" onClick={applyCode}>Apply</Button>
-                    </div>
-                  )}
-                </div>
+                    <Check className="ml-auto w-5 h-5 text-sage-dark" />
+                  </div>
+                )}
 
                 <Button
-                  variant="teal"
                   size="lg"
-                  className="w-full mt-6"
+                  className="w-full py-8 text-[1.1rem] shadow-[0_12px_35px_rgba(44,44,44,0.2)] hover:shadow-[0_15px_45px_rgba(44,44,44,0.3)] group"
                   onClick={() => setCheckoutOpen(true)}
                 >
-                  Proceed to Checkout
+                  Confirm Selection &nbsp;→
                 </Button>
+                
+                <div className="mt-8 flex items-center justify-center gap-2 text-warm opacity-60">
+                  <ShieldCheck className="w-3.5 h-3.5 text-sage" />
+                  <span className="text-[0.68rem] uppercase tracking-widest font-medium">Encrypted Checkout</span>
+                </div>
               </div>
 
-              {/* Trust badges */}
-              <div className="glass-card rounded-xl p-4">
-                <div className="grid grid-cols-2 gap-3 text-center text-xs text-text-muted">
-                  {["🔒 Secure Checkout","🚚 Free Delivery","🔄 Easy Returns","✅ Derma Tested"].map(t => (
-                    <div key={t}>{t}</div>
-                  ))}
+              {/* Secure payment logos placeholder logic - just text for purity */}
+              <div className="text-center">
+                <p className="text-[0.6rem] uppercase tracking-[0.2em] text-warm mb-1 opacity-50 font-medium italic">Honouring traditional craftsmanship</p>
+                <div className="flex items-center justify-center gap-4 text-[0.65rem] text-warm font-serif italic">
+                  <span>Chemical-Free</span>
+                  <span className="w-1 h-1 rounded-full bg-parchment" />
+                  <span>Dermatologist Approved</span>
+                  <span className="w-1 h-1 rounded-full bg-parchment" />
+                  <span>Ancient Alum Wisdom</span>
                 </div>
               </div>
             </div>
@@ -238,6 +269,6 @@ export default function CartPage() {
         total={total}
         onSuccess={() => { clearCart(); setCheckoutOpen(false); }}
       />
-    </>
+    </main>
   );
 }

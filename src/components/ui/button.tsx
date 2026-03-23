@@ -4,29 +4,32 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-semibold ring-offset-background transition-all duration-250 disabled:pointer-events-none disabled:opacity-50 active:scale-95 relative overflow-hidden",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-[0.82rem] font-medium tracking-wide transition-all duration-300 disabled:pointer-events-none disabled:opacity-50 active:scale-95 relative overflow-hidden",
   {
     variants: {
       variant: {
-        teal:
-          "bg-gradient-to-r from-teal to-teal-dark text-[#08070F] shadow-[0_0_20px_rgba(0,212,200,0.4)] hover:shadow-[0_0_30px_rgba(0,212,200,0.6)] hover:-translate-y-0.5 hover:scale-[1.03]",
-        purple:
-          "bg-gradient-to-r from-purple-light to-purple text-white shadow-[0_0_20px_rgba(123,94,167,0.4)] hover:shadow-[0_0_30px_rgba(123,94,167,0.6)] hover:-translate-y-0.5 hover:scale-[1.03]",
+        charcoal:
+          "bg-charcoal text-white hover:bg-[#1a1a1a] shadow-sm hover:shadow-md",
+        sage:
+          "bg-sage-dark text-white hover:bg-sage shadow-sm hover:shadow-md",
+        cream:
+          "bg-cream text-charcoal border border-parchment hover:bg-[#f0ece4] shadow-sm",
         ghost:
-          "bg-transparent text-text-primary border border-white/15 hover:bg-white/6 hover:border-white/25 hover:-translate-y-0.5 hover:scale-[1.03]",
-        magenta:
-          "bg-gradient-to-r from-magenta to-purple-light text-white shadow-[0_0_20px_rgba(214,58,249,0.4)] hover:shadow-[0_0_30px_rgba(214,58,249,0.6)] hover:-translate-y-0.5 hover:scale-[1.03]",
+          "bg-transparent text-charcoal hover:bg-cream/50",
         default:
-          "bg-gradient-to-r from-teal to-teal-dark text-[#08070F] shadow-[0_0_20px_rgba(0,212,200,0.4)] hover:shadow-[0_0_30px_rgba(0,212,200,0.6)] hover:-translate-y-0.5 hover:scale-[1.03]",
-        destructive: "bg-red-600 text-white hover:bg-red-700",
-        outline: "border border-white/15 bg-transparent text-white hover:bg-white/6",
-        secondary: "bg-surface2 text-text-primary border border-white/8 hover:bg-white/8",
-        link: "text-teal underline-offset-4 hover:underline p-0 h-auto",
+          "bg-charcoal text-white hover:bg-[#1a1a1a] shadow-sm hover:shadow-md",
+        destructive: "bg-red-500 text-white hover:bg-red-600 shadow-sm",
+        outline: "border border-parchment bg-transparent text-charcoal hover:bg-cream/30 hover:border-sage-light",
+        secondary: "bg-cream text-charcoal border border-parchment hover:bg-parchment",
+        link: "text-sage-dark underline-offset-4 hover:underline p-0 h-auto",
+        teal: "bg-sage-dark text-white hover:bg-sage", // Legacy alias for backward compatibility during migration
+        purple: "bg-charcoal text-white hover:bg-[#1a1a1a]", // Legacy alias
+        magenta: "bg-charcoal text-white hover:bg-[#1a1a1a]", // Legacy alias
       },
       size: {
-        default: "h-11 px-6 py-2",
-        sm: "h-9 px-4 text-xs",
-        lg: "h-13 px-8 text-base",
+        default: "h-11 px-8 py-2",
+        sm: "h-9 px-5 text-xs",
+        lg: "h-14 px-10 text-[0.95rem]",
         icon: "h-10 w-10",
       },
     },
@@ -48,7 +51,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button";
 
     function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-      // Ripple effect
+      // Clean ripple for high-end look (optional, but keep it subtle)
       const btn = e.currentTarget;
       const ripple = document.createElement("span");
       const rect = btn.getBoundingClientRect();
@@ -56,7 +59,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ripple.style.cssText = `
         position: absolute;
         border-radius: 50%;
-        background: rgba(255,255,255,0.25);
+        background: rgba(255,255,255,0.15);
         width: ${rippleSize}px;
         height: ${rippleSize}px;
         top: ${e.clientY - rect.top - rippleSize / 2}px;

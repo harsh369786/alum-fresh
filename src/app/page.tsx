@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import { createServerSupabaseClient } from "@/lib/supabase";
+import { getProducts } from "@/lib/data-service";
 import { Hero } from "@/components/hero";
 import { MarqueeStrip } from "@/components/marquee-strip";
 import { WhySection } from "@/components/why-section";
@@ -19,14 +19,17 @@ export const revalidate = 60;
 
 async function getHomepageData() {
   try {
-    const supabase = createServerSupabaseClient();
-    const [productsResult] = await Promise.all([
-      supabase.from("products").select("*, categories(*)").order("sort_order").limit(3),
-    ]);
+    const allProducts = await getProducts();
+    const sorted = allProducts
+      .filter(p => !!p.in_stock)
+      .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
+      .slice(0, 3);
+      
     return {
-      products: (productsResult.data || []).filter(p => !!p),
+      products: sorted,
     };
-  } catch {
+  } catch (e) {
+    console.error(e);
     return { products: [] };
   }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { CartProvider } from "@/context/cart-context";
 import { Header } from "@/components/layout/header";
@@ -18,18 +18,39 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: "#f8f4ed",
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="bg-background text-text-primary font-inter antialiased" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth">
+      <head>
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="antialiased" suppressHydrationWarning>
         <CartProvider>
-          {/* Ambient glow blobs */}
+          {/* Ambient soft background blob */}
           <div className="ambient-blob-teal" aria-hidden="true" />
-          <div className="ambient-blob-purple" aria-hidden="true" />
-          <div className="ambient-blob-magenta" aria-hidden="true" />
 
           <Header />
-          <main className="relative z-10">{children}</main>
+          <main className="relative z-10 w-full overflow-x-hidden">{children}</main>
           <Footer />
           <Toaster />
         </CartProvider>

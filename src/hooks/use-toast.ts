@@ -71,6 +71,10 @@ function toast({ ...props }: Omit<ToasterToast, "id">) {
   const id = genId();
   const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id });
   dispatch({ type: "ADD_TOAST", toast: { ...props, id, open: true, onOpenChange: (o) => { if (!o) dismiss(); } } });
+  
+  // Auto-dismiss after 3.5s
+  setTimeout(() => dismiss(), 3500);
+  
   return { id, dismiss };
 }
 
