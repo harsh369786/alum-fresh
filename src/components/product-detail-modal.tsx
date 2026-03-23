@@ -62,11 +62,11 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl p-0 overflow-hidden bg-white border-parchment rounded-[2rem] shadow-2xl">
-        <div className="grid md:grid-cols-2">
+      <DialogContent className="max-w-[calc(100vw-2rem)] md:max-w-3xl p-0 overflow-hidden bg-white border-parchment rounded-[2rem] shadow-2xl max-h-[92vh] flex flex-col">
+        <div className="grid md:grid-cols-2 overflow-y-auto custom-scrollbar flex-1">
           {/* Visual Area */}
           <div
-            className={`relative flex items-center justify-center min-h-[300px] md:min-h-full p-12 transition-colors duration-700 ${styles.bg}`}
+            className={`relative flex items-center justify-center min-h-[300px] md:min-h-full p-8 md:p-12 transition-colors duration-700 ${styles.bg}`}
           >
             {/* Background floating particles or sparkles */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -75,9 +75,9 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/30 rounded-full blur-[60px] animate-blob" />
             </div>
 
-            <div className="relative z-10 text-[9rem] md:text-[11rem] drop-shadow-[0_25px_45px_rgba(0,0,0,0.15)] transition-transform duration-500 hover:scale-105 select-none">
+            <div className="relative z-10 text-[7rem] md:text-[11rem] drop-shadow-[0_25px_45px_rgba(0,0,0,0.15)] transition-transform duration-500 hover:scale-105 select-none">
               {product.image_url ? (
-                <img src={product.image_url} alt={product.name} className="w-56 h-56 object-contain" />
+                <img src={product.image_url} alt={product.name} className="w-48 h-48 md:w-56 md:h-56 object-contain" />
               ) : (
                 styles.emoji
               )}
@@ -85,7 +85,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
           </div>
 
           {/* Details Area */}
-          <div className="p-8 md:p-10 flex flex-col bg-white">
+          <div className="p-6 md:p-10 flex flex-col bg-white">
             <DialogHeader className="mb-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-[0.68rem] font-medium tracking-[0.15em] uppercase text-sage-dark bg-sage-light/20 px-3 py-1 rounded-full border border-sage-light/30">
@@ -97,7 +97,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
                   </span>
                 )}
               </div>
-              <DialogTitle className="font-serif text-[2.2rem] text-charcoal leading-tight mb-3">
+              <DialogTitle className="font-serif text-[1.8rem] md:text-[2.2rem] text-charcoal leading-tight mb-3">
                 {product.name}
               </DialogTitle>
               <p className="text-[0.88rem] text-warm leading-relaxed">

@@ -5,6 +5,7 @@ import { CartProvider } from "@/context/cart-context";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Toaster } from "@/components/ui/toaster";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: { default: "Alum Fresh — Stay Fresh, Naturally.", template: "%s | Alum Fresh" },
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="relative z-10 w-full overflow-x-hidden">{children}</main>
           <Footer />
           <Toaster />
+          <Analytics />
         </CartProvider>
       </body>
     </html>

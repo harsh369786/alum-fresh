@@ -157,7 +157,7 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
           </div>
 
           {/* Main Content Area */}
-          <div className="md:col-span-3 p-8 md:p-12 overflow-y-auto max-h-[90vh] md:max-h-full">
+          <div className="md:col-span-3 p-6 md:p-12 flex flex-col bg-white overflow-y-auto custom-scrollbar">
             {step === "form" && (
               <div className="animate-fade-up">
                 <DialogHeader className="mb-8">
