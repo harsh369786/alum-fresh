@@ -145,7 +145,7 @@ export default function AdminBannersPage() {
               {/* Preview Box */}
               <div className="p-4 rounded-[1.5rem] bg-cream/10 border border-parchment">
                  <p className="text-[0.6rem] uppercase tracking-[0.2em] font-black text-warm mb-3 opacity-40">Live Aesthetic Preview</p>
-                 <div className="h-24 rounded-2xl flex items-center justify-center p-4 border border-parchment/40" style={{ background: form.bg_gradient }}>
+                 <div className="h-24 rounded-2xl flex items-center justify-center p-4 border border-parchment/40" style={{ background: form.bg_gradient || undefined }}>
                     <div className="text-center">
                        <p className="text-[0.8rem] font-serif text-charcoal leading-none mb-1">{form.title || "Headline"}</p>
                        <p className="text-[0.6rem] text-warm italic opacity-70">{form.subtitle || "Narrative"}</p>
@@ -182,7 +182,7 @@ export default function AdminBannersPage() {
                   <tr key={b.id} className="group hover:bg-cream/20 transition-all">
                     <td className="py-6 pl-8">
                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-2xl flex items-center justify-center border border-parchment shrink-0 shadow-inner group-hover:scale-105 transition-transform" style={{ background: b.bg_gradient }}>
+                          <div className="w-12 h-12 rounded-2xl flex items-center justify-center border border-parchment shrink-0 shadow-inner group-hover:scale-105 transition-transform" style={{ background: b.bg_gradient || undefined }}>
                              <Layout className="w-5 h-5 text-charcoal opacity-20" />
                           </div>
                           <div className="flex flex-col">
