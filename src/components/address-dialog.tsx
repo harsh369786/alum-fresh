@@ -104,12 +104,12 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
       } else {
         const errMsg = data.error || "Something went wrong. Please try again.";
         setOrderError(errMsg);
-        toast({ title: "Order Failed", description: errMsg, variant: "destructive" });
+        toast({ title: "Order Failed", description: errMsg, variant: "error" });
       }
     } catch (e: any) {
       const errMsg = "Network error. Please check your connection.";
       setOrderError(errMsg);
-      toast({ title: "Connection Error", description: errMsg, variant: "destructive" });
+      toast({ title: "Connection Error", description: errMsg, variant: "error" });
     } finally {
       setLoading(false);
     }
