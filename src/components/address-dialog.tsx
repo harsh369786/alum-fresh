@@ -117,10 +117,10 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl p-0 overflow-hidden bg-white border-parchment rounded-[2.5rem] shadow-2xl">
-        <div className="grid md:grid-cols-5 min-h-[500px]">
+      <DialogContent className="max-w-[calc(100vw-2rem)] md:max-w-2xl p-0 overflow-hidden bg-white border-parchment rounded-[2.5rem] shadow-2xl max-h-[92vh] flex flex-col">
+        <div className="grid md:grid-cols-5 flex-1 min-h-0 overflow-hidden">
           {/* Sidebar - Progress/Summary Overlay */}
-          <div className="hidden md:flex md:col-span-2 bg-cream/50 p-10 flex-col border-r border-parchment">
+          <div className="hidden md:flex md:col-span-2 bg-cream/50 p-10 flex-col border-r border-parchment overflow-y-auto custom-scrollbar">
             <div className="mb-12">
               <span className="eyebrow block mb-4">Final Step</span>
               <h2 className="font-serif italic text-3xl text-charcoal leading-tight">Securing your <em className="text-sage-dark">natural choice.</em></h2>
