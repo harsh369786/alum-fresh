@@ -117,10 +117,11 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[calc(100vw-2rem)] md:max-w-2xl p-0 overflow-hidden bg-white border-parchment rounded-[2.5rem] shadow-2xl max-h-[92vh] flex flex-col">
-        <div className="grid md:grid-cols-5 flex-1 min-h-0 overflow-hidden">
-          {/* Sidebar - Progress/Summary Overlay */}
-          <div className="hidden md:flex md:col-span-2 bg-cream/50 p-10 flex-col border-r border-parchment overflow-y-auto custom-scrollbar">
+      {/* On mobile the base Dialog already slides up as a bottom sheet */}
+      <DialogContent className="p-0 bg-white border-parchment md:max-w-2xl md:rounded-[2.5rem] md:max-h-[92vh] md:flex md:flex-col">
+        <div className="flex flex-col md:grid md:grid-cols-5 md:flex-1 md:min-h-0 md:overflow-hidden">
+          {/* Sidebar - hidden on mobile */}
+          <div className="hidden md:flex md:col-span-2 bg-cream/50 p-10 flex-col border-r border-parchment overflow-y-auto">
             <div className="mb-12">
               <span className="eyebrow block mb-4">Final Step</span>
               <h2 className="font-serif italic text-3xl text-charcoal leading-tight">Securing your <em className="text-sage-dark">natural choice.</em></h2>
@@ -156,8 +157,8 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
             </div>
           </div>
 
-          {/* Main Content Area */}
-          <div className="md:col-span-3 p-6 md:p-12 flex flex-col bg-white overflow-y-auto custom-scrollbar">
+          {/* Main Content Area — scrollable on both mobile and desktop */}
+          <div className="md:col-span-3 p-5 md:p-10 flex flex-col bg-white overflow-y-auto">
             {step === "form" && (
               <div className="animate-fade-up">
                 <DialogHeader className="mb-8">

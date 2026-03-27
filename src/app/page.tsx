@@ -6,7 +6,6 @@ import { MarqueeStrip } from "@/components/marquee-strip";
 import { WhySection } from "@/components/why-section";
 import { ProductsSection } from "@/components/products-section";
 import { IngredientsSection } from "@/components/ingredients-section";
-import { StatsBar } from "@/components/stats-bar";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { CtaBanner } from "@/components/cta-banner";
 
@@ -24,10 +23,7 @@ async function getHomepageData() {
       .filter(p => !!p.in_stock)
       .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
       .slice(0, 3);
-      
-    return {
-      products: sorted,
-    };
+    return { products: sorted };
   } catch (e) {
     console.error(e);
     return { products: [] };
@@ -44,7 +40,6 @@ export default async function HomePage() {
       <WhySection />
       <IngredientsSection />
       <ProductsSection products={products} />
-      <StatsBar />
       <TestimonialsSection />
       <CtaBanner />
     </>

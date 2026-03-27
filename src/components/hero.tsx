@@ -1,63 +1,139 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export function Hero() {
+  const stageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!stageRef.current) return;
+      const dx = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      const dy = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+      stageRef.current.style.transform = `perspective(1000px) rotateY(${dx * 8}deg) rotateX(${-dy * 5}deg)`;
+    };
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => document.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
-    <section className="relative overflow-hidden pt-24 pb-8 lg:pt-32">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center max-w-7xl mx-auto px-6 py-8 md:py-16 text-center md:text-left relative z-10">
-        <div className="order-2 md:order-1 animate-fade-up">
-          <span className="eyebrow">✦ Pure by Nature</span>
-          <h1 className="text-[clamp(2.8rem,6vw,5rem)] font-serif italic font-light leading-[1.06] mb-5 text-charcoal">
-            Stay <span className="text-sage-dark font-normal">Fresh,</span><br/>
-            <em>Naturally.</em>
-          </h1>
-          <p className="text-[0.95rem] text-warm mb-8 max-w-[360px] leading-[1.75] mx-auto md:mx-0">
-            100% Alum. 0% Chemicals. Crafted for skin that deserves nothing but the best nature can offer.
-          </p>
-          <div className="flex flex-wrap gap-3 mb-8 justify-center md:justify-start">
-            <Button variant="teal" size="lg" className="bg-charcoal text-white hover:bg-charcoal/90 rounded-full shadow-[0_4px_18px_rgba(44,44,44,0.22)] hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(44,44,44,0.32)]" asChild>
-              <Link href="/#products">Shop Now &nbsp;→</Link>
-            </Button>
-            <Button variant="outline" size="lg" className="border-[1.5px] border-charcoal text-charcoal hover:bg-charcoal hover:text-white rounded-full bg-transparent hover:-translate-y-0.5" asChild>
-              <Link href="/#story">Our Story</Link>
-            </Button>
-          </div>
-          <div className="flex items-center gap-3 justify-center md:justify-start">
-            <div className="flex -space-x-2">
-              <div className="w-[30px] h-[30px] rounded-full border-2 border-cream bg-sage flex items-center justify-center text-[0.68rem] font-medium text-white">A</div>
-              <div className="w-[30px] h-[30px] rounded-full border-2 border-cream bg-rose flex items-center justify-center text-[0.68rem] font-medium text-white">M</div>
-              <div className="w-[30px] h-[30px] rounded-full border-2 border-cream bg-gold flex items-center justify-center text-[0.68rem] font-medium text-white">R</div>
-            </div>
-            <p className="text-[0.78rem] text-warm"><strong className="text-charcoal font-medium">14,000+</strong> happy customers</p>
-          </div>
+    <section
+      id="hero"
+      className="relative overflow-hidden min-h-screen grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-16 px-6 md:px-16 pt-28 pb-16 md:pt-32"
+    >
+      {/* Pulsing rings */}
+      <div className="hero-ring hr1 absolute pointer-events-none" />
+      <div className="hero-ring hr2 absolute pointer-events-none" />
+      <div className="hero-ring hr3 absolute pointer-events-none" />
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center md:items-start text-center md:text-left">
+        <div className="eyebrow animate-fade-up" style={{ animationDelay: "0.2s", opacity: 0 }}>
+          ✦ Pure by Nature
         </div>
-        
-        <div className="order-1 md:order-2 relative flex items-center justify-center min-h-[280px] md:min-h-[440px] animate-fade-up" style={{ animationDelay: "0.15s" }}>
-          <div className="absolute w-[240px] h-[240px] md:w-[380px] md:h-[380px] rounded-full filter blur-[20px] bg-gradient-to-br from-sage-light via-gold-light to-rose-light animate-blob opacity-80 mix-blend-multiply"></div>
-          <div className="text-7xl md:text-[8.5rem] relative z-10 animate-float drop-shadow-2xl">🌿</div>
-          
-          <div className="absolute bg-white/75 backdrop-blur-md border border-white/95 rounded-2xl p-3 md:p-4 shadow-[0_8px_32px_rgba(44,44,44,0.08)] z-20 
-                          top-[20px] right-[10px] md:top-[55px] md:right-[15px] text-center animate-[float_5s_ease-in-out_infinite_reverse]">
-            <div className="font-serif text-xl md:text-[1.7rem] text-charcoal leading-none">100%</div>
-            <div className="text-[0.55rem] md:text-[0.65rem] text-warm tracking-[0.08em] uppercase mt-1">Natural</div>
+        <h1
+          className="font-serif font-light text-[clamp(3rem,5.5vw,5.5rem)] leading-[1.05] text-[#1b4332] mb-7 animate-fade-up"
+          style={{ animationDelay: "0.4s", opacity: 0 }}
+        >
+          Stay Fresh,<br />
+          <em className="text-[#7baa8a]">Naturally.</em>
+        </h1>
+        <p
+          className="text-[1rem] font-light leading-[1.75] text-[#5a7a6a] max-w-[460px] mb-10 animate-fade-up"
+          style={{ animationDelay: "0.6s", opacity: 0 }}
+        >
+          100% Alum. 0% Chemicals. Crafted for skin that deserves nothing but the best nature can offer. No aluminium chlorohydrate. No parabens. Ever.
+        </p>
+        <div
+          className="flex flex-wrap gap-4 justify-center md:justify-start animate-fade-up"
+          style={{ animationDelay: "0.8s", opacity: 0 }}
+        >
+          <Link
+            href="/#products"
+            className="inline-flex items-center gap-2 px-9 py-4 rounded-full bg-[#1b4332] text-white text-[0.82rem] font-medium uppercase tracking-wider shadow-[0_8px_32px_rgba(27,67,50,0.3)] hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(27,67,50,0.4)] transition-all duration-300"
+          >
+            Shop Now →
+          </Link>
+          <Link
+            href="/#story"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white/60 backdrop-blur-md border border-[rgba(45,106,79,0.2)] text-[#2d6a4f] text-[0.82rem] font-medium uppercase tracking-wider hover:bg-white hover:border-[#7baa8a] hover:-translate-y-1 transition-all duration-300"
+          >
+            Our Story
+          </Link>
+        </div>
+
+        {/* Stats */}
+        <div
+          className="flex gap-8 md:gap-10 mt-14 justify-center md:justify-start animate-fade-up"
+          style={{ animationDelay: "1s", opacity: 0 }}
+        >
+          <div className="flex flex-col gap-1">
+            <span className="font-serif text-[2.2rem] font-medium text-[#1b4332] leading-none">14k+</span>
+            <span className="text-[0.72rem] tracking-[0.1em] uppercase text-[#7baa8a]">Happy Customers</span>
           </div>
-          
-          <div className="hidden md:flex absolute bg-white/75 backdrop-blur-md border border-white/95 rounded-2xl p-4 shadow-[0_8px_32px_rgba(44,44,44,0.08)] z-20 
-                          bottom-[65px] left-0 items-center gap-3 animate-float">
-            <div className="w-8 h-8 bg-sage-light rounded-full flex items-center justify-center text-[0.85rem]">✓</div>
-            <div>
-              <div className="text-[0.78rem] font-medium text-charcoal">Derma Tested</div>
-              <div className="text-[0.68rem] text-warm">Clinically proven</div>
-            </div>
+          <div className="w-px bg-[rgba(123,170,138,0.3)]" />
+          <div className="flex flex-col gap-1">
+            <span className="font-serif text-[2.2rem] font-medium text-[#1b4332] leading-none">4.9★</span>
+            <span className="text-[0.72rem] tracking-[0.1em] uppercase text-[#7baa8a]">Avg. Rating</span>
+          </div>
+          <div className="w-px bg-[rgba(123,170,138,0.3)]" />
+          <div className="flex flex-col gap-1">
+            <span className="font-serif text-[2.2rem] font-medium text-[#1b4332] leading-none">0%</span>
+            <span className="text-[0.72rem] tracking-[0.1em] uppercase text-[#7baa8a]">Harmful Chemicals</span>
           </div>
         </div>
       </div>
-      
-      <div className="absolute bottom-2 md:-bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[0.68rem] tracking-[0.12em] uppercase text-warm">
-        <div className="w-[1px] h-10 bg-gradient-to-b from-sage-dark to-transparent animate-pulse"></div>
-        <span>scroll</span>
+
+      {/* Product Visual */}
+      <div
+        className="relative z-10 flex items-center justify-center animate-fade-up"
+        style={{ animationDelay: "0.3s", opacity: 0 }}
+      >
+        <div
+          ref={stageRef}
+          className="relative w-[320px] h-[420px] md:w-[460px] md:h-[560px] flex items-center justify-center"
+          style={{ transformStyle: "preserve-3d", perspective: "1000px", transition: "transform 0.6s cubic-bezier(0.23,1,0.32,1)" }}
+        >
+          {/* Glow */}
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-48 h-8 rounded-full bg-[rgba(123,170,138,0.5)] blur-xl animate-pulse" />
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-40 h-6 rounded-full bg-[rgba(27,67,50,0.2)] blur-2xl" />
+
+          {/* Product image */}
+          <div className="relative z-10 animate-float drop-shadow-[0_40px_60px_rgba(27,67,50,0.18)]">
+            <Image
+              src="/product.png"
+              alt="Alum Fresh Natural Mineral Deodorant"
+              width={340}
+              height={400}
+              className="w-[260px] md:w-[340px] h-auto object-contain rounded-3xl"
+              priority
+            />
+          </div>
+
+          {/* Float badges */}
+          <div className="fbadge-hero absolute top-8 left-0 md:-left-6 flex items-center gap-3 bg-white/90 backdrop-blur-md border border-white/90 rounded-2xl px-4 py-3 shadow-[0_20px_60px_rgba(45,106,79,0.18)] animate-float z-30" style={{ animationDelay: "0s" }}>
+            <span className="text-xl">🌿</span>
+            <div>
+              <div className="text-[0.72rem] font-bold text-[#1b4332]">100% Natural</div>
+              <div className="text-[0.62rem] text-[#7baa8a]">Potassium Alum Crystal</div>
+            </div>
+          </div>
+          <div className="fbadge-hero absolute top-36 right-0 md:-right-6 flex items-center gap-3 bg-white/90 backdrop-blur-md border border-white/90 rounded-2xl px-4 py-3 shadow-[0_20px_60px_rgba(45,106,79,0.18)] animate-float z-30" style={{ animationDelay: "-1.5s" }}>
+            <span className="text-xl">🛡️</span>
+            <div>
+              <div className="text-[0.72rem] font-bold text-[#1b4332]">24H Protection</div>
+              <div className="text-[0.62rem] text-[#7baa8a]">Derma Tested</div>
+            </div>
+          </div>
+          <div className="fbadge-hero absolute bottom-28 left-0 md:-left-4 flex items-center gap-3 bg-white/90 backdrop-blur-md border border-white/90 rounded-2xl px-4 py-3 shadow-[0_20px_60px_rgba(45,106,79,0.18)] animate-float z-30" style={{ animationDelay: "-3s" }}>
+            <span className="text-xl">✨</span>
+            <div>
+              <div className="text-[0.72rem] font-bold text-[#1b4332]">No Fragrance</div>
+              <div className="text-[0.62rem] text-[#7baa8a]">Safe for all skin types</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

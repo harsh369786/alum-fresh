@@ -32,19 +32,35 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] rounded-[2.5rem] bg-white border border-parchment p-8 shadow-2xl duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] overflow-y-auto max-h-[90vh]",
+        // Mobile: bottom sheet anchored to the bottom of the screen
+        // Desktop: classic centered modal
+        "fixed z-50 w-full bg-white border border-parchment shadow-2xl duration-300",
+        "bottom-0 left-0 right-0 rounded-t-[2rem] max-h-[92vh]",
+        "md:bottom-auto md:left-[50%] md:top-[50%] md:translate-x-[-50%] md:translate-y-[-50%] md:rounded-[2.5rem] md:max-w-lg md:w-auto",
+        "overflow-y-auto",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out",
+        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
+        "md:data-[state=closed]:zoom-out-95 md:data-[state=open]:zoom-in-95",
+        "md:data-[state=closed]:slide-out-to-left-1/2 md:data-[state=closed]:slide-out-to-top-[48%]",
+        "md:data-[state=open]:slide-in-from-left-1/2 md:data-[state=open]:slide-in-from-top-[48%]",
         className
       )}
       {...props}
     >
+      {/* Mobile drag handle */}
+      <div className="md:hidden flex justify-center pt-3 pb-1">
+        <div className="w-10 h-1 rounded-full bg-parchment" />
+      </div>
       {children}
-      <DialogPrimitive.Close className="absolute right-6 top-6 rounded-full opacity-40 ring-offset-background transition-all hover:opacity-100 focus:outline-none disabled:pointer-events-none p-2 bg-cream hover:bg-parchment border border-parchment">
+      <DialogPrimitive.Close className="absolute right-4 top-4 md:right-6 md:top-6 rounded-full opacity-40 ring-offset-background transition-all hover:opacity-100 focus:outline-none disabled:pointer-events-none p-2 bg-cream hover:bg-parchment border border-parchment">
         <X className="h-4 w-4 text-charcoal" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </DialogPortal>
 ));
+
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (

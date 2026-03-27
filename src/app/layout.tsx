@@ -47,8 +47,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="antialiased" suppressHydrationWarning>
         <CartProvider>
-          {/* Ambient soft background blob */}
-          <div className="ambient-blob-teal" aria-hidden="true" />
+          {/* Animated background orbs */}
+          <div className="bg-orbs" aria-hidden="true">
+            <div className="orb orb-1" />
+            <div className="orb orb-2" />
+            <div className="orb orb-3" />
+          </div>
 
           <Header />
           <main className="relative z-10 w-full overflow-x-hidden">{children}</main>

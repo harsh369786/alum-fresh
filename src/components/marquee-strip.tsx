@@ -1,20 +1,30 @@
 "use client";
 import React from "react";
-import { MARQUEE_ITEMS } from "@/lib/constants";
+
+const ITEMS = [
+  "✦ Chemical Free",
+  "✦ Dermatologist Tested",
+  "✦ Cruelty Free",
+  "✦ Made in India",
+  "✦ Eco Friendly",
+  "✦ No Parabens",
+  "✦ Vegan Formula",
+  "✦ Long-Lasting",
+];
 
 export function MarqueeStrip() {
-  // Duplicate items to ensure scrolling is seamless
-  const displayItems = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
-
+  const doubled = [...ITEMS, ...ITEMS];
   return (
-    <div className="overflow-hidden border-y border-sage-light/30 bg-white py-3">
-      <div className="flex gap-12 whitespace-nowrap animate-marquee w-max">
-        {displayItems.map((item, i) => (
+    <div className="relative overflow-hidden py-4" style={{ background: "#1b4332", zIndex: 1 }}>
+      <div className="flex whitespace-nowrap animate-marquee w-max">
+        {doubled.map((item, i) => (
           <span
-            key={`marquee-${i}`}
-            className="text-[0.7rem] tracking-[0.18em] uppercase text-warm font-medium"
+            key={i}
+            className="inline-flex items-center gap-3 px-7 text-[0.72rem] font-medium tracking-[0.12em] uppercase"
+            style={{ color: "rgba(255,255,255,0.75)" }}
           >
             {item}
+            <span className="inline-block w-1 h-1 rounded-full bg-[#7baa8a]" />
           </span>
         ))}
       </div>
