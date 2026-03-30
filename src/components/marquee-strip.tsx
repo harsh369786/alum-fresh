@@ -6,7 +6,6 @@ const ITEMS = [
   "✦ Dermatologist Tested",
   "✦ Cruelty Free",
   "✦ Made in India",
-  "✦ Eco Friendly",
   "✦ No Parabens",
   "✦ Vegan Formula",
   "✦ Long-Lasting",

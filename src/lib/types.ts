@@ -9,7 +9,7 @@ export interface Product {
   original_price: number | null;
   category_id: string | null;
   variant: "rose" | "natural" | "charcoal" | null;
-  size: "50ml" | "100ml" | null;
+  size: "50ml" | "100ml" | "60g" | null;
   image_url: string | null;
   badge: string | null;
   badge_color: "magenta" | "teal" | "purple" | null;

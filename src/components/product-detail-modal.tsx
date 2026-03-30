@@ -20,13 +20,13 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
   const { toast } = useToast();
   const router = useRouter();
   const [selectedVariant, setSelectedVariant] = useState(product.variant || "natural");
-  const [selectedSize, setSelectedSize] = useState(product.size || "50ml");
+  const [selectedSize, setSelectedSize] = useState(product.size || "60g");
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
 
   const getVariantStyles = (variant: string) => {
     switch (variant) {
-      case "rose":     return { bg: "bg-rose-light",  emoji: "🌸" };
+      case "rose":     return { bg: "bg-rose-light",  emoji: "✨" };
       case "natural":  return { bg: "bg-sage-light",  emoji: "🌿" };
       case "charcoal": return { bg: "bg-parchment",   emoji: "🫙" };
       default:         return { bg: "bg-cream",        emoji: "✨" };
@@ -52,7 +52,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
 
   const ingredients = product.ingredients?.length
     ? product.ingredients
-    : ["Potassium Alum", "Aloe Vera", "Turmeric", "Essential Oils"];
+    : ["Potassium Alum", "Purified Water", "Mineral Salts"];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

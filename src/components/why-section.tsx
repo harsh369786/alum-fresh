@@ -5,7 +5,6 @@ const cards = [
   { icon: "🌱", title: "Chemical‑Free", desc: "No aluminium chlorohydrate, no parabens, no phthalates. Pure crystalline alum the way nature intended." },
   { icon: "⏱", title: "Long-Lasting Freshness", desc: "Effective 24-hour odour control without blocking pores. Stay confident all day, the natural way." },
   { icon: "🤍", title: "Skin-Friendly", desc: "Dermatologically tested for all skin types — including sensitive skin. No irritation, ever." },
-  { icon: "♻️", title: "Eco-Conscious", desc: "Minimal packaging, recyclable materials, zero-waste commitment. Planet-first, always." },
 ];
 
 function useReveal() {
@@ -24,21 +23,32 @@ export function WhySection() {
 
   return (
     <section id="story" className="py-28 px-6 md:px-16 relative" style={{ background: "transparent" }}>
-      <div className="reveal text-center max-w-2xl mx-auto mb-20">
+      <div className="reveal text-center max-w-3xl mx-auto mb-20">
         <div className="inline-flex items-center gap-3 text-[0.68rem] font-bold tracking-[0.15em] uppercase mb-5"
           style={{ color: "#7baa8a" }}>
           <span className="inline-block w-6 h-px bg-[#7baa8a]" />
-          Why Choose Us
+          Our Story
         </div>
-        <h2 className="font-serif font-light text-[clamp(2.4rem,4vw,3.8rem)] leading-[1.1] text-[#1b4332]">
-          Good for you.<br /><em className="text-[#7baa8a]">Good for earth.</em>
+        <h2 className="font-serif font-light text-[clamp(2.4rem,4vw,3.8rem)] leading-[1.1] text-[#1b4332] mb-8">
+          It began with a <em className="text-[#7baa8a]">real problem.</em>
         </h2>
-        <p className="text-[0.95rem] leading-[1.8] mt-4" style={{ color: "#5a7a6a" }}>
-          We believe personal care shouldn't come with a chemical cocktail. Nature does it best — and so do we.
-        </p>
+        <div className="text-[1rem] leading-[1.8] space-y-6 text-[#5a7a6a]">
+          <p>
+            After getting married, we noticed how something as common as underarm odor could affect comfort—both at home and in daily life. Sitting close to your partner or attending meetings by the end of a long day often came with a sense of discomfort and lost confidence.
+          </p>
+          <p>
+            Like everyone else, we tried deodorants and perfumes. They worked for a few hours—but once the fragrance faded, the sweat odor took over again. It was clear they were only masking the problem.
+          </p>
+          <p>
+            Looking for a real solution, we turned to research—and found the answer in nature itself. A time-tested remedy used for generations: Alum (Fitkiri). Known for its ability to kill odor-causing bacteria, it naturally eliminates bad odor at the source.
+          </p>
+          <p className="font-medium text-[#1b4332]">
+            What started as a personal need became our purpose—to create a natural, effective solution that truly works for everyone.
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
         {cards.map((card, i) => (
           <div
             key={i}
@@ -65,3 +75,4 @@ export function WhySection() {
     </section>
   );
 }
+

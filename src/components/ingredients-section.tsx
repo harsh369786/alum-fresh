@@ -5,15 +5,11 @@ import Image from "next/image";
 const items = [
   { num: "01", title: "Mineral, Not Chemical", desc: "Potassium alum creates an inhospitable environment for odour-causing bacteria — no toxic blockers needed." },
   { num: "02", title: "Clinically Proven", desc: "Independently tested and dermatologist-approved for all skin types including the most sensitive." },
-  { num: "03", title: "Truly Sustainable", desc: "From sourcing to shelf to bin — every decision is guided by our commitment to the planet." },
 ];
 
 export function IngredientsSection() {
   const ingredients = [
     { emoji: "💎", name: "Potassium Alum", sub: "The Original Deodorant", desc: "Natural mineral crystal that blocks odour-causing bacteria without disrupting your skin's natural perspiration.", check: "Blocks bacteria naturally" },
-    { emoji: "🌿", name: "Aloe Vera", sub: "Soothe & Hydrate", desc: "Organic aloe vera calms the skin, locks in moisture, and helps heal micro-irritations with every application.", check: "Hydrates and soothes" },
-    { emoji: "🌼", name: "Turmeric", sub: "Brighten & Protect", desc: "Raw turmeric extract evens skin tone, brightens underarms naturally, and provides additional antibacterial action.", check: "Brightens & fights bacteria" },
-    { emoji: "🌹", name: "Rose Water", sub: "Tone & Refresh", desc: "Distilled rose water tones the skin delicately, imparting a faint natural fragrance while maintaining pH balance.", check: "Gentle fragrance, tones skin" },
   ];
 
   return (
@@ -68,14 +64,6 @@ export function IngredientsSection() {
               className="relative z-10 w-[200px] md:w-[240px] h-auto object-contain animate-float rounded-2xl"
               style={{ filter: "drop-shadow(0 40px 60px rgba(0,0,0,0.4))" }}
             />
-            <div className="absolute top-12 left-0 z-30 px-5 py-3 rounded-2xl border" style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(16px)", borderColor: "rgba(255,255,255,0.2)" }}>
-              <div className="font-serif text-[1.8rem] font-medium text-white leading-none">14k+</div>
-              <div className="text-[0.65rem] tracking-[0.1em] uppercase mt-1" style={{ color: "rgba(255,255,255,0.7)" }}>Happy Customers</div>
-            </div>
-            <div className="absolute bottom-20 right-0 z-30 px-5 py-3 rounded-2xl border" style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(16px)", borderColor: "rgba(255,255,255,0.2)" }}>
-              <div className="font-serif text-[1.8rem] font-medium text-white leading-none">4.9★</div>
-              <div className="text-[0.65rem] tracking-[0.1em] uppercase mt-1" style={{ color: "rgba(255,255,255,0.7)" }}>Average Rating</div>
-            </div>
           </div>
         </div>
       </section>
@@ -86,28 +74,33 @@ export function IngredientsSection() {
           <div className="md:col-span-1 md:sticky md:top-32 h-fit">
             <div className="inline-flex items-center gap-3 text-[0.68rem] font-bold tracking-[0.15em] uppercase mb-5" style={{ color: "#7baa8a" }}>
               <span className="inline-block w-6 h-px bg-[#7baa8a]" />
-              Pure Ingredients
+              Pure Mineral
             </div>
             <h2 className="font-serif font-light text-[clamp(2.4rem,4vw,3.8rem)] leading-[1.1] text-[#1b4332] mb-4">
-              Every drop<br /><em className="text-[#7baa8a]">tells a story.</em>
+              Nature&apos;s most<br /><em className="text-[#7baa8a]">powerful crystal.</em>
             </h2>
-            <p className="text-[0.95rem] leading-[1.8]" style={{ color: "#5a7a6a" }}>
-              We source only the finest natural ingredients, each chosen with purpose. No fillers. No surprises. Just honest beauty.
+            <p className="text-[1rem] leading-[1.8] text-[#5a7a6a]">
+              We use 100% pure Potassium Alum, a natural mineral crystal that has been used for centuries for its incredible antibacterial and deodorizing properties.
             </p>
           </div>
-          <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="md:col-span-2">
             {ingredients.map((ing, i) => (
               <div
                 key={i}
-                className="relative p-9 rounded-3xl border overflow-hidden transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_24px_60px_rgba(45,106,79,0.15)]"
+                className="relative p-12 rounded-[2rem] border overflow-hidden transition-all duration-400"
                 style={{ background: "rgba(255,255,255,0.55)", backdropFilter: "blur(20px)", borderColor: "rgba(255,255,255,0.75)", boxShadow: "0 20px 60px rgba(45,106,79,0.12)" }}
               >
-                <span className="block text-[2.5rem] mb-5">{ing.emoji}</span>
-                <div className="font-serif text-[1.3rem] font-medium text-[#1b4332] mb-1">{ing.name}</div>
-                <div className="text-[0.75rem] font-bold uppercase tracking-wider mb-3" style={{ color: "#7baa8a" }}>{ing.sub}</div>
-                <p className="text-[0.83rem] leading-[1.7] mb-4" style={{ color: "#6a8a78" }}>{ing.desc}</p>
-                <div className="flex items-center gap-2 text-[0.75rem] font-medium" style={{ color: "#2d6a4f" }}>
-                  <span className="font-bold">✓</span> {ing.check}
+                <div className="flex flex-col md:flex-row gap-10 items-center">
+                   <span className="block text-[5rem] shrink-0">{ing.emoji}</span>
+                   <div>
+                      <div className="font-serif text-[2.2rem] font-medium text-[#1b4332] mb-1">{ing.name}</div>
+                      <div className="text-[0.8rem] font-bold uppercase tracking-[0.15em] mb-4" style={{ color: "#7baa8a" }}>{ing.sub}</div>
+                      <p className="text-[1.05rem] leading-[1.8] mb-6" style={{ color: "#6a8a78" }}>{ing.desc}</p>
+                      <div className="flex items-center gap-3 text-[0.9rem] font-bold" style={{ color: "#2d6a4f" }}>
+                        <div className="w-6 h-6 rounded-full bg-[#d4ede1] flex items-center justify-center text-[0.7rem]">✓</div> 
+                        {ing.check}
+                      </div>
+                   </div>
                 </div>
               </div>
             ))}

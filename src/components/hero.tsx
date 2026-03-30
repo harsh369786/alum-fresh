@@ -43,7 +43,7 @@ export function Hero() {
           className="text-[1rem] font-light leading-[1.75] text-[#5a7a6a] max-w-[460px] mb-10 animate-fade-up"
           style={{ animationDelay: "0.6s", opacity: 0 }}
         >
-          100% Alum. 0% Chemicals. Crafted for skin that deserves nothing but the best nature can offer. No aluminium chlorohydrate. No parabens. Ever.
+          An effective 100% natural alum solution that kills odor-causing bacteria and eliminates sweat odor completely. Alcohol-free, gentle on skin, and delivers long-lasting freshness without blocking pores.
         </p>
         <div
           className="flex flex-wrap gap-4 justify-center md:justify-start animate-fade-up"

@@ -24,7 +24,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const getVariantStyles = (variant: string) => {
     switch (variant) {
       case "rose":
-        return { bg: "bg-rose-light", emoji: "🌸" };
+        return { bg: "bg-rose-light", emoji: "✨" };
       case "natural":
         return { bg: "bg-sage-light", emoji: "🌿" };
       case "charcoal":

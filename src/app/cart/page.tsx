@@ -213,18 +213,26 @@ export default function CartPage() {
                     </button>
                   </div>
                 ) : (
-                  <div className="mb-8 flex items-center gap-3 p-4 bg-sage-light/10 border border-sage-light/30 rounded-2xl">
-                    <Tag className="w-4 h-4 text-sage-dark" />
-                    <div>
-                      <p className="text-[0.7rem] font-bold text-charcoal tracking-wide uppercase">Voucher Active: {appliedCode}</p>
-                      <button 
-                        onClick={() => { setAppliedCode(null); setDiscountPct(0); setDiscountCode(""); }}
-                        className="text-[0.62rem] text-warm hover:text-charcoal underline underline-offset-2 uppercase tracking-tighter"
-                      >
-                        Remove Voucher
-                      </button>
+                  <div className="mb-8 flex items-center gap-3 p-5 bg-white border border-sage-light/30 rounded-2xl shadow-sm animate-fade-up">
+                    <div className="w-10 h-10 rounded-full bg-sage-light/20 flex items-center justify-center shrink-0">
+                      <Tag className="w-5 h-5 text-sage-dark" />
                     </div>
-                    <Check className="ml-auto w-5 h-5 text-sage-dark" />
+                    <div className="flex-1">
+                      <p className="text-[0.65rem] font-bold text-warm/60 tracking-widest uppercase mb-0.5">Voucher Applied</p>
+                      <p className="font-serif text-[1.1rem] text-charcoal font-bold">{appliedCode}</p>
+                    </div>
+                    <button 
+                      onClick={() => { 
+                        setAppliedCode(null); 
+                        setDiscountPct(0); 
+                        setDiscountCode(""); 
+                        toast({ title: "Voucher Removed", description: "Discount has been cleared from your total." });
+                      }}
+                      className="p-2.5 rounded-full hover:bg-rose-light/20 text-warm hover:text-rose-dark transition-all group"
+                      title="Remove Voucher"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
                 )}
 

@@ -10,8 +10,7 @@ export const VARIANTS = [
 ];
 
 export const SIZES = [
-  { label: "50ml", value: "50ml" },
-  { label: "100ml", value: "100ml" },
+  { label: "60g", value: "60g" },
 ];
 
 
@@ -57,7 +56,6 @@ export const MARQUEE_ITEMS = [
   "✦ Dermatologist Tested",
   "✦ Cruelty Free",
   "✦ Made in India",
-  "✦ Eco Friendly",
   "✦ No Parabens",
   "✦ Vegan Formula",
   "✦ Long-Lasting",

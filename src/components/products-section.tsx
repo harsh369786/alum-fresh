@@ -10,9 +10,9 @@ import { ShoppingCart, Eye } from "lucide-react";
 import { ProductDetailModal } from "@/components/product-detail-modal";
 
 const MOCK_PRODUCTS: Product[] = [
-  { id: "1", name: "Natural Mist", description: "Pure crystallised potassium alum for sensitive skin. Long-lasting freshness without any chemicals.", price: 499, variant: "natural", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 1, created_at: "", ingredients: [], benefits: [], slug: "natural-mist", sku: "NM01", image_url: null, badge: null, badge_color: null, short_desc: "Crystal-pure freshness, all day.", original_price: 599, size: "50ml" },
-  { id: "2", name: "Rose Quartz", description: "Infused with organic rose water and aloe vera extracts for a delicate feminine freshness.", price: 549, variant: "rose", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 2, created_at: "", ingredients: [], benefits: [], slug: "rose-quartz", sku: "RQ01", image_url: null, badge: "Best Seller", badge_color: null, short_desc: "Floral, natural, refreshing.", original_price: 699, size: "50ml" },
-  { id: "3", name: "Earth's Clay", description: "Activated charcoal for deep detox and all-day protection against odour.", price: 599, variant: "charcoal", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 3, created_at: "", ingredients: [], benefits: [], slug: "earths-clay", sku: "EC01", image_url: null, badge: null, badge_color: null, short_desc: "Deep detox, bold freshness.", original_price: null, size: "50ml" },
+  { id: "1", name: "Natural Mist", description: "Pure crystallised potassium alum for sensitive skin. Long-lasting freshness without any chemicals.", price: 499, variant: "natural", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 1, created_at: "", ingredients: [], benefits: [], slug: "natural-mist", sku: "NM01", image_url: null, badge: null, badge_color: null, short_desc: "Crystal-pure freshness, all day.", original_price: 599, size: "60g" },
+  { id: "2", name: "Pure Crystal", description: "Gentle on skin and delivers long-lasting freshness without blocking pores.", price: 549, variant: "natural", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 2, created_at: "", ingredients: [], benefits: [], slug: "pure-crystal", sku: "PC01", image_url: null, badge: "Best Seller", badge_color: null, short_desc: "Natural, safe, refreshing.", original_price: 699, size: "60g" },
+  { id: "3", name: "Earth's Clay", description: "Activated charcoal for deep detox and all-day protection against odour.", price: 599, variant: "charcoal", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 3, created_at: "", ingredients: [], benefits: [], slug: "earths-clay", sku: "EC01", image_url: null, badge: null, badge_color: null, short_desc: "Deep detox, bold freshness.", original_price: null, size: "60g" },
 ];
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
@@ -138,7 +138,6 @@ export function ProductsSection({ products }: { products: Product[] }) {
   return (
     <section className="bg-white py-24 px-6 md:px-8" id="products">
       <div className="text-center mb-16 animate-fade-up max-w-7xl mx-auto">
-        <span className="eyebrow">Our Collection</span>
         <h2 className="text-[clamp(2rem,4vw,3rem)] font-light mt-1 text-charcoal">
           Find your <em className="text-sage-dark">perfect match.</em>
         </h2>
