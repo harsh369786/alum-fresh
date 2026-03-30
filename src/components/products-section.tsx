@@ -10,9 +10,7 @@ import { ShoppingCart, Eye } from "lucide-react";
 import { ProductDetailModal } from "@/components/product-detail-modal";
 
 const MOCK_PRODUCTS: Product[] = [
-  { id: "1", name: "Natural Mist", description: "Pure crystallised potassium alum for sensitive skin. Long-lasting freshness without any chemicals.", price: 499, variant: "natural", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 1, created_at: "", ingredients: [], benefits: [], slug: "natural-mist", sku: "NM01", image_url: null, badge: null, badge_color: null, short_desc: "Crystal-pure freshness, all day.", original_price: 599, size: "60g" },
-  { id: "2", name: "Pure Crystal", description: "Gentle on skin and delivers long-lasting freshness without blocking pores.", price: 549, variant: "natural", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 2, created_at: "", ingredients: [], benefits: [], slug: "pure-crystal", sku: "PC01", image_url: null, badge: "Best Seller", badge_color: null, short_desc: "Natural, safe, refreshing.", original_price: 699, size: "60g" },
-  { id: "3", name: "Earth's Clay", description: "Activated charcoal for deep detox and all-day protection against odour.", price: 599, variant: "charcoal", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 3, created_at: "", ingredients: [], benefits: [], slug: "earths-clay", sku: "EC01", image_url: null, badge: null, badge_color: null, short_desc: "Deep detox, bold freshness.", original_price: null, size: "60g" },
+  { id: "1", name: "Alum Roll-On", description: "Pure crystallised potassium alum for sensitive skin. Long-lasting freshness without any chemicals.", price: 499, variant: "natural", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 1, created_at: "", ingredients: [], benefits: [], slug: "alum-roll-on", sku: "AR01", image_url: null, badge: null, badge_color: null, short_desc: "Crystal-pure freshness, all day.", original_price: 599, size: "60g" },
 ];
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
@@ -23,10 +21,10 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
   const getVariantStyles = (variant: string) => {
     switch (variant) {
-      case "rose":    return { bg: "bg-rose-light", emoji: "🌸" };
+      case "rose": return { bg: "bg-rose-light", emoji: "🌸" };
       case "natural": return { bg: "bg-sage-light", emoji: "🌿" };
-      case "charcoal":return { bg: "bg-parchment", emoji: "🫙"  };
-      default:        return { bg: "bg-cream", emoji: "✨" };
+      case "charcoal": return { bg: "bg-parchment", emoji: "🫙" };
+      default: return { bg: "bg-cream", emoji: "✨" };
     }
   };
 
@@ -85,13 +83,11 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         <div className="p-6">
           <div className="flex items-center justify-between mb-1.5">
             <div className="text-[0.68rem] font-bold tracking-[0.14em] uppercase text-sage-dark">
-              {product.variant} Edition
+              Natural Alum
             </div>
-            {product.size && (
-              <span className="text-[0.65rem] text-warm bg-white/60 px-2 py-0.5 rounded-full border border-parchment">
-                {product.size}
-              </span>
-            )}
+            <span className="text-[0.65rem] text-warm bg-white/60 px-2 py-0.5 rounded-full border border-parchment">
+              60g
+            </span>
           </div>
 
           <h3 className="font-serif text-[1.3rem] text-charcoal mb-2 leading-tight">
@@ -139,14 +135,14 @@ export function ProductsSection({ products }: { products: Product[] }) {
     <section className="bg-white py-24 px-6 md:px-8" id="products">
       <div className="text-center mb-16 animate-fade-up max-w-7xl mx-auto">
         <h2 className="text-[clamp(2rem,4vw,3rem)] font-light mt-1 text-charcoal">
-          Find your <em className="text-sage-dark">perfect match.</em>
+          Experience <em className="text-sage-dark">Natural Freshness.</em>
         </h2>
         <p className="max-w-[460px] mx-auto mt-4 text-[0.88rem] text-warm">
-          Three unique variants, one promise — pure, natural freshness that lasts all day.
+          A single promise of purity — pure, natural alum crystal that protects you all day.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-7 max-w-7xl mx-auto">
+      <div className="flex justify-center max-w-lg mx-auto">
         {displayProducts.map((product, i) => (
           <ProductCard key={product.id} product={product} index={i} />
         ))}

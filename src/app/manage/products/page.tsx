@@ -17,7 +17,7 @@ export default function AdminProductsPage() {
   const [aiLoading, setAiLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [form, setForm] = useState({ name: "", sku: "", variant: "natural", size: "50ml", price: "", original_price: "", short_desc: "", description: "", badge: "", is_featured: false, in_stock: true, image_url: "" });
+  const [form, setForm] = useState({ name: "", sku: "", variant: "natural", size: "60g", price: "", original_price: "", short_desc: "", description: "", badge: "", is_featured: false, in_stock: true, image_url: "" });
 
   useEffect(() => { fetchProducts(); }, []);
 
@@ -41,7 +41,7 @@ export default function AdminProductsPage() {
       const res = await fetch("/api/ai/product-description", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productName: form.name, variant: form.variant, ingredients: ["Alum Crystal", "Aloe Vera", "Turmeric"] }),
+        body: JSON.stringify({ productName: form.name, variant: "natural", ingredients: ["Potassium Alum Crystal", "Mineral Salts"] }),
       });
       const data = await res.json();
       if (data.description) {
@@ -143,7 +143,7 @@ export default function AdminProductsPage() {
                 className="pl-11 pr-6 py-2.5 rounded-full bg-white border border-parchment text-[0.82rem] outline-none focus:border-sage-dark transition-all min-w-[240px]"
               />
            </div>
-           <Button onClick={() => { setEditing(null); setForm({ name: "", sku: "", variant: "natural", size: "50ml", price: "", original_price: "", short_desc: "", description: "", badge: "", is_featured: false, in_stock: true, image_url: "" }); setShowForm(true); }} className="gap-2 shadow-lg">
+           <Button onClick={() => { setEditing(null); setForm({ name: "", sku: "", variant: "natural", size: "60g", price: "", original_price: "", short_desc: "", description: "", badge: "", is_featured: false, in_stock: true, image_url: "" }); setShowForm(true); }} className="gap-2 shadow-lg">
              <Plus className="w-4 h-4" /> Add Item
            </Button>
         </div>
@@ -206,20 +206,10 @@ export default function AdminProductsPage() {
                   <Input value={form.original_price} onChange={e => setForm(f => ({ ...f, original_price: e.target.value }))} placeholder="499" type="number" className="rounded-full bg-cream/20 border-parchment px-6 h-11 text-[0.85rem] focus-visible:ring-charcoal" />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-4 italic">Edition / Variant</Label>
-                  <select value={form.variant} onChange={e => setForm(f => ({ ...f, variant: e.target.value }))} className="w-full h-11 px-6 rounded-full bg-cream/20 border border-parchment text-[0.85rem] outline-none hover:border-sage-dark transition-colors appearance-none cursor-pointer">
-                    <option value="rose">🌸 Rose</option><option value="natural">🌿 Natural</option><option value="charcoal">🫙 Charcoal</option>
-                  </select>
+                <div className="space-y-1.5 opacity-50 pointer-events-none">
+                  <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-4 italic">Format (Standardized)</Label>
+                  <Input value="60g Natural Alum" readOnly className="rounded-full bg-cream/10 border-parchment px-6 h-11 text-[0.85rem] italic" />
                 </div>
-                <div className="space-y-1.5">
-                  <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-4 italic">Volume / Size</Label>
-                  <select value={form.size} onChange={e => setForm(f => ({ ...f, size: e.target.value }))} className="w-full h-11 px-6 rounded-full bg-cream/20 border border-parchment text-[0.85rem] outline-none hover:border-sage-dark transition-colors appearance-none cursor-pointer">
-                    <option value="50ml">50ml Standard</option><option value="100ml">100ml Large</option>
-                  </select>
-                </div>
-              </div>
             </div>
 
             <div className="space-y-6">
@@ -291,7 +281,7 @@ export default function AdminProductsPage() {
                     </td>
                     <td className="py-6">
                        <span className="text-[0.72rem] font-bold uppercase tracking-widest text-sage-dark">
-                          {p.variant} <span className="opacity-30 mx-1">·</span> {p.size}
+                          60g <span className="opacity-30 mx-1">·</span> Natural
                        </span>
                     </td>
                     <td className="py-6 font-serif text-[1.2rem] text-charcoal">{formatPrice(p.price)}</td>

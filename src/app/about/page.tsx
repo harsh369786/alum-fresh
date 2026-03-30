@@ -18,8 +18,8 @@ const TEAM = [
 
 const MISSION_CARDS = [
   { icon: <Leaf className="w-6 h-6" />, title: "Honest Ingredients", desc: "We disclose every single element. No hidden chemicals, no misleading claims. Just pure, transparent nature." },
-  { icon: <Recycle className="w-6 h-6" />, title: "Responsible Impact", desc: "Our journey to zero-waste by 2026 starts with recyclable glass and minimal, earth-friendly plastic." },
-  { icon: <Globe className="w-6 h-6" />, title: "Ethical Sourcing", desc: "We partner with local farmers and suppliers who respect the earth and their communities as much as we do." },
+  { icon: <Shield className="w-6 h-6" />, title: "Time-Tested Wisdom", desc: "We use Alum (Fitkiri), a natural mineral crystal used for generations to kill odor-causing bacteria at the source." },
+  { icon: <Heart className="w-6 h-6" />, title: "Personal Purpose", desc: "Started as a personal need to find a real solution for daily comfort, it became our mission to share it with everyone." },
 ];
 
 export default function AboutPage() {
@@ -32,11 +32,11 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto text-center relative z-10 animate-fade-up">
           <span className="eyebrow">Our Story</span>
           <h1 className="font-serif italic text-[clamp(2.5rem,6vw,4.5rem)] text-charcoal leading-tight mb-8">
-            Born from a grandmother&apos;s <em className="text-sage-dark">ritual.</em>
+            Born from a <em className="text-sage-dark">real problem.</em>
           </h1>
           <p className="text-[1.1rem] text-warm max-w-2xl mx-auto leading-relaxed font-light">
-            In the heart of Jaipur, observing the simple yet profound daily ritual of using pure alum crystal, 
-            we realized the world had forgotten what nature already knew. Alum Fresh is our tribute to that wisdom.
+            We noticed how something as common as underarm odor could affect comfort—both at home and in daily life. 
+            Alum Fresh was born from our search for a solution that truly works.
           </p>
         </div>
       </section>
@@ -66,17 +66,16 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-6 text-[0.95rem] text-warm leading-[1.8] font-light">
                 <p>
-                  In 2020, our co-founder Meera returned to her family home in Jaipur. 
-                  She watched her 78-year-old grandmother glide a simple crystal block under her arms, 
-                  just as she had every morning for six decades.
+                  It began with a simple, real problem. After getting married, we noticed how something as common as underarm odor could affect comfort—both at home and in daily life. Sitting close to your partner or attending meetings by the end of a long day often came with a sense of discomfort and lost confidence.
                 </p>
                 <p>
-                  She had never used a commercial deodorant in her life — and her skin was flawless. 
-                  No irritation, no dark marks, and most importantly, no chemicals. Just pure, ancient potassium alum.
+                  Like everyone else, we tried deodorants and perfumes. They worked for a few hours—but once the fragrance faded, the sweat odor took over again. It was clear they were only masking the problem.
                 </p>
                 <p>
-                  That moment sparked a mission: to bring this timeless Ayurvedic wisdom to the modern Indian doorstep, 
-                  in a form that&apos;s convenient, beautiful, and genuinely effective.
+                  Looking for a real solution, we turned to research—and found the answer in nature itself. A time-tested remedy used for generations: Alum (Fitkiri). Known for its ability to kill odor-causing bacteria, it naturally eliminates bad odor at the source.
+                </p>
+                <p className="font-medium text-charcoal">
+                  What started as a personal need became our purpose—to create a natural, effective solution that truly works for everyone.
                 </p>
               </div>
               <div className="pt-10 flex gap-4">
@@ -126,38 +125,9 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto text-center relative z-10 animate-fade-up">
           <Heart className="w-8 h-8 text-sage mx-auto mb-8 opacity-60" />
           <h2 className="font-serif italic text-[2.2rem] md:text-[2.8rem] leading-snug mb-10">
-            &quot;We don&apos;t just sell deodorants; we sell the peace of mind that comes from knowing exactly what you&apos;re putting on your skin.&quot;
+            &quot;We don&apos;t just sell Alum Roll-Ons; we sell the peace of mind that comes from knowing exactly what you&apos;re putting on your skin.&quot;
           </h2>
           <div className="w-24 h-px bg-sage/30 mx-auto" />
-          <p className="mt-8 text-[0.85rem] uppercase tracking-[0.2em] font-medium text-sage-dark">Meera Sharma, Co-Founder</p>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-32 px-6 md:px-8 bg-white overflow-hidden">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20 animate-fade-up">
-             <span className="eyebrow">Our People</span>
-             <h2 className="font-serif text-[2.5rem] text-charcoal">The hands behind <em className="text-sage-dark">the craft.</em></h2>
-          </div>
-
-          <div className="grid sm:grid-cols-3 gap-12">
-            {TEAM.map((member, i) => (
-              <div 
-                key={member.name} 
-                className="text-center animate-fade-up group"
-                style={{ animationDelay: `${i * 0.2}s` }}
-              >
-                <div className="w-40 h-40 bg-cream rounded-full mx-auto mb-8 flex items-center justify-center text-7xl shadow-inner border border-parchment/50 overflow-hidden relative group-hover:shadow-lg transition-all duration-500">
-                   <div className="absolute inset-0 bg-sage-light/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                   <div className="relative z-10">{member.emoji}</div>
-                </div>
-                <h3 className="font-serif text-[1.3rem] text-charcoal mb-1">{member.name}</h3>
-                <p className="text-[0.68rem] uppercase tracking-widest font-bold text-sage-dark mb-2">{member.role}</p>
-                <p className="text-[0.75rem] text-warm opacity-60 italic">{member.location}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

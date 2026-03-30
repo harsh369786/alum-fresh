@@ -117,43 +117,15 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
             {/* Controls */}
             <div className="flex flex-col gap-4">
 
-              {/* Variant */}
-              <div>
-                <p className="text-[0.6rem] text-warm mb-2 font-bold uppercase tracking-[0.1em]">Edition</p>
-                <div className="flex flex-wrap gap-2">
-                  {VARIANTS.map((v) => (
-                    <button
-                      key={v.value}
-                      onClick={() => setSelectedVariant(v.value as any)}
-                      className={`px-4 py-2 rounded-full text-[0.72rem] font-medium border transition-all min-h-[40px] ${
-                        selectedVariant === v.value
-                          ? "bg-charcoal text-white border-charcoal"
-                          : "bg-cream/60 text-warm border-parchment hover:border-sage-light"
-                      }`}
-                    >
-                      {v.emoji} {v.label.split(" ")[0]}
-                    </button>
-                  ))}
+              {/* Standardized Format Info */}
+              <div className="flex gap-3">
+                <div className="flex-1 p-4 rounded-2xl bg-sage-light/10 border border-sage-light/20">
+                   <p className="text-[0.6rem] text-sage-dark font-bold uppercase tracking-wider mb-1">Standard Size</p>
+                   <p className="text-[0.9rem] font-serif text-charcoal">60g Crystal</p>
                 </div>
-              </div>
-
-              {/* Size */}
-              <div>
-                <p className="text-[0.6rem] text-warm mb-2 font-bold uppercase tracking-[0.1em]">Size</p>
-                <div className="flex gap-2">
-                  {SIZES.map((s) => (
-                    <button
-                      key={s.value}
-                      onClick={() => setSelectedSize(s.value as any)}
-                      className={`px-5 py-2 rounded-full text-[0.72rem] font-medium border transition-all min-h-[40px] ${
-                        selectedSize === s.value
-                          ? "bg-charcoal text-white border-charcoal"
-                          : "bg-cream/60 text-warm border-parchment hover:border-sage-light"
-                      }`}
-                    >
-                      {s.label}
-                    </button>
-                  ))}
+                <div className="flex-1 p-4 rounded-2xl bg-cream/50 border border-parchment">
+                   <p className="text-[0.6rem] text-warm font-bold uppercase tracking-wider mb-1">Edition</p>
+                   <p className="text-[0.9rem] font-serif text-charcoal">Natural Alum</p>
                 </div>
               </div>
 

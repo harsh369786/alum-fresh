@@ -4,9 +4,7 @@ export const SUB_TAGLINE = "100% Alum. 0% Chemicals.";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://alumfresh.in";
 
 export const VARIANTS = [
-  { label: "Rose Edition", value: "rose", color: "var(--rose)", emoji: "🌸" },
   { label: "Natural Edition", value: "natural", color: "var(--sage)", emoji: "🌿" },
-  { label: "Charcoal Edition", value: "charcoal", color: "#d8d8d8", emoji: "🫙" },
 ];
 
 export const SIZES = [
@@ -23,18 +21,16 @@ export const SHIPPING_CHARGE = Number(
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Discover", href: "/#products" },
-  { label: "Ingredients", href: "/#ingredients" },
   { label: "Our Story", href: "/about" },
+  { label: "Ingredients", href: "/#ingredients" },
+  { label: "How to Use", href: "/#how-to-use" },
   { label: "Contact", href: "/contact" },
 ];
 
 export const FOOTER_LINKS = {
   shop: [
     { label: "All Products", href: "/category/roll-on" },
-    { label: "Rose Edition", href: "/category/roll-on?v=rose" },
-    { label: "Natural Edition", href: "/category/roll-on?v=natural" },
-    { label: "Charcoal Edition", href: "/category/roll-on?v=charcoal" },
+    { label: "How to Use", href: "/#how-to-use" },
     { label: "Gift Sets", href: "/category/bundles" },
   ],
   company: [

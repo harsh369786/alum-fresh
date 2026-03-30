@@ -88,14 +88,12 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Info Area */}
         <div className="p-6">
           <div className="flex items-center justify-between mb-1.5">
-            <div className="text-[0.68rem] font-medium tracking-[0.14em] uppercase text-sage-dark">
-              {product.variant} Edition
+            <div className="text-[0.68rem] font-bold tracking-[0.14em] uppercase text-sage-dark">
+              Natural Alum
             </div>
-            {product.size && (
-              <span className="text-[0.65rem] text-warm bg-white/50 px-2 py-0.5 rounded-full border border-parchment">
-                {product.size}
-              </span>
-            )}
+            <span className="text-[0.65rem] text-warm bg-white/50 px-2 py-0.5 rounded-full border border-parchment">
+              60g
+            </span>
           </div>
           
           <h3 className="font-serif text-[1.25rem] text-charcoal mb-2 leading-tight">

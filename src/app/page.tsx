@@ -8,6 +8,7 @@ import { ProductsSection } from "@/components/products-section";
 import { IngredientsSection } from "@/components/ingredients-section";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { CtaBanner } from "@/components/cta-banner";
+import { HowToUseSection } from "@/components/how-to-use-section";
 
 export const metadata: Metadata = {
   title: "Alum Fresh — Stay Fresh, Naturally.",
@@ -39,6 +40,7 @@ export default async function HomePage() {
       <MarqueeStrip />
       <WhySection />
       <IngredientsSection />
+      <HowToUseSection />
       <ProductsSection products={products} />
       <TestimonialsSection />
       <CtaBanner />
