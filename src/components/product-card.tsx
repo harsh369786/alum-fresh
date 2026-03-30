@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Product } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/use-cart";
@@ -16,6 +17,7 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
   const { toast } = useToast();
+  const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
 
   // Map variant values to their background classes and emojis based on the HTML
@@ -46,10 +48,7 @@ export function ProductCard({ product }: ProductCardProps) {
       imageUrl: product.image_url,
       badge: product.badge,
     });
-    toast({ 
-      title: "Added to cart ✓", 
-      description: product.name,
-    });
+    router.push("/cart");
   }
 
   return (

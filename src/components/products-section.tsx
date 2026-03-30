@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/lib/types";
 import { useCart } from "@/hooks/use-cart";
@@ -17,6 +18,7 @@ const MOCK_PRODUCTS: Product[] = [
 function ProductCard({ product, index }: { product: Product; index: number }) {
   const { addItem } = useCart();
   const { toast } = useToast();
+  const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
 
   const getVariantStyles = (variant: string) => {
@@ -43,10 +45,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       imageUrl: product.image_url,
       badge: product.badge,
     });
-    toast({
-      title: "✓ Added to cart",
-      description: `${product.name} — ${product.variant} edition`,
-    });
+    router.push("/cart");
   }
 
   return (

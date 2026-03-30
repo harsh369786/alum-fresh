@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 import { VARIANTS, SIZES } from "@/lib/constants";
 import { ShoppingCart, Minus, Plus, Check, Leaf, Shield, Star } from "lucide-react";
 
@@ -17,6 +18,7 @@ interface ProductDetailModalProps {
 export function ProductDetailModal({ product, open, onOpenChange }: ProductDetailModalProps) {
   const { addItem } = useCart();
   const { toast } = useToast();
+  const router = useRouter();
   const [selectedVariant, setSelectedVariant] = useState(product.variant || "natural");
   const [selectedSize, setSelectedSize] = useState(product.size || "50ml");
   const [qty, setQty] = useState(1);
@@ -44,9 +46,8 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
       imageUrl: product.image_url,
       badge: product.badge,
     });
-    setAdded(true);
-    toast({ title: "Added to cart ✓", description: `${product.name} × ${qty}` });
-    setTimeout(() => setAdded(false), 2000);
+    onOpenChange(false);
+    router.push("/cart");
   }
 
   const ingredients = product.ingredients?.length
