@@ -63,7 +63,7 @@ export function ProductCard({ product }: ProductCardProps) {
             <img
               src={product.image_url}
               alt={product.name}
-              className="w-40 h-40 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1.5 drop-shadow-[0_14px_28px_rgba(0,0,0,0.12)]"
+              className="w-full h-full object-contain p-8 transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_14px_28px_rgba(0,0,0,0.08)]"
             />
           ) : (
             <div className="text-7xl transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1.5 drop-shadow-[0_14px_28px_rgba(0,0,0,0.12)] opacity-80">

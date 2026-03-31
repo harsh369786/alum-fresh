@@ -83,7 +83,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
                 <img
                   src={product.image_url}
                   alt={product.name}
-                  className="w-32 h-32 md:w-44 md:h-44 object-contain drop-shadow-2xl"
+                  className="w-full h-full object-contain p-10 drop-shadow-2xl"
                 />
               ) : (
                 <span className="text-[5rem] md:text-[7rem]">{styles.emoji}</span>
