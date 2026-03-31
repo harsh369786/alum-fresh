@@ -41,7 +41,7 @@ export default function AdminProductsPage() {
       const res = await fetch("/api/ai/product-description", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productName: form.name, variant: "natural", ingredients: ["Potassium Alum Crystal", "Mineral Salts"] }),
+        body: JSON.stringify({ productName: form.name, variant: "natural", ingredients: ["Potassium Alum"] }),
       });
       const data = await res.json();
       if (data.description) {

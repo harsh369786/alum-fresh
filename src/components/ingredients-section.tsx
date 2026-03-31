@@ -54,16 +54,33 @@ export function IngredientsSection() {
               ))}
             </div>
           </div>
-          <div className="relative flex items-center justify-center min-h-[400px]">
-            <div className="absolute w-72 h-72 rounded-full" style={{ background: "radial-gradient(circle,rgba(168,213,187,0.3),transparent 70%)", filter: "blur(40px)" }} />
-            <Image
-              src="https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png"
-              alt="Alum Fresh Product"
-              width={400}
-              height={400}
-              className="relative z-10 w-[240px] md:w-[380px] h-auto object-contain animate-float rounded-[3rem] scale-125 md:scale-[1.35] origin-center"
-              style={{ filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.2))" }}
-            />
+          <div className="relative flex items-center justify-center min-h-[450px] md:min-h-[550px] w-full">
+            {/* Background Glows */}
+            <div className="absolute w-80 h-80 rounded-full" style={{ background: "radial-gradient(circle,rgba(168,213,187,0.25),transparent 70%)", filter: "blur(50px)" }} />
+            
+            {/* First Image (Bottom/Back) */}
+            <div className="absolute left-0 top-10 md:top-0 animate-float" style={{ animationDelay: "1s" }}>
+              <Image
+                src="https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png"
+                alt="Alum Fresh Edition 1"
+                width={300}
+                height={300}
+                className="w-[180px] md:w-[280px] h-auto object-contain rounded-3xl rotate-[-6deg] opacity-90"
+                style={{ filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.15))" }}
+              />
+            </div>
+
+            {/* Second Image (Top/Front) - THE NEW ONE */}
+            <div className="relative z-10 animate-float md:translate-x-12 translate-y-8">
+              <Image
+                src="https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/product_2.png"
+                alt="Alum Fresh Edition 2"
+                width={320}
+                height={320}
+                className="w-[220px] md:w-[320px] h-auto object-contain rounded-3xl rotate-[4deg] scale-110 md:scale-125"
+                style={{ filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.25))" }}
+              />
+            </div>
           </div>
         </div>
       </section>

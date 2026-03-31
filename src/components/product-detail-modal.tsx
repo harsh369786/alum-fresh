@@ -52,7 +52,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
 
   const ingredients = product.ingredients?.length
     ? product.ingredients
-    : ["Potassium Alum", "Purified Water", "Mineral Salts"];
+    : ["Potassium Alum"];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -66,11 +66,11 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
       <DialogContent className="p-0 bg-white border-parchment md:max-w-3xl md:rounded-[2rem]">
         <div className="flex flex-col md:flex-row md:items-stretch">
 
-          {/* ── Image Column ── fixed height on all screen sizes */}
+          {/* ── Image Column ── fixed height on mobile, auto on desktop */}
           <div
             className={`
               relative flex items-center justify-center shrink-0
-              h-[200px] md:h-auto md:w-[280px] lg:w-[320px]
+              w-full h-[260px] md:h-auto md:w-[280px] lg:w-[320px]
               transition-colors duration-500 ${styles.bg}
               md:rounded-l-[2rem] rounded-t-[2rem] md:rounded-tr-none
             `}
@@ -78,15 +78,13 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[inherit]">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-white/25 rounded-full blur-[40px]" />
             </div>
-            <div className="relative z-10 select-none">
+            <div className="relative z-10 w-full h-full flex items-center justify-center p-6 md:p-8 select-none">
               {product.image_url ? (
-                <div className="aspect-square w-full">
-                  <img
-                    src={product.image_url}
-                    alt={product.name}
-                    className="w-full h-full object-cover rounded-2xl drop-shadow-2xl"
-                  />
-                </div>
+                <img
+                  src={product.image_url}
+                  alt={product.name}
+                  className="w-full h-full md:w-full md:h-auto md:aspect-square object-cover rounded-[1.5rem] shadow-2xl"
+                />
               ) : (
                 <span className="text-[5rem] md:text-[7rem]">{styles.emoji}</span>
               )}

@@ -38,11 +38,11 @@ export default async function HomePage() {
     <>
       <Hero />
       <MarqueeStrip />
-      <WhySection />
-      <IngredientsSection />
-      <HowToUseSection />
       <ProductsSection products={products} />
       <TestimonialsSection />
+      <WhySection />
+      <HowToUseSection />
+      <IngredientsSection />
       <CtaBanner />
     </>
   );

@@ -26,7 +26,7 @@ export function CtaBanner() {
           Limited Time Offer
         </div>
         <h2 className="font-serif font-light text-[clamp(2.4rem,4vw,3.8rem)] leading-[1.1] text-white mb-4">
-          Get 20% off your<br />
+          Get 60% off your<br />
           <em style={{ color: "#a8d5bb" }}>first order.</em>
         </h2>
         <p className="text-[0.95rem] leading-[1.8] mb-12 max-w-[500px] mx-auto" style={{ color: "rgba(255,255,255,0.6)" }}>
@@ -48,7 +48,7 @@ export function CtaBanner() {
               className="font-bold tracking-[0.1em] px-3 py-1 rounded-full text-[0.8rem]"
               style={{ background: "rgba(255,255,255,0.2)" }}
             >
-              FRESH20
+              FRESH60
             </span>
             {" "}at checkout
           </div>

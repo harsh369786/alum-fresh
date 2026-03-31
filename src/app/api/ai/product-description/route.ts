@@ -5,7 +5,7 @@ import { z } from "zod";
 const inputSchema = z.object({
   productName: z.string(),
   variant: z.string().optional().default("natural"),
-  ingredients: z.array(z.string()).optional().default(["Alum Crystal", "Aloe Vera", "Turmeric"]),
+  ingredients: z.array(z.string()).optional().default(["Potassium Alum"]),
 });
 
 export async function POST(req: NextRequest) {
