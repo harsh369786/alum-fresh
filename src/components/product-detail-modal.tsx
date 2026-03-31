@@ -80,11 +80,13 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
             </div>
             <div className="relative z-10 select-none">
               {product.image_url ? (
-                <img
-                  src={product.image_url}
-                  alt={product.name}
-                  className="w-full h-full object-contain p-10 drop-shadow-2xl"
-                />
+                <div className="aspect-square w-full">
+                  <img
+                    src={product.image_url}
+                    alt={product.name}
+                    className="w-full h-full object-cover rounded-2xl drop-shadow-2xl"
+                  />
+                </div>
               ) : (
                 <span className="text-[5rem] md:text-[7rem]">{styles.emoji}</span>
               )}

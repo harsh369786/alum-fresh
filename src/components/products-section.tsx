@@ -10,7 +10,7 @@ import { ShoppingCart, Eye } from "lucide-react";
 import { ProductDetailModal } from "@/components/product-detail-modal";
 
 const MOCK_PRODUCTS: Product[] = [
-  { id: "1", name: "Alum Roll-On", description: "Pure crystallised potassium alum for sensitive skin. Long-lasting freshness without any chemicals.", price: 499, variant: "natural", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 1, created_at: "", ingredients: [], benefits: [], slug: "alum-roll-on", sku: "AR01", image_url: null, badge: null, badge_color: null, short_desc: "Crystal-pure freshness, all day.", original_price: 599, size: "60g" },
+  { id: "1", name: "Alum Roll-on", description: "100% Natural alum to eleminated sweat smell", price: 399, variant: "natural", category_id: "roll-on", is_featured: true, in_stock: true, sort_order: 1, created_at: "", ingredients: [], benefits: [], slug: "alum-roll-on", sku: "AR01", image_url: "https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/step1.jpeg", badge: null, badge_color: null, short_desc: "100% Natural alum to eliminated sweat smell", original_price: 999, size: "60g" },
 ];
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
@@ -54,12 +54,12 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         onClick={() => setModalOpen(true)}
       >
         {/* Image Area */}
-        <div className={`h-[280px] flex items-center justify-center relative overflow-hidden ${styles.bg}`}>
+        <div className={`aspect-square flex items-center justify-center relative overflow-hidden ${styles.bg}`}>
             {product.image_url ? (
               <img
                 src={product.image_url}
                 alt={product.name}
-                className="w-full h-full object-contain p-8 transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_14px_28px_rgba(0,0,0,0.08)]"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_14px_28px_rgba(0,0,0,0.08)]"
               />
             ) : (
             <div className="text-[7rem] transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:-translate-y-1.5 drop-shadow-[0_14px_28px_rgba(0,0,0,0.12)] opacity-80">

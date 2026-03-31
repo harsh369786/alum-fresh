@@ -22,7 +22,7 @@ export function StatsBar() {
   const stats = [
     { num: "14,000+", lbl: "Happy Customers", delay: "0.05s" },
     { num: "4.9★", lbl: "Average Rating", delay: "0.15s" },
-    { num: "3", lbl: "Natural Variants", delay: "0.25s" },
+    { num: "100%", lbl: "Mineral Purity", delay: "0.25s" },
     { num: "0%", lbl: "Harmful Chemicals", delay: "0.35s" },
   ];
 

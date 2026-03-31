@@ -9,8 +9,8 @@ interface CategoryGridProps {
 }
 
 const FALLBACK_CATEGORIES = [
-  { id: "1", name: "Roll-On Deodorants", slug: "roll-on", description: "Natural alum crystal roll-ons. Chemical-free, dermatologically tested, and vegan friendly.", image_url: null, sort_order: 0, created_at: "" },
-  { id: "2", name: "Bundles & Gift Sets", slug: "bundles", description: "Discover our best value with curated combo packs featuring all three natural variants.", image_url: null, sort_order: 1, created_at: "" },
+  { id: "1", name: "Roll-On Deodorants", slug: "roll-on", description: "Natural alum crystal roll-ons. Pure, chemical-free, and effective daily protection.", image_url: null, sort_order: 0, created_at: "" },
+  { id: "2", name: "Bundles & Gift Sets", slug: "bundles", description: "Our best value curated collection featuring the pure Alum Fresh experience.", image_url: null, sort_order: 1, created_at: "" },
   { id: "3", name: "Natural Skincare", slug: "skincare", description: "Coming soon. Expanding our range with ancient Ayurvedic wisdom for modern skin.", image_url: null, sort_order: 2, created_at: "" },
 ];
 

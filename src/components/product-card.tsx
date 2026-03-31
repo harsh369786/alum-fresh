@@ -58,12 +58,12 @@ export function ProductCard({ product }: ProductCardProps) {
         onClick={() => setModalOpen(true)}
       >
         {/* Image Area */}
-        <div className={`h-[240px] flex items-center justify-center relative overflow-hidden transition-colors duration-500 ${styles.bg}`}>
+        <div className={`aspect-square flex items-center justify-center relative overflow-hidden transition-colors duration-500 ${styles.bg}`}>
           {product.image_url ? (
             <img
               src={product.image_url}
               alt={product.name}
-              className="w-full h-full object-contain p-8 transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_14px_28px_rgba(0,0,0,0.08)]"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_14px_28px_rgba(0,0,0,0.08)]"
             />
           ) : (
             <div className="text-7xl transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1.5 drop-shadow-[0_14px_28px_rgba(0,0,0,0.12)] opacity-80">

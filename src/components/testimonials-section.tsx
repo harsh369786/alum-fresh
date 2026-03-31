@@ -11,7 +11,7 @@ const testimonials = [
     initial: "A", name: "Ananya Mehta", role: "Bengaluru · Verified Buyer",
   },
   {
-    txt: "My dermatologist recommended going natural. Alum Fresh is genuinely the real deal. Already on my third order!",
+    txt: "I finally switched to a natural solution. Alum Fresh is genuinely the real deal. Already on my third order!",
     initial: "R", name: "Rahul Desai", role: "Delhi · Verified Buyer",
   },
 ];
@@ -19,7 +19,7 @@ const testimonials = [
 const trustStats = [
   { num: "14k+", lbl: "Happy Customers" },
   { num: "4.9★", lbl: "Average Rating" },
-  { num: "3", lbl: "Natural Variants" },
+  { num: "100%", lbl: "Mineral Purity" },
   { num: "0%", lbl: "Harmful Chemicals" },
 ];
 
