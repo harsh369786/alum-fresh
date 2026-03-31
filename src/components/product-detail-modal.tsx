@@ -40,7 +40,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
       productId: product.id,
       name: product.name,
       variant: selectedVariant,
-      size: selectedSize,
+      size: "60g",
       price: product.price,
       quantity: qty,
       imageUrl: product.image_url,
@@ -159,12 +159,12 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
                   </button>
                 </div>
                 <div className="text-right leading-none">
-                  <div className="font-serif text-[1.6rem] text-charcoal">
-                    <sub className="font-sans text-[0.75rem] align-super mr-0.5">₹</sub>
-                    {product.price * qty}
+                  <div className="flex items-baseline justify-end text-charcoal">
+                    <span className="font-sans text-[1.1rem] mr-0.5">₹</span>
+                    <span className="font-serif text-[1.8rem] leading-none">{product.price * qty}</span>
                   </div>
                   {product.original_price && (
-                    <div className="font-sans text-[0.72rem] text-warm line-through opacity-50">
+                    <div className="font-sans text-[0.8rem] text-warm line-through opacity-50 mt-1">
                       ₹{product.original_price * qty}
                     </div>
                   )}

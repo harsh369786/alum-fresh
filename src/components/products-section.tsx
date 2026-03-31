@@ -37,7 +37,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       productId: product.id,
       name: product.name,
       variant: product.variant,
-      size: product.size,
+      size: "60g",
       price: product.price,
       quantity: 1,
       imageUrl: product.image_url,
@@ -98,11 +98,11 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           </p>
 
           <div className="flex items-center justify-between mt-auto">
-            <div className="font-serif text-[1.5rem] text-charcoal">
-              <sub className="font-sans text-[0.72rem] align-super mr-0.5">₹</sub>
-              {product.price}
+            <div className="flex items-baseline text-charcoal">
+              <span className="font-sans text-[1rem] mr-0.5">₹</span>
+              <span className="font-serif text-[1.6rem] leading-none">{product.price}</span>
               {product.original_price && (
-                <span className="font-sans text-[0.8rem] text-warm line-through ml-2 opacity-60">
+                <span className="font-sans text-[0.8rem] text-warm line-through ml-2.5 opacity-60">
                   ₹{product.original_price}
                 </span>
               )}
