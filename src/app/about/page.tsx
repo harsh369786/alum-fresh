@@ -81,11 +81,7 @@ export default function AboutPage() {
               <div className="pt-10 flex gap-4">
                 <div className="flex items-center gap-3 bg-cream/50 px-5 py-3 rounded-full border border-parchment shadow-sm">
                    <Shield className="w-4 h-4 text-sage-dark" />
-                   <span className="text-[0.7rem] font-bold uppercase tracking-widest text-charcoal">Dermatologist Verified</span>
-                </div>
-                <div className="flex items-center gap-3 bg-cream/50 px-5 py-3 rounded-full border border-parchment shadow-sm">
-                   <Sparkles className="w-4 h-4 text-sage-dark" />
-                   <span className="text-[0.7rem] font-bold uppercase tracking-widest text-charcoal">Vegan Friendly</span>
+                   <span className="text-[0.7rem] font-bold uppercase tracking-widest text-charcoal">Pure & Mineral Based</span>
                 </div>
               </div>
             </div>

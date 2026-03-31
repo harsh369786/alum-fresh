@@ -3,11 +3,9 @@ import React from "react";
 
 const ITEMS = [
   "✦ Chemical Free",
-  "✦ Dermatologist Tested",
   "✦ Cruelty Free",
   "✦ Made in India",
   "✦ No Parabens",
-  "✦ Vegan Formula",
   "✦ Long-Lasting",
 ];
 

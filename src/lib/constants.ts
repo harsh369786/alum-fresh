@@ -49,11 +49,9 @@ export const FOOTER_LINKS = {
 
 export const MARQUEE_ITEMS = [
   "✦ Chemical Free",
-  "✦ Dermatologist Tested",
   "✦ Cruelty Free",
   "✦ Made in India",
   "✦ No Parabens",
-  "✦ Vegan Formula",
   "✦ Long-Lasting",
 ];
 

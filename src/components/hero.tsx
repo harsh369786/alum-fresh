@@ -123,7 +123,7 @@ export function Hero() {
             <span className="text-xl">🛡️</span>
             <div>
               <div className="text-[0.72rem] font-bold text-[#1b4332]">24H Protection</div>
-              <div className="text-[0.62rem] text-[#7baa8a]">Derma Tested</div>
+              <div className="text-[0.62rem] text-[#7baa8a]">Safe & Pure</div>
             </div>
           </div>
           <div className="fbadge-hero absolute bottom-28 left-0 md:-left-4 flex items-center gap-3 bg-white/90 backdrop-blur-md border border-white/90 rounded-2xl px-4 py-3 shadow-[0_20px_60px_rgba(45,106,79,0.18)] animate-float z-30" style={{ animationDelay: "-3s" }}>

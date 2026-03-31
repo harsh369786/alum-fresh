@@ -55,13 +55,13 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       >
         {/* Image Area */}
         <div className={`h-[280px] flex items-center justify-center relative overflow-hidden ${styles.bg}`}>
-          {product.image_url ? (
-            <img
-              src={product.image_url}
-              alt={product.name}
-              className="w-40 h-40 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1.5 drop-shadow-[0_14px_28px_rgba(0,0,0,0.12)]"
-            />
-          ) : (
+            {product.image_url ? (
+              <img
+                src={product.image_url}
+                alt={product.name}
+                className="w-full h-full object-contain p-8 transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_14px_28px_rgba(0,0,0,0.08)]"
+              />
+            ) : (
             <div className="text-[7rem] transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:-translate-y-1.5 drop-shadow-[0_14px_28px_rgba(0,0,0,0.12)] opacity-80">
               {styles.emoji}
             </div>
