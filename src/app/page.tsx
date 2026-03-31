@@ -11,7 +11,7 @@ import { CtaBanner } from "@/components/cta-banner";
 import { HowToUseSection } from "@/components/how-to-use-section";
 
 export const metadata: Metadata = {
-  title: "Alum Fresh — Stay Fresh, Naturally.",
+  title: "The Aura Company — Stay Fresh, Naturally.",
   description: "100% Alum. 0% Chemicals. Premium natural alum crystal roll-on deodorant.",
 };
 

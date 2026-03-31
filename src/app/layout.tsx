@@ -8,12 +8,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
-  title: { default: "Alum Fresh — Stay Fresh, Naturally.", template: "%s | Alum Fresh" },
+  title: { default: "The Aura Company — Stay Fresh, Naturally.", template: "%s | The Aura Company" },
   description: "100% Alum. 0% Chemicals. Natural alum-based roll-on deodorant. Chemical-free, dermatologist tested, vegan, cruelty-free. Made in India.",
-  keywords: ["natural deodorant", "alum deodorant", "chemical-free", "vegan deodorant", "India", "Alum Fresh"],
+  keywords: ["natural deodorant", "alum deodorant", "chemical-free", "vegan deodorant", "India", "Alum Fresh", "The Aura Company"],
   openGraph: {
-    siteName: "Alum Fresh",
-    title: "Alum Fresh — Stay Fresh, Naturally.",
+    siteName: "The Aura Company",
+    title: "The Aura Company — Stay Fresh, Naturally.",
     description: "100% Alum. 0% Chemicals. Premium natural deodorant.",
     type: "website",
   },

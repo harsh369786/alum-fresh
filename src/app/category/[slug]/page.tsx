@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   const { slug } = await params;
   const meta = CATEGORY_META[slug];
   return {
-    title: meta ? `${meta.title} | Alum Fresh` : "Shop | Alum Fresh",
+    title: meta ? `${meta.title} | The Aura Company` : "Shop | The Aura Company",
     description: meta?.description || "Shop Alum Fresh natural deodorants.",
   };
 }

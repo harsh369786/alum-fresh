@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       });
 
       await transporter.sendMail({
-        from: `"Alum Fresh Contact" <${process.env.GMAIL_SENDER_EMAIL}>`,
+        from: `"The Aura Company Contact" <${process.env.GMAIL_SENDER_EMAIL}>`,
         to: process.env.GMAIL_SENDER_EMAIL,
         replyTo: body.email,
         subject: `New Enquiry: ${body.subject} — from ${body.name}`,

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Search as SearchIcon, ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Search | Alum Fresh",
+  title: "Search | The Aura Company",
   description: "Search Alum Fresh products — natural alum deodorants, bundles, and skincare.",
 };
 

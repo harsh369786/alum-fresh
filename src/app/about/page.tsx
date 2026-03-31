@@ -6,7 +6,7 @@ import { CtaBanner } from "@/components/cta-banner";
 import { Sparkles, Leaf, Shield, Heart, Globe, Recycle } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Our Story | Alum Fresh",
+  title: "Our Story | The Aura Company",
   description: "Learn about Alum Fresh — from traditional alum rituals in Jaipur to India's premium natural deodorant.",
 };
 

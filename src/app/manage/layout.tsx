@@ -24,10 +24,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-parchment sticky top-0 z-40 shadow-sm">
         <Link href="/manage" className="flex items-center gap-2 group">
           <div className="w-8 h-8 rounded-full bg-charcoal flex items-center justify-center text-white font-serif italic text-sm">
-            AF
+            AC
           </div>
           <div>
-            <span className="font-serif text-[1rem] text-charcoal block leading-none">Alum Fresh</span>
+            <span className="font-serif text-[1rem] text-charcoal block leading-none">The Aura Company</span>
             <span className="text-[0.6rem] uppercase tracking-widest text-sage-dark font-bold">Admin Console</span>
           </div>
         </Link>
@@ -75,10 +75,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-6 border-b border-parchment">
           <Link href="/manage" className="flex items-center gap-3 group">
             <div className="w-9 h-9 rounded-full bg-charcoal flex items-center justify-center text-white font-serif italic text-lg transition-transform group-hover:scale-110 shadow-md">
-              AF
+              AC
             </div>
             <div>
-              <span className="font-serif text-[1.1rem] text-charcoal block leading-none">Alum Fresh</span>
+              <span className="font-serif text-[1.1rem] text-charcoal block leading-none">The Aura Company</span>
               <span className="text-[0.6rem] uppercase tracking-widest text-sage-dark font-bold">Admin Console</span>
             </div>
           </Link>

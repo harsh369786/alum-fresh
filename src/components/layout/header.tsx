@@ -71,7 +71,7 @@ export function Header() {
       >
         {/* Logo */}
         <Link href="/" className="font-serif text-[1.3rem] md:text-[1.4rem] font-medium text-charcoal tracking-tight group shrink-0">
-          Alum<span className="text-sage-dark group-hover:text-charcoal transition-colors">Fresh</span>
+          The Aura <span className="text-sage-dark group-hover:text-charcoal transition-colors">Company</span>
         </Link>
 
         {/* Desktop Nav */}
@@ -201,7 +201,7 @@ export function Header() {
           </div>
           
           <Link href="/" onClick={() => setMenuOpen(false)} className="font-serif italic text-[1.8rem] text-charcoal mb-4">
-            Alum<span className="text-sage-dark">Fresh</span>
+            The Aura <span className="text-sage-dark">Company</span>
           </Link>
 
           {NAV_LINKS.map((link) => (

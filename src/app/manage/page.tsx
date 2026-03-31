@@ -5,7 +5,7 @@ import { getProducts } from "@/lib/data-service";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { TrendingUp, Package, ShoppingBag, ArrowRight, User, DollarSign } from "lucide-react";
 
-export const metadata = { title: "Overview | Alum Fresh Admin" };
+export const metadata = { title: "Overview | The Aura Company Admin" };
 
 export default async function AdminPage() {
   let stats = { orders: 0, revenue: 0, products: 0 };

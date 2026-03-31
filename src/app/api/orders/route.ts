@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
             <body style="margin:0;padding:0;background:#f8f4ed;font-family:'DM Sans',Arial,sans-serif;">
               <div style="max-width:600px;margin:0 auto;padding:40px 20px;">
                 <div style="text-align:center;margin-bottom:40px;">
-                  <h1 style="margin:0;font-size:32px;font-weight:400;font-style:italic;color:#2c2c2c;font-family:Georgia,serif;">Alum<span style="color:#5a7a5a;">Fresh</span></h1>
+                  <h1 style="margin:0;font-size:32px;font-weight:400;font-style:italic;color:#2c2c2c;font-family:Georgia,serif;">The Aura <span style="color:#5a7a5a;">Company</span></h1>
                   <p style="color:#8faf8f;margin:8px 0 0;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;">${heading}</p>
                 </div>
 
@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
                 </div>
 
                 <div style="text-align:center;padding-top:24px;border-top:1px solid #ede8dc;">
-                  <p style="color:#7a7068;font-size:13px;">Alum Fresh E-Commerce Engine</p>
+                  <p style="color:#7a7068;font-size:13px;">The Aura Company E-Commerce Engine</p>
                 </div>
               </div>
             </body>
@@ -126,9 +126,9 @@ export async function POST(req: NextRequest) {
 
         // 1. Email to Customer
         await transporter.sendMail({
-          from: `"Alum Fresh" <${process.env.GMAIL_SENDER_EMAIL}>`,
+          from: `"The Aura Company" <${process.env.GMAIL_SENDER_EMAIL}>`,
           to: body.user_email,
-          subject: `Order Confirmed — Alum Fresh #${shortId}`,
+          subject: `Order Confirmed — The Aura Company #${shortId}`,
           html: sharedHtmlStyling(
             "Your order is confirmed 🌿", 
             "Order Reference", 
@@ -138,7 +138,7 @@ export async function POST(req: NextRequest) {
 
         // 2. Email to Admins (Shahharsh & Darshil)
         await transporter.sendMail({
-          from: `"Alum Fresh System" <${process.env.GMAIL_SENDER_EMAIL}>`,
+          from: `"The Aura Company System" <${process.env.GMAIL_SENDER_EMAIL}>`,
           to: "shahharsh143.hs@gmail.com",
           bcc: "darshilgada14199@gmail.com",
           subject: `New Order Received! [${body.user_name}] — #${shortId}`,

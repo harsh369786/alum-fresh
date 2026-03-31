@@ -19,7 +19,7 @@ export function Footer() {
         {/* Brand */}
         <div className="fbrand">
           <Link href="/" className="font-serif text-[1.4rem] font-medium text-white block mb-3">
-            Alum<span className="text-sage-light">Fresh</span>
+            The Aura <span className="text-sage-light">Company</span>
           </Link>
           <p className="text-[0.8rem] leading-[1.7] max-w-[260px] text-white/80">
             Stay fresh, naturally. Pure personal care, kind to your skin and the planet.

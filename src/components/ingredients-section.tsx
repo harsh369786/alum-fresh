@@ -57,12 +57,12 @@ export function IngredientsSection() {
           <div className="relative flex items-center justify-center min-h-[400px]">
             <div className="absolute w-72 h-72 rounded-full" style={{ background: "radial-gradient(circle,rgba(168,213,187,0.3),transparent 70%)", filter: "blur(40px)" }} />
             <Image
-              src="/product.png"
+              src="https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png"
               alt="Alum Fresh Product"
-              width={240}
-              height={300}
-              className="relative z-10 w-[200px] md:w-[240px] h-auto object-contain animate-float rounded-2xl"
-              style={{ filter: "drop-shadow(0 40px 60px rgba(0,0,0,0.4))" }}
+              width={400}
+              height={400}
+              className="relative z-10 w-[240px] md:w-[380px] h-auto object-contain animate-float rounded-[3rem] scale-125 md:scale-[1.35] origin-center"
+              style={{ filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.2))" }}
             />
           </div>
         </div>

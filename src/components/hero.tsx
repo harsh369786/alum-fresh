@@ -102,31 +102,25 @@ export function Hero() {
           {/* Product image */}
           <div className="relative z-10 animate-float drop-shadow-[0_40px_60px_rgba(27,67,50,0.18)]">
             <Image
-              src="/product.png"
+              src="https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png"
               alt="Alum Fresh Natural Mineral Deodorant"
               width={340}
               height={400}
-              className="w-[260px] md:w-[340px] h-auto object-contain rounded-3xl"
+              className="w-[260px] md:w-[340px] h-auto object-contain rounded-3xl scale-125 md:scale-[1.35]"
               priority
             />
           </div>
 
           {/* Float badges */}
-          <div className="fbadge-hero absolute top-8 left-0 md:-left-6 flex items-center gap-3 bg-white/90 backdrop-blur-md border border-white/90 rounded-2xl px-4 py-3 shadow-[0_20px_60px_rgba(45,106,79,0.18)] animate-float z-30" style={{ animationDelay: "0s" }}>
+          <div className="fbadge-hero absolute top-0 -left-6 md:top-8 md:-left-16 flex items-center gap-3 bg-white/40 backdrop-blur-xl border border-white/40 rounded-2xl px-4 py-3 shadow-[0_20px_60px_rgba(45,106,79,0.1)] animate-float z-30" style={{ animationDelay: "0s" }}>
             <span className="text-xl">🌿</span>
             <div>
               <div className="text-[0.72rem] font-bold text-[#1b4332]">100% Natural</div>
               <div className="text-[0.62rem] text-[#7baa8a]">Potassium Alum Crystal</div>
             </div>
           </div>
-          <div className="fbadge-hero absolute top-36 right-0 md:-right-6 flex items-center gap-3 bg-white/90 backdrop-blur-md border border-white/90 rounded-2xl px-4 py-3 shadow-[0_20px_60px_rgba(45,106,79,0.18)] animate-float z-30" style={{ animationDelay: "-1.5s" }}>
-            <span className="text-xl">🛡️</span>
-            <div>
-              <div className="text-[0.72rem] font-bold text-[#1b4332]">24H Protection</div>
-              <div className="text-[0.62rem] text-[#7baa8a]">Safe & Pure</div>
-            </div>
-          </div>
-          <div className="fbadge-hero absolute bottom-28 left-0 md:-left-4 flex items-center gap-3 bg-white/90 backdrop-blur-md border border-white/90 rounded-2xl px-4 py-3 shadow-[0_20px_60px_rgba(45,106,79,0.18)] animate-float z-30" style={{ animationDelay: "-3s" }}>
+
+          <div className="fbadge-hero absolute bottom-0 -left-4 md:bottom-28 md:-left-12 flex items-center gap-3 bg-white/40 backdrop-blur-xl border border-white/40 rounded-2xl px-4 py-3 shadow-[0_20px_60px_rgba(45,106,79,0.1)] animate-float z-30" style={{ animationDelay: "-3s" }}>
             <span className="text-xl">✨</span>
             <div>
               <div className="text-[0.72rem] font-bold text-[#1b4332]">No Fragrance</div>

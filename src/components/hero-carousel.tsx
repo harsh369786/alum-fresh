@@ -136,18 +136,20 @@ export function HeroCarousel({ banners }: HeroCarouselProps) {
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full border border-sage-light/20 animate-spin-slower opacity-20" />
 
                     {/* Product Orb */}
-                    <div className="relative w-64 h-64 md:w-80 md:h-80 bg-white shadow-[0_25px_80px_rgba(44,44,44,0.08)] rounded-full flex items-center justify-center p-12 border border-parchment animate-float">
-                       <span className="text-[8rem] md:text-[10rem] drop-shadow-2xl transition-transform duration-700 group-hover:scale-110 group-hover:-translate-y-4">
-                          {EMOJIS[idx % EMOJIS.length]}
-                       </span>
+                    <div className="relative w-64 h-64 md:w-80 md:h-80 bg-white shadow-[0_25px_80px_rgba(44,44,44,0.08)] rounded-full flex items-center justify-center border border-parchment animate-float">
+                       <img 
+                          src={slide.image_url || "https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png"} 
+                          alt={slide.title || "Banner Product Image"} 
+                          className="w-[110%] h-[110%] object-contain scale-125 drop-shadow-[0_20px_35px_rgba(44,44,44,0.15)] transition-transform duration-700 group-hover:scale-[1.35] group-hover:-translate-y-4"
+                       />
                     </div>
 
                     {/* Floating Badges */}
-                    <div className="absolute -top-4 -right-8 bg-white/80 backdrop-blur-md border border-parchment px-4 py-2 rounded-full shadow-lg flex items-center gap-2 animate-float" style={{ animationDelay: "1s" }}>
+                    <div className="absolute -top-4 -right-12 md:-right-16 bg-white/20 backdrop-blur-xl border border-white/30 px-4 py-2 rounded-full shadow-lg flex items-center gap-2 animate-float z-30" style={{ animationDelay: "1s" }}>
                        <Leaf className="w-3.5 h-3.5 text-sage-dark" />
                        <span className="text-[0.6rem] font-black uppercase tracking-widest text-charcoal">Pure Crystal</span>
                     </div>
-                    <div className="absolute -bottom-6 -left-8 bg-white/80 backdrop-blur-md border border-parchment px-4 py-2 rounded-full shadow-lg flex items-center gap-2 animate-float-delayed">
+                    <div className="absolute -bottom-6 -left-12 md:-left-16 bg-white/20 backdrop-blur-xl border border-white/30 px-4 py-2 rounded-full shadow-lg flex items-center gap-2 animate-float-delayed z-30">
                        <ShieldCheck className="w-3.5 h-3.5 text-rose-dark" />
                        <span className="text-[0.6rem] font-black uppercase tracking-widest text-charcoal">Dermatested</span>
                     </div>
