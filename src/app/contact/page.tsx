@@ -21,9 +21,8 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const CONTACT_INFO = [
-  { icon: Mail, label: "Send an Email", value: "hello@alumfresh.in", href: "mailto:hello@alumfresh.in" },
-  { icon: Phone, label: "Call Our Studio", value: "+91 98765 43210", href: "tel:+919876543210" },
-  { icon: MapPin, label: "Visit Us In Jaipur", value: "Rajasthan, India", href: "#" },
+  { icon: Mail, label: "Send an Email", value: "sales.theauracompany@gmail.com", href: "mailto:sales.theauracompany@gmail.com" },
+  { icon: Phone, label: "Call Darshil Gada", value: "+91 99876 40584", href: "tel:+919987640584" },
 ];
 
 export default function ContactPage() {

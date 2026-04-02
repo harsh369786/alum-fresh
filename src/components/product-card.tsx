@@ -19,6 +19,18 @@ export function ProductCard({ product }: ProductCardProps) {
   const { toast } = useToast();
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
+  const [activeImgIdx, setActiveImgIdx] = useState(0);
+
+  const gallery = [product.image_url, ...(product.gallery || [])].filter(Boolean) as string[];
+
+  React.useEffect(() => {
+    if (gallery.length > 1) {
+      const timer = setInterval(() => {
+        setActiveImgIdx(prev => (prev + 1) % gallery.length);
+      }, 2000);
+      return () => clearInterval(timer);
+    }
+  }, [gallery.length]);
 
   // Map variant values to their background classes and emojis based on the HTML
   const getVariantStyles = (variant: string) => {
@@ -59,12 +71,27 @@ export function ProductCard({ product }: ProductCardProps) {
       >
         {/* Image Area */}
         <div className={`aspect-square flex items-center justify-center relative overflow-hidden transition-colors duration-500 ${styles.bg}`}>
-          {product.image_url ? (
-            <img
-              src={product.image_url}
-              alt={product.name}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_14px_28px_rgba(0,0,0,0.08)]"
-            />
+          {gallery.length > 0 ? (
+            <div className="relative w-full h-full">
+              {gallery.map((url, idx) => (
+                <img
+                  key={url}
+                  src={url}
+                  alt={product.name}
+                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${idx === activeImgIdx ? 'opacity-100 scale-105' : 'opacity-0 scale-100'}`}
+                />
+              ))}
+              {gallery.length > 1 && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1 z-10">
+                  {gallery.map((_, idx) => (
+                    <div 
+                      key={idx} 
+                      className={`w-1 h-1 rounded-full transition-all duration-300 ${idx === activeImgIdx ? 'bg-white w-3' : 'bg-white/40'}`} 
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           ) : (
             <div className="text-7xl transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1.5 drop-shadow-[0_14px_28px_rgba(0,0,0,0.12)] opacity-80">
               {styles.emoji}

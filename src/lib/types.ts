@@ -11,6 +11,7 @@ export interface Product {
   variant: "rose" | "natural" | "charcoal" | null;
   size: "50ml" | "100ml" | "60g" | null;
   image_url: string | null;
+  gallery: string[] | null;
   badge: string | null;
   badge_color: "magenta" | "teal" | "purple" | null;
   in_stock: boolean;

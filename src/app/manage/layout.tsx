@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, ShoppingBag, Package, Image as ImageIcon, Tags, ArrowLeft, Menu, X, Ticket, LogOut } from "lucide-react";
+import { LayoutDashboard, ShoppingBag, Package, Image as ImageIcon, Tags, ArrowLeft, Menu, X, Ticket, LogOut, Truck } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -12,6 +12,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { label: "Overview", href: "/manage", icon: <LayoutDashboard className="w-4 h-4" /> },
     { label: "Products", href: "/manage/products", icon: <ShoppingBag className="w-4 h-4" /> },
     { label: "Orders", href: "/manage/orders", icon: <Package className="w-4 h-4" /> },
+    { label: "Shipping", href: "/manage/shipping", icon: <Truck className="w-4 h-4" /> },
     { label: "Promotions", href: "/manage/discounts", icon: <Ticket className="w-4 h-4" /> },
     { label: "Banners", href: "/manage/banners", icon: <ImageIcon className="w-4 h-4" /> },
     { label: "Categories", href: "/manage/categories", icon: <Tags className="w-4 h-4" /> },
@@ -22,15 +23,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-parchment sticky top-0 z-40 shadow-sm">
-        <Link href="/manage" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-full bg-charcoal flex items-center justify-center text-white font-serif italic text-sm">
-            AC
-          </div>
-          <div>
-            <span className="font-serif text-[1rem] text-charcoal block leading-none">The Aura Company</span>
+          <Link href="/manage" className="flex items-center gap-2 group">
+            <img src="/logo.png" alt="The Aura Company" className="h-8 w-auto object-contain" />
             <span className="text-[0.6rem] uppercase tracking-widest text-sage-dark font-bold">Admin Console</span>
-          </div>
-        </Link>
+          </Link>
         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 bg-cream rounded-full text-charcoal">
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -72,17 +68,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-64 bg-white border-r border-parchment fixed inset-y-0 left-0 z-30 flex-col shadow-sm">
-        <div className="p-6 border-b border-parchment">
           <Link href="/manage" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-full bg-charcoal flex items-center justify-center text-white font-serif italic text-lg transition-transform group-hover:scale-110 shadow-md">
-              AC
-            </div>
-            <div>
-              <span className="font-serif text-[1.1rem] text-charcoal block leading-none">The Aura Company</span>
-              <span className="text-[0.6rem] uppercase tracking-widest text-sage-dark font-bold">Admin Console</span>
-            </div>
+            <img src="/logo.png" alt="The Aura Company" className="h-10 w-auto object-contain" />
+            <span className="text-[0.6rem] uppercase tracking-widest text-sage-dark font-bold opacity-0 group-hover:opacity-100 transition-opacity">Admin Console</span>
           </Link>
-        </div>
         
         <nav className="flex-1 p-4 mt-4 space-y-2">
           {NAV_ITEMS.map(({ label, href, icon }) => (

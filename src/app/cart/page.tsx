@@ -17,18 +17,24 @@ export default function CartPage() {
   const [discountPct, setDiscountPct] = useState(0);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [validCodes, setValidCodes] = useState<Record<string, number>>({});
+  const [shippingRules, setShippingRules] = useState({ free_shipping_threshold: 499, shipping_charge: 49 });
 
   React.useEffect(() => {
     fetch("/api/discounts")
       .then(res => res.json())
       .then(data => setValidCodes(data || {}))
       .catch(console.error);
+
+    fetch("/api/settings")
+      .then(res => res.json())
+      .then(data => setShippingRules(data))
+      .catch(console.error);
   }, []);
 
   const subtotal = getTotal();
   const discountAmount = (subtotal * discountPct) / 100;
   const afterDiscount = subtotal - discountAmount;
-  const shipping = afterDiscount >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_CHARGE;
+  const shipping = afterDiscount >= shippingRules.free_shipping_threshold ? 0 : shippingRules.shipping_charge;
   const total = afterDiscount + shipping;
 
   function applyCode() {
@@ -91,7 +97,11 @@ export default function CartPage() {
                     item.variant === 'charcoal' ? 'bg-parchment' : 
                     'bg-sage-light'
                   } group-hover:scale-105`}>
-                    {item.variant === "rose" ? "🌸" : item.variant === "charcoal" ? "🫙" : "🌿"}
+                    {item.imageUrl ? (
+                      <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
+                    ) : (
+                      item.variant === "rose" ? "🌸" : item.variant === "charcoal" ? "🫙" : "🌿"
+                    )}
                   </div>
 
                   {/* Info */}
@@ -176,7 +186,7 @@ export default function CartPage() {
 
                   {shipping > 0 && (
                     <div className="bg-sage-light/10 border border-sage-light/20 p-4 rounded-2xl flex items-center justify-between gap-4">
-                      <p className="text-[0.7rem] text-warm leading-tight">Add {formatPrice(FREE_SHIPPING_THRESHOLD - afterDiscount)} more to unlock complimentary shipping.</p>
+                      <p className="text-[0.7rem] text-warm leading-tight">Add {formatPrice(shippingRules.free_shipping_threshold - afterDiscount)} more to unlock complimentary shipping.</p>
                       <Link href="/category/roll-on" className="text-[0.65rem] font-black uppercase text-sage-dark hover:underline underline-offset-4 whitespace-nowrap">Explore</Link>
                     </div>
                   )}

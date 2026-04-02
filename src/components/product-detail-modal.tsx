@@ -23,6 +23,18 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
   const [selectedSize, setSelectedSize] = useState(product.size || "60g");
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const [activeImgIdx, setActiveImgIdx] = useState(0);
+
+  const gallery = [product.image_url, ...(product.gallery || [])].filter(Boolean) as string[];
+
+  React.useEffect(() => {
+    if (gallery.length > 1 && open) {
+      const timer = setInterval(() => {
+        setActiveImgIdx(prev => (prev + 1) % gallery.length);
+      }, 2000);
+      return () => clearInterval(timer);
+    }
+  }, [gallery.length, open]);
 
   const getVariantStyles = (variant: string) => {
     switch (variant) {
@@ -79,12 +91,27 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-white/25 rounded-full blur-[40px]" />
             </div>
             <div className="relative z-10 w-full h-full flex items-center justify-center p-6 md:p-8 select-none">
-              {product.image_url ? (
-                <img
-                  src={product.image_url}
-                  alt={product.name}
-                  className="w-full h-full md:w-full md:h-auto md:aspect-square object-cover rounded-[1.5rem] shadow-2xl"
-                />
+              {gallery.length > 0 ? (
+                <div className="relative w-full h-[220px] md:h-full">
+                  {gallery.map((url, idx) => (
+                    <img
+                      key={url}
+                      src={url}
+                      alt={product.name}
+                      className={`absolute inset-0 w-full h-full object-contain drop-shadow-2xl transition-all duration-700 ${idx === activeImgIdx ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
+                    />
+                  ))}
+                  {gallery.length > 1 && (
+                    <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+                      {gallery.map((_, idx) => (
+                        <div 
+                          key={idx} 
+                          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === activeImgIdx ? 'bg-charcoal w-4' : 'bg-charcoal/20'}`} 
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
               ) : (
                 <span className="text-[5rem] md:text-[7rem]">{styles.emoji}</span>
               )}

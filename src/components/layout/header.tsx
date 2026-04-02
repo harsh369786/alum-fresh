@@ -71,7 +71,7 @@ export function Header() {
       >
         {/* Logo */}
         <Link href="/" className="font-serif text-[1.3rem] md:text-[1.4rem] font-medium text-charcoal tracking-tight group shrink-0">
-          The Aura <span className="text-sage-dark group-hover:text-charcoal transition-colors">Company</span>
+          <img src="/logo.png" alt="The Aura Company" className="h-14 md:h-20 w-auto object-contain" />
         </Link>
 
         {/* Desktop Nav */}

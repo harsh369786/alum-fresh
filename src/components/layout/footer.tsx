@@ -18,8 +18,8 @@ export function Footer() {
         
         {/* Brand */}
         <div className="fbrand">
-          <Link href="/" className="font-serif text-[1.4rem] font-medium text-white block mb-3">
-            The Aura <span className="text-sage-light">Company</span>
+          <Link href="/" className="inline-block mb-3 p-1 bg-white/5 rounded-lg">
+            <img src="/logo.png" alt="The Aura Company" className="h-12 w-auto object-contain" />
           </Link>
           <p className="text-[0.8rem] leading-[1.7] max-w-[260px] text-white/80">
             Stay fresh, naturally. Pure personal care, kind to your skin and the planet.

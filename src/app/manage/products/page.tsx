@@ -17,7 +17,7 @@ export default function AdminProductsPage() {
   const [aiLoading, setAiLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [form, setForm] = useState({ name: "", sku: "", variant: "natural", size: "60g", price: "", original_price: "", short_desc: "", description: "", badge: "", is_featured: false, in_stock: true, image_url: "" });
+  const [form, setForm] = useState({ name: "", sku: "", variant: "natural", size: "60g", price: "", original_price: "", short_desc: "", description: "", badge: "", is_featured: false, in_stock: true, image_url: "", gallery: [] as string[] });
 
   useEffect(() => { fetchProducts(); }, []);
 
@@ -51,18 +51,42 @@ export default function AdminProductsPage() {
     setAiLoading(false);
   }
 
-  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>, isGallery = false) {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
     setUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
+    
     try {
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (data.url) setForm(f => ({ ...f, image_url: data.url }));
-    } catch (err) { alert("Failed to upload image"); }
-    setUploading(false);
+      const uploadedUrls: string[] = [];
+      for (let i = 0; i < files.length; i++) {
+        const formData = new FormData();
+        formData.append("file", files[i]);
+        const res = await fetch("/api/upload", { method: "POST", body: formData });
+        
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || `Upload failed with status ${res.status}`);
+        }
+        
+        const data = await res.json();
+        if (data.url) uploadedUrls.push(data.url);
+      }
+      
+      if (isGallery) {
+        setForm(f => {
+          const currentGallery = Array.isArray(f.gallery) ? f.gallery : [];
+          return { ...f, gallery: [...currentGallery, ...uploadedUrls] };
+        });
+      } else {
+        setForm(f => ({ ...f, image_url: uploadedUrls[0] }));
+      }
+    } catch (err: any) { 
+      console.error("Upload error:", err);
+      alert(`Upload failed: ${err.message || "Unknown error"}`); 
+    } finally {
+      setUploading(false);
+      e.target.value = ""; // Reset input so same file can be re-selected
+    }
   }
 
   async function saveProduct() {
@@ -80,25 +104,34 @@ export default function AdminProductsPage() {
       is_featured: form.is_featured,
       in_stock: form.in_stock,
       image_url: form.image_url || null,
+      gallery: form.gallery.length > 0 ? form.gallery : null,
     };
     
     try {
+      let res;
       if (editing) {
-        await fetch("/api/products", {
+        res = await fetch("/api/products", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: editing.id, ...payload })
         });
       } else {
-        await fetch("/api/products", {
+        res = await fetch("/api/products", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
       }
-    } catch (e) {
+      
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Server rejected the save request.");
+      }
+
+      alert("Changes committed to archives successfully!");
+    } catch (e: any) {
       console.error(e);
-      alert("Failed to save product.");
+      alert(`Critical Save Failure: ${e.message}`);
     }
     
     setShowForm(false);
@@ -119,7 +152,7 @@ export default function AdminProductsPage() {
 
   function editProduct(p: Product) {
     setEditing(p);
-    setForm({ name: p.name, sku: p.sku, variant: p.variant || "natural", size: p.size || "50ml", price: String(p.price), original_price: String(p.original_price || ""), short_desc: p.short_desc || "", description: p.description || "", badge: p.badge || "", is_featured: p.is_featured, in_stock: p.in_stock, image_url: p.image_url || "" });
+    setForm({ name: p.name, sku: p.sku, variant: p.variant || "natural", size: p.size || "50ml", price: String(p.price), original_price: String(p.original_price || ""), short_desc: p.short_desc || "", description: p.description || "", badge: p.badge || "", is_featured: p.is_featured, in_stock: p.in_stock, image_url: p.image_url || "", gallery: p.gallery || [] });
     setShowForm(true);
   }
 
@@ -143,7 +176,7 @@ export default function AdminProductsPage() {
                 className="pl-11 pr-6 py-2.5 rounded-full bg-white border border-parchment text-[0.82rem] outline-none focus:border-sage-dark transition-all min-w-[240px]"
               />
            </div>
-           <Button onClick={() => { setEditing(null); setForm({ name: "", sku: "", variant: "natural", size: "60g", price: "", original_price: "", short_desc: "", description: "", badge: "", is_featured: false, in_stock: true, image_url: "" }); setShowForm(true); }} className="gap-2 shadow-lg">
+           <Button onClick={() => { setEditing(null); setForm({ name: "", sku: "", variant: "natural", size: "60g", price: "", original_price: "", short_desc: "", description: "", badge: "", is_featured: false, in_stock: true, image_url: "", gallery: [] }); setShowForm(true); }} className="gap-2 shadow-lg">
              <Plus className="w-4 h-4" /> Add Item
            </Button>
         </div>
@@ -180,19 +213,41 @@ export default function AdminProductsPage() {
                 </div>
               </div>
               
-              <div className="space-y-1.5">
-                <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-4 italic">Product Image</Label>
-                <div className="flex items-center gap-4 mt-2">
-                   {form.image_url && (
-                     <div className="w-16 h-16 rounded-xl bg-parchment overflow-hidden shrink-0 border border-parchment/50">
-                       <img src={form.image_url} alt="Preview" className="w-full h-full object-cover" />
-                     </div>
-                   )}
-                   <label className="flex-1 h-11 px-5 border border-dashed border-sage-dark/30 rounded-full flex items-center justify-center gap-2 cursor-pointer hover:bg-cream/50 transition-colors text-[0.8rem] text-sage-dark font-medium bg-cream/20">
-                      {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
-                      {uploading ? "Uploading..." : form.image_url ? "Change Image" : "Upload Display Image"}
-                      <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} disabled={uploading} />
-                   </label>
+               <div className="space-y-1.5">
+                <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-4 italic">Display & Gallery Images</Label>
+                <div className="space-y-4">
+                  {/* Primary Image */}
+                  <div className="flex items-center gap-4 mt-2">
+                    {form.image_url && (
+                      <div className="w-16 h-16 rounded-xl bg-parchment overflow-hidden shrink-0 border border-parchment/50">
+                        <img src={form.image_url} alt="Preview" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                    <label className="flex-1 h-11 px-5 border border-dashed border-sage-dark/30 rounded-full flex items-center justify-center gap-2 cursor-pointer hover:bg-cream/50 transition-colors text-[0.8rem] text-sage-dark font-medium bg-cream/20">
+                        {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
+                        {uploading ? "Uploading..." : form.image_url ? "Change Display Image" : "Upload Display Image"}
+                        <input type="file" accept="image/*" className="hidden" onChange={e => handleImageUpload(e, false)} disabled={uploading} />
+                    </label>
+                  </div>
+
+                  {/* Gallery Grid */}
+                  <div className="grid grid-cols-4 gap-3">
+                    {form.gallery.map((url, idx) => (
+                      <div key={url} className="relative aspect-square rounded-xl bg-cream border border-parchment overflow-hidden group/img">
+                        <img src={url} className="w-full h-full object-cover" />
+                        <button 
+                          onClick={() => setForm(f => ({ ...f, gallery: f.gallery.filter((_, i) => i !== idx) }))}
+                          className="absolute inset-0 bg-red-500/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                    <label className="aspect-square border-2 border-dashed border-parchment rounded-xl flex items-center justify-center cursor-pointer hover:bg-cream transition-colors">
+                      <Plus className="w-5 h-5 text-warm" />
+                      <input type="file" accept="image/*" multiple className="hidden" onChange={e => handleImageUpload(e, true)} disabled={uploading} />
+                    </label>
+                  </div>
                 </div>
               </div>
 
