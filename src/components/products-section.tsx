@@ -26,8 +26,8 @@ export function ProductsSection({ products }: { products: Product[] }) {
       </div>
 
       <div className="flex justify-center max-w-lg mx-auto">
-        {displayProducts.map((product, i) => (
-          <ProductCard key={product.id} product={product} index={i} />
+        {displayProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
 
