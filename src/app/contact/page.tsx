@@ -85,16 +85,16 @@ export default function ContactPage() {
                 <a 
                   href={href} 
                   key={label} 
-                  className="bg-white border border-parchment rounded-[1.5rem] p-6 flex gap-5 items-center hover:shadow-lg hover:border-sage-light transition-all group"
+                  className="bg-white border border-parchment rounded-[1.5rem] p-5 md:p-6 flex flex-col sm:flex-row gap-4 sm:gap-5 items-start sm:items-center hover:shadow-lg hover:border-sage-light transition-all group overflow-hidden"
                 >
                   <div className="w-12 h-12 rounded-full bg-cream flex items-center justify-center shrink-0 text-sage-dark group-hover:scale-110 transition-transform">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <p className="text-[0.65rem] font-bold uppercase tracking-widest text-warm mb-0.5 opacity-60">{label}</p>
-                    <p className="text-[0.95rem] text-charcoal font-medium">{value}</p>
+                    <p className="text-[0.85rem] md:text-[0.95rem] text-charcoal font-medium break-all sm:break-normal">{value}</p>
                   </div>
-                  <ArrowRight className="ml-auto w-4 h-4 text-parchment group-hover:text-sage-dark group-hover:translate-x-2 transition-all" />
+                  <ArrowRight className="hidden sm:block ml-auto w-4 h-4 text-parchment group-hover:text-sage-dark group-hover:translate-x-2 transition-all" />
                 </a>
               ))}
 
