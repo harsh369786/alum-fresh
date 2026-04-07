@@ -82,7 +82,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
           <div
             className={`
               relative flex items-center justify-center shrink-0
-              w-full h-[260px] md:h-auto md:w-[280px] lg:w-[320px]
+              w-full h-[300px] md:h-auto md:w-[280px] lg:w-[320px]
               transition-colors duration-500 ${styles.bg}
               md:rounded-l-[2rem] rounded-t-[2rem] md:rounded-tr-none
             `}
@@ -118,8 +118,8 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
             </div>
           </div>
 
-          {/* ── Details Column ── only this side scrolls if content overflows */}
-          <div className="flex flex-col flex-1 overflow-y-auto max-h-[70vh] md:max-h-[80vh] p-5 md:p-8">
+          {/* ── Details Column ── natural flow, parent modal handles scrolling */}
+          <div className="flex flex-col flex-1 p-6 md:p-8">
 
             {/* Header */}
             <DialogHeader className="mb-4">
@@ -186,9 +186,9 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
                   </button>
                 </div>
                 <div className="text-right leading-none">
-                  <div className="flex items-baseline justify-end text-charcoal">
-                    <span className="font-sans text-[1.1rem] mr-0.5">₹</span>
-                    <span className="font-serif text-[1.8rem] leading-none">{product.price * qty}</span>
+                  <div className="flex items-baseline justify-end text-charcoal leading-none">
+                    <span className="text-[1.3rem] font-sans mr-1">₹</span>
+                    <span className="font-serif text-[1.8rem] whitespace-nowrap">{product.price * qty}</span>
                   </div>
                   {product.original_price && (
                     <div className="font-sans text-[0.8rem] text-warm line-through opacity-50 mt-1">

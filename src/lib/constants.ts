@@ -1,6 +1,7 @@
 export const BRAND_NAME = "The Aura Company";
 export const TAGLINE = "Stay Fresh, Naturally.";
 export const SUB_TAGLINE = "100% Alum. 0% Chemicals.";
+export const LOGO_URL = "https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/logo.jpeg";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://alumfresh.in";
 
 export const VARIANTS = [

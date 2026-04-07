@@ -92,15 +92,29 @@ export default function CartPage() {
                   className="flex flex-col sm:flex-row sm:items-center gap-6 pb-6 border-b border-parchment group last:border-0"
                 >
                   {/* Image */}
-                  <div className={`w-28 h-28 rounded-2xl flex items-center justify-center text-5xl transition-all duration-500 overflow-hidden ${
+                  <div className={`w-28 h-28 rounded-2xl flex items-center justify-center transition-all duration-500 overflow-hidden ${
                     item.variant === 'rose' ? 'bg-rose-light' : 
                     item.variant === 'charcoal' ? 'bg-parchment' : 
                     'bg-sage-light'
+<<<<<<< HEAD
                   } group-hover:scale-105`}>
                     {item.imageUrl ? (
                       <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
                     ) : (
                       item.variant === "rose" ? "🌸" : item.variant === "charcoal" ? "🫙" : "🌿"
+=======
+                  } group-hover:scale-105 shadow-inner`}>
+                    {item.imageUrl ? (
+                      <img 
+                        src={item.imageUrl} 
+                        alt={item.name} 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-5xl">
+                        {item.variant === "rose" ? "🌸" : item.variant === "charcoal" ? "🫙" : "🌿"}
+                      </span>
+>>>>>>> 5bdbf6e (Logo centralization, mobile modal UX fixes, cart image restoration, and currency alignment optimization)
                     )}
                   </div>
 
@@ -137,7 +151,7 @@ export default function CartPage() {
                     <div className="text-right min-w-[100px]">
                       <div className="font-serif text-[1.3rem] text-charcoal">{formatPrice(item.price * item.quantity)}</div>
                       {item.quantity > 1 && (
-                        <div className="text-[0.65rem] text-warm opacity-70 leading-none">@ {formatPrice(item.price)} ea.</div>
+                        <div className="text-[0.65rem] text-warm opacity-70 leading-none">@ {formatPrice(item.price)} each</div>
                       )}
                     </div>
 
@@ -196,10 +210,12 @@ export default function CartPage() {
                   <div className="flex justify-between items-end">
                     <span className="font-serif italic text-xl text-charcoal">Total Amount</span>
                     <div className="text-right">
-                      <span className="block text-[clamp(1.8rem,5vw,2.2rem)] font-serif text-charcoal leading-none">
-                        <sub className="text-[0.4em] align-top mr-1 top-[-0.6em] font-sans">₹</sub>
-                        {total}
-                      </span>
+                      <div className="flex items-baseline justify-end text-charcoal leading-none">
+                        <span className="text-[1.2rem] font-sans mr-1">₹</span>
+                        <span className="text-[clamp(1.8rem,5vw,2.2rem)] font-serif whitespace-nowrap">
+                          {total}
+                        </span>
+                      </div>
                       <span className="text-[0.65rem] text-warm uppercase tracking-widest opacity-60">incl. all taxes</span>
                     </div>
                   </div>
@@ -217,7 +233,7 @@ export default function CartPage() {
                     />
                     <button 
                       onClick={applyCode}
-                      className="px-6 rounded-full bg-charcoal text-white text-[0.68rem] font-medium uppercase tracking-widest hover:bg-sage-dark transition-all"
+                      className="px-4 sm:px-7 rounded-full bg-charcoal text-white text-[0.68rem] font-bold uppercase tracking-wider hover:bg-sage-dark transition-all shrink-0 h-10"
                     >
                       Apply
                     </button>

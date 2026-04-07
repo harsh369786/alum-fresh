@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ShoppingCart, Menu, X, Search, LayoutDashboard } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
-import { NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS, LOGO_URL } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
@@ -69,9 +69,12 @@ export function Header() {
             : "bg-transparent"
         }`}
       >
-        {/* Logo */}
-        <Link href="/" className="font-serif text-[1.3rem] md:text-[1.4rem] font-medium text-charcoal tracking-tight group shrink-0">
-          <img src="/logo.png" alt="The Aura Company" className="h-14 md:h-20 w-auto object-contain" />
+        <Link href="/" className="shrink-0 transition-transform active:scale-95">
+          <img 
+            src={LOGO_URL} 
+            alt="The Aura Company" 
+            className="h-[48px] md:h-[64px] w-auto shadow-[0_6px_16px_rgba(0,0,0,0.06)] rounded-xl"
+          />
         </Link>
 
         {/* Desktop Nav */}
@@ -200,8 +203,12 @@ export function Header() {
             </button>
           </div>
           
-          <Link href="/" onClick={() => setMenuOpen(false)} className="font-serif italic text-[1.8rem] text-charcoal mb-4">
-            The Aura <span className="text-sage-dark">Company</span>
+          <Link href="/" onClick={() => setMenuOpen(false)} className="mb-10">
+            <img 
+              src={LOGO_URL} 
+              alt="The Aura Company" 
+              className="h-[72px] w-auto shadow-2xl rounded-2xl"
+            />
           </Link>
 
           {NAV_LINKS.map((link) => (
