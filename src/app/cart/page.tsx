@@ -96,13 +96,6 @@ export default function CartPage() {
                     item.variant === 'rose' ? 'bg-rose-light' : 
                     item.variant === 'charcoal' ? 'bg-parchment' : 
                     'bg-sage-light'
-<<<<<<< HEAD
-                  } group-hover:scale-105`}>
-                    {item.imageUrl ? (
-                      <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
-                    ) : (
-                      item.variant === "rose" ? "🌸" : item.variant === "charcoal" ? "🫙" : "🌿"
-=======
                   } group-hover:scale-105 shadow-inner`}>
                     {item.imageUrl ? (
                       <img 
@@ -114,7 +107,6 @@ export default function CartPage() {
                       <span className="text-5xl">
                         {item.variant === "rose" ? "🌸" : item.variant === "charcoal" ? "🫙" : "🌿"}
                       </span>
->>>>>>> 5bdbf6e (Logo centralization, mobile modal UX fixes, cart image restoration, and currency alignment optimization)
                     )}
                   </div>
 

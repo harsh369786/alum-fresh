@@ -2,12 +2,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-<<<<<<< HEAD
 import { LayoutDashboard, ShoppingBag, Package, Image as ImageIcon, Tags, ArrowLeft, Menu, X, Ticket, LogOut, Truck } from "lucide-react";
-=======
-import { LayoutDashboard, ShoppingBag, Package, Image as ImageIcon, Tags, ArrowLeft, Menu, X, Ticket, LogOut } from "lucide-react";
 import { LOGO_URL } from "@/lib/constants";
->>>>>>> 5bdbf6e (Logo centralization, mobile modal UX fixes, cart image restoration, and currency alignment optimization)
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -28,12 +24,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-parchment sticky top-0 z-40 shadow-sm">
-<<<<<<< HEAD
-          <Link href="/manage" className="flex items-center gap-2 group">
-            <img src="/logo.png" alt="The Aura Company" className="h-8 w-auto object-contain" />
-            <span className="text-[0.6rem] uppercase tracking-widest text-sage-dark font-bold">Admin Console</span>
-          </Link>
-=======
         <Link href="/manage" className="flex items-center gap-3 group">
           <img src={LOGO_URL} alt="Logo" className="w-8 h-8 rounded-lg object-cover shadow-sm" />
           <div>
@@ -41,7 +31,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <span className="text-[0.55rem] uppercase tracking-widest text-sage-dark font-bold">Admin Console</span>
           </div>
         </Link>
->>>>>>> 5bdbf6e (Logo centralization, mobile modal UX fixes, cart image restoration, and currency alignment optimization)
         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 bg-cream rounded-full text-charcoal">
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -84,16 +73,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-64 bg-white border-r border-parchment fixed inset-y-0 left-0 z-30 flex-col shadow-sm">
           <Link href="/manage" className="flex items-center gap-3 group">
-<<<<<<< HEAD
-            <img src="/logo.png" alt="The Aura Company" className="h-10 w-auto object-contain" />
-            <span className="text-[0.6rem] uppercase tracking-widest text-sage-dark font-bold opacity-0 group-hover:opacity-100 transition-opacity">Admin Console</span>
-=======
             <img src={LOGO_URL} alt="Logo" className="w-10 h-10 rounded-xl object-cover shadow-md transition-transform group-hover:scale-110" />
             <div>
               <span className="font-serif text-[1rem] text-charcoal block leading-none">The Aura Company</span>
               <span className="text-[0.55rem] uppercase tracking-widest text-sage-dark font-bold">Admin Console</span>
             </div>
->>>>>>> 5bdbf6e (Logo centralization, mobile modal UX fixes, cart image restoration, and currency alignment optimization)
           </Link>
         
         <nav className="flex-1 p-4 mt-4 space-y-2">

@@ -18,17 +18,12 @@ export function Footer() {
         
         {/* Brand */}
         <div className="fbrand">
-<<<<<<< HEAD
-          <Link href="/" className="inline-block mb-3 p-1 bg-white/5 rounded-lg">
-            <img src="/logo.png" alt="The Aura Company" className="h-12 w-auto object-contain" />
-=======
           <Link href="/" className="inline-block mb-6 group transition-all duration-300 hover:opacity-80">
             <img 
               src={LOGO_URL} 
               alt="The Aura Company" 
               className="h-[52px] w-auto rounded-lg shadow-lg opacity-90 group-hover:opacity-100 transition-opacity"
             />
->>>>>>> 5bdbf6e (Logo centralization, mobile modal UX fixes, cart image restoration, and currency alignment optimization)
           </Link>
           <p className="text-[0.8rem] leading-[1.7] max-w-[260px] text-white/80">
             Stay fresh, naturally. Pure personal care, kind to your skin and the planet.
