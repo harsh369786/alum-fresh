@@ -30,18 +30,34 @@ export async function POST(req: Request) {
 
     if (hasSupabase) {
       const supabase = createServerSupabaseClient();
-      const { error } = await supabase.from("settings").upsert({ key: "discounts", value: newDiscounts }, { onConflict: "key" });
+      console.log("Attempting to save discounts to Supabase...");
+      
+      const { error } = await supabase
+        .from("settings")
+        .upsert({ key: "discounts", value: newDiscounts }, { onConflict: "key" });
+
       if (error) {
-        console.error("Supabase upsert failed, saving locally as fallback:", error);
-        await fs.writeFile(dataFilePath, JSON.stringify(newDiscounts, null, 2), "utf8");
+        console.error("Supabase error saving discounts:", error);
+        // If it's a "table does not exist" error (code 42P01), give a specific message
+        const isTableMissing = error.code === '42P01';
+        return NextResponse.json({ 
+          error: isTableMissing ? "The 'settings' table is missing in your production Supabase database." : error.message,
+          code: error.code,
+          hint: isTableMissing ? "Please create a 'settings' table with columns: id (uuid/int), key (text), value (jsonb)." : error.hint
+        }, { status: 500 });
       }
     } else {
+      // Local fallback for dev mode
       await fs.writeFile(dataFilePath, JSON.stringify(newDiscounts, null, 2), "utf8");
     }
     
     return NextResponse.json({ success: true, discounts: newDiscounts });
-  } catch (error) {
-    return NextResponse.json({ error: "Failed to save discounts" }, { status: 500 });
+  } catch (error: any) {
+    console.error("General error in discounts POST:", error);
+    return NextResponse.json({ 
+      error: "Critical failure saving discounts.", 
+      details: error.message 
+    }, { status: 500 });
   }
 }
 

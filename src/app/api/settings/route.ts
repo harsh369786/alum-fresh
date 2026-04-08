@@ -28,15 +28,33 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const newSettings = await req.json();
+    
     if (hasSupabase) {
       const supabase = createServerSupabaseClient();
-      const { error } = await supabase.from("settings").upsert({ key: "shipping", value: newSettings }, { onConflict: "key" });
-      if (error) throw error;
+      const { error } = await supabase
+        .from("settings")
+        .upsert({ key: "shipping", value: newSettings }, { onConflict: "key" });
+
+      if (error) {
+        console.error("Supabase error saving settings:", error);
+        const isTableMissing = error.code === '42P01';
+        return NextResponse.json({ 
+          error: isTableMissing ? "The 'settings' table is missing in your production Supabase database." : error.message,
+          code: error.code,
+          hint: isTableMissing ? "Please create a 'settings' table in Supabase dashboard." : error.hint
+        }, { status: 500 });
+      }
     } else {
+      // Local fallback for dev mode
       await fs.writeFile(dataFilePath, JSON.stringify(newSettings, null, 2), "utf8");
     }
+    
     return NextResponse.json({ success: true, settings: newSettings });
-  } catch (error) {
-    return NextResponse.json({ error: "Failed to save settings" }, { status: 500 });
+  } catch (error: any) {
+    console.error("General error in settings POST:", error);
+    return NextResponse.json({ 
+      error: "Critical failure saving settings.", 
+      details: error.message 
+    }, { status: 500 });
   }
 }

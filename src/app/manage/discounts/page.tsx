@@ -38,9 +38,15 @@ export default function DiscountsManagerPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newData),
       });
-      if (res.ok) setDiscounts(newData);
-    } catch (e) {
+      if (res.ok) {
+        setDiscounts(newData);
+      } else {
+        const err = await res.json();
+        alert(`Failed to save: ${err.error}${err.hint ? '\n\n' + err.hint : ''}`);
+      }
+    } catch (e: any) {
       console.error("Failed to save discounts", e);
+      alert("A network error occurred while saving.");
     } finally {
       setSaving(false);
     }

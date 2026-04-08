@@ -24,11 +24,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-parchment sticky top-0 z-40 shadow-sm">
-        <Link href="/manage" className="flex items-center gap-3 group">
-          <img src={LOGO_URL} alt="Logo" className="w-8 h-8 rounded-lg object-cover shadow-sm" />
-          <div>
-            <span className="font-serif text-[0.95rem] text-charcoal block leading-none">The Aura Company</span>
-            <span className="text-[0.55rem] uppercase tracking-widest text-sage-dark font-bold">Admin Console</span>
+        <Link href="/manage" className="flex items-center gap-3 group whitespace-nowrap overflow-hidden">
+          <img src={LOGO_URL} alt="Logo" className="w-8 h-8 rounded-lg object-cover shadow-sm shrink-0" />
+          <div className="min-w-0">
+            <span className="font-serif text-[0.9rem] text-charcoal block leading-none truncate">The Aura Company</span>
+            <span className="text-[0.55rem] uppercase tracking-widest text-sage-dark font-bold block mt-1">Admin Console</span>
           </div>
         </Link>
         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 bg-cream rounded-full text-charcoal">
@@ -72,13 +72,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-64 bg-white border-r border-parchment fixed inset-y-0 left-0 z-30 flex-col shadow-sm">
-          <Link href="/manage" className="flex items-center gap-3 group">
-            <img src={LOGO_URL} alt="Logo" className="w-10 h-10 rounded-xl object-cover shadow-md transition-transform group-hover:scale-110" />
-            <div>
-              <span className="font-serif text-[1rem] text-charcoal block leading-none">The Aura Company</span>
-              <span className="text-[0.55rem] uppercase tracking-widest text-sage-dark font-bold">Admin Console</span>
+        <div className="p-6">
+          <Link href="/manage" className="flex items-center gap-3 group whitespace-nowrap">
+            <img src={LOGO_URL} alt="Logo" className="w-10 h-10 rounded-xl object-cover shadow-md transition-transform group-hover:scale-110 shrink-0" />
+            <div className="min-w-0">
+              <span className="font-serif text-[0.9rem] text-charcoal block leading-none truncate">The Aura Company</span>
+              <span className="text-[0.55rem] uppercase tracking-widest text-sage-dark font-bold block mt-1">Admin Console</span>
             </div>
           </Link>
+        </div>
         
         <nav className="flex-1 p-4 mt-4 space-y-2">
           {NAV_ITEMS.map(({ label, href, icon }) => (
