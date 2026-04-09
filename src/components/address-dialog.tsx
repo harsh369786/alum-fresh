@@ -50,7 +50,7 @@ interface AddressDialogProps {
 }
 
 export function AddressDialog({ open, onOpenChange, items, subtotal, discount, discountCode, shipping, total, onSuccess }: AddressDialogProps) {
-  const [step, setStep] = useState<"form" | "review" | "success">("form");
+  const [step, setStep] = useState<"form" | "review" | "processing" | "success">("form");
   const [formData, setFormData] = useState<FormData | null>(null);
   const [loading, setLoading] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
@@ -111,6 +111,7 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
         order_id: rpData.id,
         handler: async function (response: any) {
           try {
+            setStep("processing");
             // 4. Verify Payment Signature
             const verifyRes = await fetch("/api/razorpay/verify", {
               method: "POST",
@@ -375,6 +376,16 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
                     </Button>
                   </div>
                 </div>
+              </div>
+            )}
+
+            {step === "processing" && (
+              <div className="text-center py-20 animate-fade-up flex flex-col items-center justify-center h-full min-h-[300px]">
+                <Loader2 className="w-10 h-10 animate-spin text-sage-dark mb-6" />
+                <h2 className="font-serif italic text-3xl text-charcoal mb-3">Authenticating Payment.</h2>
+                <p className="text-[0.85rem] text-warm max-w-[260px] mx-auto leading-relaxed">
+                  Please wait while we verify your transaction securely and finalize your order directly with the gateway.
+                </p>
               </div>
             )}
 
