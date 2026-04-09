@@ -107,7 +107,7 @@ export default async function AdminPage() {
               <tbody className="divide-y divide-parchment/40">
                 {recentOrders.map(order => (
                   <tr key={order.id} className="group hover:bg-cream/20 transition-all">
-                    <td className="py-5 pl-4 font-mono text-[0.7rem] text-sage-dark font-black">#{order.id.slice(0, 8).toUpperCase()}</td>
+                    <td className="py-5 pl-4 font-mono text-[0.7rem] text-sage-dark font-black">#{String(order.id).length >= 8 ? String(order.id).slice(0, 8).toUpperCase() : String(order.id).toUpperCase()}</td>
                     <td className="py-5">
                        <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-full bg-parchment flex items-center justify-center text-[0.6rem] font-black text-charcoal flex-shrink-0">

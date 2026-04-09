@@ -117,6 +117,10 @@ export async function POST(req: NextRequest) {
                   </p>
                 </div>
 
+                <div style="text-align:center;margin-bottom:30px;">
+                  <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://alumfresh.in'}/api/invoice?id=${orderId}" target="_blank" style="display:inline-block;padding:14px 28px;background-color:#5a7a5a;color:#ffffff;text-decoration:none;border-radius:30px;font-family:sans-serif;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Download Official Invoice</a>
+                </div>
+
                 <div style="text-align:center;padding-top:24px;border-top:1px solid #ede8dc;">
                   <p style="color:#7a7068;font-size:13px;">The Aura Company E-Commerce Engine</p>
                 </div>
