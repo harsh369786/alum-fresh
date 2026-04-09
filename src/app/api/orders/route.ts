@@ -60,7 +60,8 @@ export async function POST(req: NextRequest) {
           auth: { user: process.env.GMAIL_SENDER_EMAIL, pass: process.env.GMAIL_APP_PASSWORD },
         });
 
-        const shortId = orderId.slice(0, 8).toUpperCase();
+        const stringId = String(orderId);
+        const shortId = stringId.length >= 8 ? stringId.slice(0, 8).toUpperCase() : stringId.toUpperCase();
         const itemsHtml = body.items.map((item: any) => `
           <tr>
             <td style="padding:10px 14px;border-bottom:1px solid #ede8dc;color:#2c2c2c;font-family:Georgia,serif;">${item.name} ${item.variant ? `(${item.variant})` : ""} ${item.size || ""}</td>

@@ -19,8 +19,33 @@ export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [razorpayStates, setRazorpayStates] = useState<Record<string, any>>({});
 
   useEffect(() => { fetchOrders(); }, []);
+
+  async function handleExpand(id: string) {
+    if (expanded === id) {
+      setExpanded(null);
+      return;
+    }
+    setExpanded(id);
+    
+    const activeOrder = orders.find(o => o.id === id);
+    if (activeOrder?.notes && activeOrder.notes.includes("[Razorpay Payment ID:")) {
+      const match = activeOrder.notes.match(/\[Razorpay Payment ID:\s*(.*?)\]/);
+      if (match && match[1]) {
+         const pid = match[1];
+         if (!razorpayStates[id]) {
+            fetch(`/api/razorpay/payment-status?id=${pid}`)
+              .then(res => res.json())
+              .then(data => {
+                 if (!data.error) setRazorpayStates(prev => ({ ...prev, [id]: data }));
+              })
+              .catch(() => {});
+         }
+      }
+    }
+  }
 
   async function fetchOrders() {
     setLoading(true);
@@ -89,10 +114,7 @@ export default function AdminOrdersPage() {
               <tbody className="divide-y divide-parchment/40">
                 {orders.map(order => (
                   <React.Fragment key={order.id}>
-                    <tr 
-                      className={`group hover:bg-cream/20 transition-all cursor-pointer ${expanded === order.id ? "bg-cream/40" : ""}`}
-                      onClick={() => setExpanded(expanded === order.id ? null : order.id)}
-                    >
+                    <tr className={`group hover:bg-cream/20 transition-all cursor-pointer ${expanded === order.id ? "bg-cream/40" : ""}`} onClick={() => handleExpand(order.id)}>
                       <td className="py-6 pl-8">
                         <span className="font-mono text-[0.7rem] text-sage-dark font-black tracking-tighter">
                           #{order.id.slice(0, 8).toUpperCase()}
@@ -142,10 +164,19 @@ export default function AdminOrdersPage() {
                             
                             {/* Left: Shipping Info */}
                             <div className="space-y-6">
-                               <div className="flex items-center gap-2 mb-2">
-                                  <MapPin className="w-4 h-4 text-sage-dark" />
-                                  <h4 className="text-[0.7rem] uppercase font-black tracking-widest text-charcoal">Recipient Logistics</h4>
-                               </div>
+                                <div className="flex items-center justify-between mb-2">
+                                  <div className="flex items-center gap-2">
+                                    <MapPin className="w-4 h-4 text-sage-dark" />
+                                    <h4 className="text-[0.7rem] uppercase font-black tracking-widest text-charcoal">Recipient Logistics</h4>
+                                  </div>
+                                  {razorpayStates[order.id] && (
+                                    <span className={`text-[0.6rem] uppercase tracking-widest font-black px-2 py-0.5 rounded-full ${
+                                      razorpayStates[order.id].status === 'captured' ? 'bg-emerald-100 text-emerald-800' : 'bg-orange-100 text-orange-800'
+                                    }`}>
+                                      Razorpay: {razorpayStates[order.id].status}
+                                    </span>
+                                  )}
+                                </div>
                                <div className="bg-white/60 border border-parchment/60 rounded-[1.5rem] p-6 space-y-3">
                                   <p className="font-serif text-[1.2rem] text-charcoal italic">{order.user_name}</p>
                                   <div className="space-y-1 text-[0.85rem] text-warm leading-snug">
@@ -196,7 +227,10 @@ export default function AdminOrdersPage() {
                                   </div>
                                   <span className="font-serif text-[2.2rem] text-charcoal leading-none">{formatPrice(order.total)}</span>
                                </div>
-                               <button className="w-full py-4 rounded-full border border-parchment hover:bg-charcoal hover:text-white transition-all text-[0.7rem] uppercase font-black tracking-widest flex items-center justify-center gap-2">
+                                <button 
+                                  onClick={(e) => { e.stopPropagation(); window.open(`/api/invoice?id=${order.id}`, '_blank'); }}
+                                  className="w-full py-4 rounded-full border border-parchment hover:bg-charcoal hover:text-white transition-all text-[0.7rem] uppercase font-black tracking-widest flex items-center justify-center gap-2"
+                                >
                                   Download Invoice <ArrowRight className="w-3.5 h-3.5" />
                                 </button>
                             </div>

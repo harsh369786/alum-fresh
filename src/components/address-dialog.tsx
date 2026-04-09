@@ -27,6 +27,16 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
+
 interface AddressDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -71,45 +81,123 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
     if (!formData) return;
     setLoading(true);
     setOrderError(null);
+
+    try {
+      // 1. Create Razorpay order
+      const rpRes = await fetch("/api/razorpay/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: total }),
+      });
+      const rpData = await rpRes.json();
+
+      if (!rpData.id) {
+        throw new Error(rpData.error || "Failed to initiate payment");
+      }
+
+      // 2. Load Razorpay SDK
+      const isLoaded = await loadRazorpayScript();
+      if (!isLoaded) {
+        throw new Error("Razorpay SDK failed to load. Are you online?");
+      }
+
+      // 3. Open Razorpay Checkout
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: rpData.amount,
+        currency: rpData.currency,
+        name: "The Aura Company",
+        description: "Purchase of Natural Essentials",
+        order_id: rpData.id,
+        handler: async function (response: any) {
+          try {
+            // 4. Verify Payment Signature
+            const verifyRes = await fetch("/api/razorpay/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
+            const verifyData = await verifyRes.json();
+
+            if (verifyData.success) {
+              await createInternalOrder(response.razorpay_payment_id);
+            } else {
+              setOrderError("Payment verification failed.");
+              toast({ title: "Payment Failed", description: "Verification check failed.", variant: "error" });
+              setLoading(false);
+            }
+          } catch (e) {
+            setOrderError("Error verifying payment.");
+            setLoading(false);
+          }
+        },
+        prefill: {
+          name: formData.fullName,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        theme: {
+          color: "#2c2c2c",
+        },
+        modal: {
+          ondismiss: function () {
+            setLoading(false);
+          },
+        },
+      };
+
+      const paymentObject = new (window as any).Razorpay(options);
+      paymentObject.on("payment.failed", function (response: any) {
+        setOrderError(response.error.description || "Payment failed");
+        toast({ title: "Payment Failed", description: response.error.description, variant: "error" });
+        setLoading(false);
+      });
+      paymentObject.open();
+    } catch (e: any) {
+      setOrderError(e.message || "Network error. Please check your connection.");
+      setLoading(false);
+      toast({ title: "Error", description: e.message || "Something went wrong", variant: "error" });
+    }
+  }
+
+  async function createInternalOrder(paymentId: string) {
     try {
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          user_name: formData.fullName,
-          user_email: formData.email,
-          user_phone: formData.phone,
-          address: { line1: formData.addressLine1, city: formData.city, state: formData.state, pincode: formData.pincode },
+          user_name: formData!.fullName,
+          user_email: formData!.email,
+          user_phone: formData!.phone,
+          address: { line1: formData!.addressLine1, city: formData!.city, state: formData!.state, pincode: formData!.pincode },
           items: items.map(i => ({ productId: i.productId, name: i.name, variant: i.variant, size: i.size, qty: i.quantity, price: i.price })),
           subtotal,
           discount,
           discount_code: discountCode,
           shipping,
           total,
-          notes: formData.notes || null,
+          notes: (formData!.notes ? formData!.notes + "\n" : "") + `[Razorpay Payment ID: ${paymentId}]`,
         }),
       });
       const data = await res.json();
       if (data.id) {
         const displayId = typeof data.id === 'string' ? data.id.slice(0, 12).toUpperCase() : String(data.id);
-        setOrderId(displayId);
-        setStep("success");
-        onSuccess();
-        toast({ title: "Order Placed! 🌿", description: `Your order #${displayId} is confirmed.` });
-        setTimeout(() => { 
-          onOpenChange(false); 
-          setStep("form"); 
-          router.push("/"); 
-        }, 5000);
+        onSuccess(); // clears cart
+        onOpenChange(false); // close the dialog
+        toast({ title: "Order Confirmed! 🌿", description: `Loading your confirmation...` });
+        router.push(`/order-success?id=${displayId}`);
       } else {
-        const errMsg = data.error || "Something went wrong. Please try again.";
+        const errMsg = data.error || "Something went wrong saving the internal order.";
         setOrderError(errMsg);
-        toast({ title: "Order Failed", description: errMsg, variant: "error" });
+        toast({ title: "Order Logging Failed", description: errMsg, variant: "error" });
       }
     } catch (e: any) {
-      const errMsg = "Network error. Please check your connection.";
-      setOrderError(errMsg);
-      toast({ title: "Connection Error", description: errMsg, variant: "error" });
+      setOrderError("Network error while creating internal order.");
+      toast({ title: "Connection Error", description: "Internal order creation error.", variant: "error" });
     } finally {
       setLoading(false);
     }

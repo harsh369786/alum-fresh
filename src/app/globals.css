@@ -268,3 +268,9 @@
   33% { transform:translate(40px,-60px) scale(1.05); }
   66% { transform:translate(-30px,40px) scale(.95); }
 }
+
+/* Razorpay Fix - Bypass Radix Dialog Focus Trap */
+.razorpay-container {
+  pointer-events: auto !important;
+  z-index: 99999 !important;
+}
