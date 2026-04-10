@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase";
+import { revalidatePath } from "next/cache";
 
 export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
@@ -51,6 +52,9 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    revalidatePath("/blogs");
+    revalidatePath(`/blogs/${data.slug}`);
+
     return NextResponse.json(data);
   } catch (error: any) {
     return NextResponse.json({ error: "Failed to update blog" }, { status: 500 });
@@ -69,6 +73,10 @@ export async function DELETE(req: Request, context: { params: Promise<{ id: stri
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
+
+    revalidatePath("/blogs");
+    // Since we don't have the slug here easily without a fetch, 
+    // we revalidate the main list which is the primary concern.
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

@@ -143,21 +143,21 @@ export function Header() {
       {searchOpen && (
         <div className="fixed inset-0 z-40 bg-charcoal/10 backdrop-blur-sm flex items-start justify-center pt-20 px-4" onClick={() => setSearchOpen(false)}>
           <div className="w-full max-w-2xl bg-white rounded-[2rem] shadow-2xl border border-parchment overflow-hidden animate-fade-up" onClick={e => e.stopPropagation()}>
-            <form onSubmit={handleSearch} className="flex items-center gap-4 px-6 py-4">
+            <form onSubmit={handleSearch} className="flex items-center gap-3 px-4 md:px-6 py-4">
               <Search className="w-5 h-5 text-warm shrink-0" />
               <input
                 ref={searchInputRef}
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search for rose, charcoal, natural, bundle..."
-                className="flex-1 text-[1rem] text-charcoal placeholder:text-warm/40 outline-none bg-transparent py-2"
+                placeholder="Search for natural, organic, wellness..."
+                className="flex-1 text-[0.95rem] md:text-[1rem] text-charcoal placeholder:text-warm/40 outline-none bg-transparent py-2 min-w-0"
               />
               {searchQuery && (
-                <button type="submit" className="px-6 py-2 bg-charcoal text-white rounded-full text-[0.7rem] font-bold uppercase tracking-widest hover:bg-sage-dark transition-colors shrink-0">
+                <button type="submit" className="px-5 md:px-6 py-2 bg-charcoal text-white rounded-full text-[0.65rem] md:text-[0.7rem] font-bold uppercase tracking-widest hover:bg-sage-dark transition-colors shrink-0 whitespace-nowrap">
                   Search
                 </button>
               )}
-              <button type="button" onClick={() => setSearchOpen(false)} className="p-2 text-warm hover:text-charcoal rounded-full hover:bg-cream transition-colors">
+              <button type="button" onClick={() => setSearchOpen(false)} className="p-2 text-warm hover:text-charcoal rounded-full hover:bg-cream transition-colors shrink-0">
                 <X className="w-4 h-4" />
               </button>
             </form>
@@ -180,7 +180,7 @@ export function Header() {
                 <>
                   <p className="text-[0.6rem] uppercase tracking-widest text-warm font-bold mb-3 opacity-60">Popular Searches</p>
                   <div className="flex flex-wrap gap-2">
-                    {["Rose Edition", "Charcoal", "Natural 50ml", "Bundle"].map(s => (
+                    {["Natural Edition", "Roll-on", "Ingredients", "Alum"].map(s => (
                       <button key={s} onClick={() => { setSearchQuery(s); router.push(`/search?q=${encodeURIComponent(s)}`); setSearchOpen(false); }}
                         className="px-4 py-1.5 bg-cream border border-parchment rounded-full text-[0.72rem] text-warm hover:text-charcoal hover:border-charcoal/20 transition-all">
                         {s}
@@ -196,18 +196,22 @@ export function Header() {
 
       {/* Mobile Nav Overlay */}
       {menuOpen && (
-        <div className="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center gap-8 animate-fade-up">
-          <div className="absolute top-4 right-4">
-            <button onClick={() => setMenuOpen(false)} className="p-3 rounded-full border border-parchment text-warm hover:text-charcoal hover:bg-cream transition-all">
-              <X className="w-5 h-5" />
+        <div className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center gap-8 animate-fade-up overflow-hidden">
+          <div className="absolute top-5 right-5 md:top-8 md:right-10">
+            <button 
+              onClick={() => setMenuOpen(false)} 
+              className="p-3 rounded-full bg-cream/50 text-charcoal hover:bg-cream transition-all border border-parchment"
+              aria-label="Close menu"
+            >
+              <X className="w-6 h-6" />
             </button>
           </div>
           
-          <Link href="/" onClick={() => setMenuOpen(false)} className="mb-10">
+          <Link href="/" onClick={() => setMenuOpen(false)} className="mb-12">
             <img 
               src={LOGO_URL} 
               alt="The Aura Company" 
-              className="h-[72px] w-auto shadow-2xl rounded-2xl"
+              className="h-[80px] w-auto shadow-2xl rounded-2xl"
             />
           </Link>
 
