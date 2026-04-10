@@ -16,6 +16,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { label: "Shipping", href: "/manage/shipping", icon: <Truck className="w-4 h-4" /> },
     { label: "Promotions", href: "/manage/discounts", icon: <Ticket className="w-4 h-4" /> },
     { label: "Banners", href: "/manage/banners", icon: <ImageIcon className="w-4 h-4" /> },
+    { label: "Blogs", href: "/manage/blogs", icon: <ImageIcon className="w-4 h-4" /> },
     { label: "Categories", href: "/manage/categories", icon: <Tags className="w-4 h-4" /> },
   ];
 

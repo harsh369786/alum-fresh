@@ -22,6 +22,7 @@ export const SHIPPING_CHARGE = Number(
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
+  { label: "Blogs", href: "/blogs" },
   { label: "Our Story", href: "/about" },
   { label: "Ingredients", href: "/#ingredients" },
   { label: "How to Use", href: "/#how-to-use" },
@@ -36,6 +37,7 @@ export const FOOTER_LINKS = {
   ],
   company: [
     { label: "Our Story", href: "/about" },
+    { label: "All Blogs", href: "/blogs" },
     { label: "Ingredients", href: "/#ingredients" },
     { label: "Sustainability", href: "/about#eco" },
     { label: "Scientific Ritual", href: "/about" },
