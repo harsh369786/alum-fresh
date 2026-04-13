@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const items = [
   { num: "01", title: "Mineral, Not Chemical", desc: "Potassium alum creates an inhospitable environment for odour-causing bacteria — no toxic blockers needed." },
-  { num: "02", title: "Clinically Proven", desc: "Independently tested and dermatologist-approved for all skin types including the most sensitive." },
+  { num: "02", title: "Skin-Friendly", desc: "Suitable for all skin types including the most sensitive. No irritation, ever." },
 ];
 
 export function IngredientsSection() {

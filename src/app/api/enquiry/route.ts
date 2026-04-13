@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
       await transporter.sendMail({
         from: `"The Aura Company Contact" <${process.env.GMAIL_SENDER_EMAIL}>`,
-        to: process.env.GMAIL_SENDER_EMAIL,
+        to: "sales.theauracompany@gmail.com",
         replyTo: body.email,
         subject: `New Enquiry: ${body.subject} — from ${body.name}`,
         html: `

@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 const cards = [
   { icon: "🌱", title: "Chemical‑Free", desc: "No aluminium chlorohydrate, no parabens, no phthalates. Pure crystalline alum the way nature intended." },
   { icon: "⏱", title: "Long-Lasting Freshness", desc: "Effective 24-hour odour control without blocking pores. Stay confident all day, the natural way." },
-  { icon: "🤍", title: "Skin-Friendly", desc: "Dermatologically tested for all skin types — including sensitive skin. No irritation, ever." },
+  { icon: "🤍", title: "Skin-Friendly", desc: "Suitable for all skin types — including sensitive skin. No irritation, ever." },
 ];
 
 function useReveal() {

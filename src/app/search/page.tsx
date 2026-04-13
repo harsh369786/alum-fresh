@@ -76,7 +76,7 @@ export default async function SearchPage({
               name="q"
               defaultValue={q}
               autoFocus={!q}
-              placeholder="Search rose, charcoal, natural, bundle..."
+              placeholder="Search natural, bundle, gift set..."
               className="w-full h-14 md:h-16 pl-14 pr-36 rounded-full border border-parchment bg-white text-charcoal text-[0.9rem] md:text-[1rem] placeholder:text-warm/40 outline-none focus:border-sage-dark focus:ring-4 focus:ring-sage-light/20 shadow-sm transition-all"
             />
             <button 
@@ -103,10 +103,10 @@ export default async function SearchPage({
           <div className="text-7xl mb-6 select-none">🌿</div>
           <h2 className="font-serif italic text-2xl md:text-3xl text-charcoal mb-4">No match found in nature.</h2>
           <p className="text-[0.9rem] text-warm mb-10 max-w-xs mx-auto leading-relaxed">
-            Try exploring by edition like &ldquo;Rose&rdquo;, &ldquo;Charcoal&rdquo; or simply &ldquo;Natural&rdquo;.
+            Try exploring by edition like &ldquo;Natural&rdquo; or browse our bundles.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            {["rose", "charcoal", "natural", "bundle"].map(s => (
+            {["natural", "bundle", "gift set"].map(s => (
               <Link key={s} href={`/search?q=${s}`} className="px-5 py-2 bg-white border border-parchment rounded-full text-[0.8rem] text-warm hover:text-charcoal hover:border-charcoal/20 transition-all capitalize">
                 {s}
               </Link>
@@ -118,7 +118,7 @@ export default async function SearchPage({
           <div className="bg-white border border-parchment rounded-[2rem] p-8 md:p-12 text-center mb-10">
             <span className="eyebrow block mb-4">Popular Searches</span>
             <div className="flex flex-wrap gap-3 justify-center mt-4">
-              {["Rose Edition", "Charcoal", "Natural 50ml", "Bundle", "Gift Set", "100ml"].map(s => (
+              {["Natural Edition", "Bundle", "Gift Set"].map(s => (
                 <Link key={s} href={`/search?q=${encodeURIComponent(s)}`}
                   className="px-5 py-2 bg-cream border border-parchment rounded-full text-[0.8rem] text-warm hover:text-charcoal hover:border-charcoal/20 transition-all">
                   {s}

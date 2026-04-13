@@ -17,7 +17,7 @@ const CATEGORY_META: Record<string, { title: string; subtitle: string; descripti
   "roll-on": {
     title: "Roll-On Deodorants",
     subtitle: "Stay Fresh, Naturally",
-    description: "Pure alum crystal roll-on deodorants. Chemical-free, vegan, and dermatologist tested. Available in Rose, Natural, and Charcoal editions.",
+    description: "Pure alum crystal roll-on deodorants. Chemical-free, vegan, and suitable for all skin types. Available in the Natural edition.",
     emoji: "🌿",
   },
   "bundles": {
@@ -104,7 +104,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             {/* Filter Pill bar */}
             <div className="flex flex-wrap items-center justify-between gap-6 pb-10 border-b border-parchment animate-fade-up" style={{ animationDelay: "0.1s" }}>
               <div className="flex flex-wrap gap-2.5">
-                {["all", "rose", "natural", "charcoal"].map((v) => (
+                {["all", "natural"].map((v) => (
                   <Link
                     key={v}
                     href={`/category/${slug}?variant=${v}${sort ? `&sort=${sort}` : ""}`}
@@ -114,7 +114,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                         : "bg-white text-warm border-parchment hover:border-sage-light hover:text-charcoal"
                     }`}
                   >
-                    {v === "all" ? "All Editions" : `${v.charAt(0).toUpperCase() + v.slice(1)} Edition`}
+                    {v === "all" ? "All" : `${v.charAt(0).toUpperCase() + v.slice(1)} Edition`}
                   </Link>
                 ))}
               </div>

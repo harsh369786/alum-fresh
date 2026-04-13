@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS banners (
 -- ORDERS
 CREATE TABLE IF NOT EXISTS orders (
   id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  order_number  text UNIQUE,              -- YYMMDDSRNO format e.g. 2604110001
   user_email    text NOT NULL,
   user_name     text NOT NULL,
   user_phone    text,
@@ -70,6 +71,9 @@ CREATE TABLE IF NOT EXISTS orders (
   created_at    timestamptz DEFAULT now(),
   updated_at    timestamptz DEFAULT now()
 );
+
+-- Migration: add order_number column if upgrading an existing DB
+-- ALTER TABLE orders ADD COLUMN IF NOT EXISTS order_number text UNIQUE;
 
 -- PROFILES
 CREATE TABLE IF NOT EXISTS profiles (

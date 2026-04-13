@@ -1,9 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabaseClient } from "@/lib/supabase";
+// import { createServerSupabaseClient } from "@/lib/supabase";
 
-export async function GET(req: NextRequest) {
+// ─────────────────────────────────────────────────────────────────────────────
+// INVOICE FEATURE — TEMPORARILY DISABLED
+// To re-enable:
+//   1. Remove the early-return block (lines marked DISABLED below)
+//   2. Uncomment the import above
+//   3. Uncomment the /* RE-ENABLE START ... RE-ENABLE END */ block
+// ─────────────────────────────────────────────────────────────────────────────
+
+export async function GET(_req: NextRequest) {
+  // DISABLED ▼ remove this block to re-enable invoice feature
+  return NextResponse.json(
+    { error: "Invoice feature is temporarily unavailable." },
+    { status: 503 }
+  );
+  // DISABLED ▲
+
+  /* RE-ENABLE START ──────────────────────────────────────────────────────────
   try {
-    const { searchParams } = new URL(req.url);
+    const { searchParams } = new URL(_req.url);
     const orderId = searchParams.get("id");
 
     if (!orderId) {
@@ -21,8 +37,11 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
-    const shortId = String(order.id).length >= 8 ? String(order.id).slice(0, 8).toUpperCase() : String(order.id).toUpperCase();
-    
+    const shortId =
+      String(order.id).length >= 8
+        ? String(order.id).slice(0, 8).toUpperCase()
+        : String(order.id).toUpperCase();
+
     // Extract payment ID from notes
     let paymentId = "N/A";
     if (order.notes && order.notes.includes("[Razorpay Payment ID:")) {
@@ -30,7 +49,10 @@ export async function GET(req: NextRequest) {
       if (match && match[1]) paymentId = match[1];
     }
 
-    const itemsHtml = Array.isArray(order.items) ? order.items.map((item: any) => `
+    const itemsHtml = Array.isArray(order.items)
+      ? order.items
+          .map(
+            (item: any) => `
       <tr>
         <td style="padding: 12px; border-bottom: 1px solid #ede8dc;">
           <strong>${item.name}</strong><br/>
@@ -39,7 +61,10 @@ export async function GET(req: NextRequest) {
         <td style="padding: 12px; border-bottom: 1px solid #ede8dc; text-align: center;">${item.qty}</td>
         <td style="padding: 12px; border-bottom: 1px solid #ede8dc; text-align: right;">Rs. ${(item.price * item.qty).toLocaleString("en-IN")}</td>
       </tr>
-    `).join("") : "";
+    `
+          )
+          .join("")
+      : "";
 
     const html = `
     <!DOCTYPE html>
@@ -71,7 +96,7 @@ export async function GET(req: NextRequest) {
         <div class="header">
           <div>
             <h1>The Aura Company</h1>
-            <p>123 Natural Avenue, Jaipur, Rajasthan</p>
+            <p>123 Natural Avenue, Mumbai, Maharashtra</p>
             <p>GSTIN: 08AABCU9603R1ZX</p>
           </div>
           <div style="text-align: right;">
@@ -115,15 +140,19 @@ export async function GET(req: NextRequest) {
             <span>Subtotal</span>
             <span>Rs. ${(order.subtotal || 0).toLocaleString("en-IN")}</span>
           </div>
-          ${(order.discount || 0) > 0 ? `
+          ${
+            (order.discount || 0) > 0
+              ? `
           <div class="totals-row">
-            <span>Discount (${order.discount_code || ''})</span>
+            <span>Discount (${order.discount_code || ""})</span>
             <span style="color: #5a7a5a;">-Rs. ${order.discount.toLocaleString("en-IN")}</span>
           </div>
-          ` : ''}
+          `
+              : ""
+          }
           <div class="totals-row">
             <span>Shipping</span>
-            <span>${order.shipping === 0 ? 'Complimentary' : 'Rs. ' + order.shipping}</span>
+            <span>${order.shipping === 0 ? "Complimentary" : "Rs. " + order.shipping}</span>
           </div>
           <div class="totals-row final">
             <span>Total Paid</span>
@@ -142,11 +171,11 @@ export async function GET(req: NextRequest) {
     return new NextResponse(html, {
       headers: {
         "Content-Type": "text/html",
-        "Content-Disposition": `attachment; filename="Invoice_${shortId}.html"`
-      }
+        "Content-Disposition": `attachment; filename="Invoice_${shortId}.html"`,
+      },
     });
-
   } catch (err: any) {
     return NextResponse.json({ error: "Failed to generate invoice" }, { status: 500 });
   }
+  RE-ENABLE END ──────────────────────────────────────────────────────────── */
 }

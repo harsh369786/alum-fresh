@@ -39,8 +39,6 @@ export const FOOTER_LINKS = {
     { label: "Our Story", href: "/about" },
     { label: "All Blogs", href: "/blogs" },
     { label: "Ingredients", href: "/#ingredients" },
-    { label: "Sustainability", href: "/about#eco" },
-    { label: "Scientific Ritual", href: "/about" },
   ],
   support: [
     { label: "Contact Us", href: "/contact" },
@@ -67,9 +65,7 @@ export const ORDER_STATUSES = [
 ] as const;
 
 export const VARIANT_GLOW_COLORS: Record<string, string> = {
-  rose: "var(--rose-light)",
   natural: "var(--sage-light)",
-  charcoal: "#efefef",
 };
 
 export const CART_STORAGE_KEY = "alumfresh-cart";

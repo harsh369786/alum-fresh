@@ -7,17 +7,13 @@ const testimonials = [
     initial: "P", name: "Priya Sharma", role: "Mumbai · Verified Buyer",
   },
   {
-    txt: "The difference in how my skin feels is night and day. No more dark underarms — and it smells absolutely divine.",
-    initial: "A", name: "Ananya Mehta", role: "Bengaluru · Verified Buyer",
-  },
-  {
-    txt: "I finally switched to a natural solution. Alum Fresh is genuinely the real deal. Already on my third order!",
-    initial: "R", name: "Rahul Desai", role: "Delhi · Verified Buyer",
+    txt: "This product truly works, highly recommended !! ",
+    initial: "R", name: "Rahul Desai", role: "Mumbai · Verified Buyer",
   },
 ];
 
 const trustStats = [
-  { num: "14k+", lbl: "Happy Customers" },
+  { num: "100%", lbl: "Real Discovery" },
   { num: "4.9★", lbl: "Average Rating" },
   { num: "100%", lbl: "Mineral Purity" },
   { num: "0%", lbl: "Harmful Chemicals" },

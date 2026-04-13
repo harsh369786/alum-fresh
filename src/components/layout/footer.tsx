@@ -29,21 +29,15 @@ export function Footer() {
             Stay fresh, naturally. Pure personal care, kind to your skin and the planet.
           </p>
           <div className="flex gap-2.5 mt-5">
-            {[
-              { icon: <Twitter className="w-4 h-4" />, label: "Twitter" },
-              { icon: <Instagram className="w-4 h-4" />, label: "Instagram" },
-              { icon: <Facebook className="w-4 h-4" />, label: "Facebook" },
-              { icon: <Youtube className="w-4 h-4" />, label: "Youtube" },
-            ].map((social) => (
-              <a
-                key={social.label}
-                href="#"
-                aria-label={social.label}
-                className="w-[34px] h-[34px] rounded-full border border-white/20 flex items-center justify-center text-[0.8rem] transition-all duration-300 hover:border-sage-light hover:text-sage-light hover:-translate-y-[3px]"
-              >
-                {social.icon}
-              </a>
-            ))}
+            <a
+              href="https://www.instagram.com/theauracompany___?igsh=MXZ2MWs2MDRxNHBtdw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="w-[34px] h-[34px] rounded-full border border-white/20 flex items-center justify-center text-[0.8rem] transition-all duration-300 hover:border-sage-light hover:text-sage-light hover:-translate-y-[3px]"
+            >
+              <Instagram className="w-4 h-4" />
+            </a>
           </div>
         </div>
 

@@ -34,7 +34,8 @@ export default function CartPage() {
   const subtotal = getTotal();
   const discountAmount = (subtotal * discountPct) / 100;
   const afterDiscount = subtotal - discountAmount;
-  const shipping = afterDiscount >= shippingRules.free_shipping_threshold ? 0 : shippingRules.shipping_charge;
+  // If discount is 100%, waive shipping as well
+  const shipping = (discountPct === 100 || afterDiscount >= shippingRules.free_shipping_threshold) ? 0 : shippingRules.shipping_charge;
   const total = afterDiscount + shipping;
 
   function applyCode() {
@@ -274,7 +275,7 @@ export default function CartPage() {
                 <div className="flex items-center justify-center gap-4 text-[0.65rem] text-warm font-serif italic">
                   <span>Chemical-Free</span>
                   <span className="w-1 h-1 rounded-full bg-parchment" />
-                  <span>Dermatologist Approved</span>
+                  <span>Suitable for all skin types</span>
                   <span className="w-1 h-1 rounded-full bg-parchment" />
                   <span>Ancient Alum Wisdom</span>
                 </div>

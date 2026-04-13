@@ -12,11 +12,11 @@ export async function POST(req: NextRequest) {
   try {
     if (!process.env.GEMINI_API_KEY) {
       return NextResponse.json({
-        description: "Premium natural alum crystal deodorant. Chemical-free, vegan, and dermatologist tested.",
+        description: "Premium natural alum crystal deodorant. Chemical-free, vegan, and suitable for all skin types.",
         shortDesc: "Stay Fresh, Naturally.",
         benefits: ["24-hour protection", "Chemical-free formula", "Gentle on skin", "Vegan formula"],
         seoTitle: "Alum Fresh Natural Deodorant",
-        seoDescription: "Natural alum crystal deodorant. Chemical-free, vegan, derma-tested.",
+        seoDescription: "Natural alum crystal deodorant. Chemical-free, vegan, suitable for all skin types.",
       });
     }
 

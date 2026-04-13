@@ -78,7 +78,7 @@ export default function ContactPage() {
             <div className="lg:col-span-2 space-y-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
               <div className="mb-10">
                  <h2 className="font-serif text-[1.8rem] text-charcoal mb-4">Studio Information</h2>
-                 <p className="text-[0.85rem] text-warm leading-relaxed opacity-80">Our Jaipur studio is where tradition meets formulation. Feel free to reach out during our working hours.</p>
+                 <p className="text-[0.85rem] text-warm leading-relaxed opacity-80">Our Mumbai studio is where tradition meets formulation. Feel free to reach out during our working hours.</p>
               </div>
 
               {CONTACT_INFO.map(({ icon: Icon, label, value, href }) => (

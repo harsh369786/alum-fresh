@@ -39,7 +39,7 @@ Return ONLY valid JSON matching this exact schema:
   "seoDescription": "SEO meta description (max 160 chars)"
 }
 
-Brand values: chemical-free, vegan, derma-tested, Made in India, natural ingredients, long-lasting freshness.`,
+Brand values: chemical-free, vegan, suitable for all skin types, Made in India, natural ingredients, long-lasting freshness.`,
     });
 
     try {
@@ -47,11 +47,11 @@ Brand values: chemical-free, vegan, derma-tested, Made in India, natural ingredi
       return JSON.parse(cleaned);
     } catch {
       return {
-        description: `${input.productName} — A premium natural deodorant powered by pure alum crystal. Chemical-free, vegan, and dermatologist tested for all-day freshness.`,
+        description: `${input.productName} — A premium natural deodorant powered by pure alum crystal. Chemical-free, vegan, and suitable for all skin types for all-day freshness.`,
         shortDesc: `Pure alum freshness, naturally.`,
         benefits: ["24-hour odor protection", "Chemical & paraben-free", "Gentle on sensitive skin", "Vegan & cruelty-free"],
         seoTitle: `${input.productName} | Alum Fresh`,
-        seoDescription: `${input.productName} — Natural alum crystal deodorant. Chemical-free, vegan, derma-tested. Shop Alum Fresh.`,
+        seoDescription: `${input.productName} — Natural alum crystal deodorant. Chemical-free, vegan, suitable for all skin types. Shop Alum Fresh.`,
       };
     }
   }

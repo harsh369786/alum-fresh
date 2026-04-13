@@ -83,6 +83,12 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
     setOrderError(null);
 
     try {
+      // 0. Handle 100% discount / Free orders
+      if (total === 0) {
+        await createInternalOrder("FREE_ORDER_VOUCHER_" + (discountCode || "NOMINAL"));
+        return;
+      }
+
       // 1. Create Razorpay order
       const rpRes = await fetch("/api/razorpay/order", {
         method: "POST",
@@ -186,7 +192,7 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
       });
       const data = await res.json();
       if (data.id) {
-        const displayId = typeof data.id === 'string' ? data.id.slice(0, 12).toUpperCase() : String(data.id);
+        const displayId = String(data.id); // YYMMDDSRNO format e.g. 2604110001
         onSuccess(); // clears cart
         onOpenChange(false); // close the dialog
         toast({ title: "Order Confirmed! 🌿", description: `Loading your confirmation...` });
@@ -242,7 +248,7 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
                 <ShieldCheck className="w-4 h-4" />
                 <span className="text-[0.65rem] font-bold uppercase tracking-wider">Trusted Protection</span>
               </div>
-              <p className="text-[0.6rem] text-warm leading-snug">Dermatologically tested and ethically sourced alum crystal products.</p>
+              <p className="text-[0.6rem] text-warm leading-snug">Suitable for all skin types and ethically sourced alum crystal products.</p>
             </div>
           </div>
 
@@ -279,7 +285,7 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
                   <div className="grid grid-cols-3 gap-3">
                     <div className="space-y-1.5">
                       <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-2">City</Label>
-                      <Input {...register("city")} placeholder="Jaipur" className="rounded-full bg-cream/20 border-parchment px-4 h-11 text-[0.85rem] focus-visible:ring-charcoal text-center" />
+                      <Input {...register("city")} placeholder="Mumbai" className="rounded-full bg-cream/20 border-parchment px-4 h-11 text-[0.85rem] focus-visible:ring-charcoal text-center" />
                     </div>
                     <div className="space-y-1.5">
                       <Label className="text-[0.65rem] uppercase tracking-widest text-warm ml-2">State</Label>

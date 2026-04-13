@@ -15,7 +15,7 @@ export async function getProducts(): Promise<Product[]> {
   if (hasSupabase) {
     try {
       const supabase = createServerSupabaseClient();
-      const { data } = await supabase.from("products").select("*").order("sort_order");
+      const { data } = await supabase.from("products").select("*").eq("variant", "natural").order("sort_order");
       return data || [];
     } catch (err) {
       console.warn("Supabase fetch failed, falling back to local.");
@@ -25,7 +25,8 @@ export async function getProducts(): Promise<Product[]> {
   // Fallback / Demo Mode
   try {
     const fileData = await fs.readFile(dataFilePath, "utf8");
-    return JSON.parse(fileData);
+    const json = JSON.parse(fileData);
+    return json.filter((p: Product) => p.variant === "natural");
   } catch (err) {
     return [];
   }

@@ -7,11 +7,11 @@ import { Sparkles, Leaf, Shield, Heart, Globe, Recycle } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Our Story | The Aura Company",
-  description: "Learn about Alum Fresh — from traditional alum rituals in Jaipur to India's premium natural deodorant.",
+  description: "Learn about Alum Fresh — from traditional alum rituals in Mumbai to India's premium natural deodorant.",
 };
 
 const TEAM = [
-  { name: "Meera Sharma", role: "Co-Founder & CEO", emoji: "👩🏽", location: "Jaipur" },
+  { name: "Meera Sharma", role: "Co-Founder & CEO", emoji: "👩🏽", location: "Mumbai" },
   { name: "Arjun Patel", role: "Head of Formulation", emoji: "👨🏽‍🔬", location: "Bangalore" },
   { name: "Rhea Kapoor", role: "Brand & Creative Lead", emoji: "👩🏻‍🎨", location: "Mumbai" },
 ];

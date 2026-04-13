@@ -30,7 +30,7 @@ export function CtaBanner() {
           <em style={{ color: "#a8d5bb" }}>first order.</em>
         </h2>
         <p className="text-[0.95rem] leading-[1.8] mb-12 max-w-[500px] mx-auto" style={{ color: "rgba(255,255,255,0.6)" }}>
-          Free shipping on orders above ₹499. Use code below at checkout.
+          Free shipping on all orders. Use code below at checkout.
         </p>
         <div className="flex flex-wrap gap-4 justify-center items-center">
           <Link

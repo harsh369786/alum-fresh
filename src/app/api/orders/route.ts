@@ -1,12 +1,52 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import nodemailer from "nodemailer";
+import { appendOrderToSheet } from "@/lib/google-sheets";
 
 const hasSupabase = !!(
   process.env.NEXT_PUBLIC_SUPABASE_URL &&
   process.env.NEXT_PUBLIC_SUPABASE_URL !== "" &&
   process.env.NEXT_PUBLIC_SUPABASE_URL !== "https://placeholder.supabase.co"
 );
+
+/**
+ * Generates a custom order number in YYMMDDSRNO format (e.g. 2604110001).
+ * YYMMDD = date in IST, SRNO = zero-padded daily serial (starting at 01).
+ */
+async function generateOrderNumber(): Promise<string> {
+  // Get current date in IST (UTC+5:30)
+  const now = new Date();
+  const istOffset = 5.5 * 60 * 60 * 1000; // ms
+  const istDate = new Date(now.getTime() + istOffset);
+  const yy = String(istDate.getUTCFullYear()).slice(-2);
+  const mm = String(istDate.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(istDate.getUTCDate()).padStart(2, "0");
+  const prefix = `${yy}${mm}${dd}`;
+
+  if (hasSupabase) {
+    // Count orders placed today (using IST midnight boundaries in UTC)
+    const todayStartIST = new Date(Date.UTC(
+      istDate.getUTCFullYear(), istDate.getUTCMonth(), istDate.getUTCDate()
+    ));
+    todayStartIST.setTime(todayStartIST.getTime() - istOffset); // convert back to UTC midnight IST
+
+    const tomorrowStartIST = new Date(todayStartIST.getTime() + 24 * 60 * 60 * 1000);
+
+    const supabase = createServerSupabaseClient();
+    const { count } = await supabase
+      .from("orders")
+      .select("id", { count: "exact", head: true })
+      .gte("created_at", todayStartIST.toISOString())
+      .lt("created_at", tomorrowStartIST.toISOString());
+
+    const srNo = String((count || 0) + 1).padStart(2, "0");
+    return `${prefix}${srNo}`;
+  } else {
+    // Demo mode: use a random 2-digit serial
+    const srNo = String(Math.floor(Math.random() * 99) + 1).padStart(2, "0");
+    return `${prefix}${srNo}`;
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,7 +58,11 @@ export async function POST(req: NextRequest) {
     }
 
     let orderId: string;
+    let orderNumber: string;
     let orderData: any;
+
+    // Generate custom YYMMDDSRNO order number
+    orderNumber = await generateOrderNumber();
 
     if (hasSupabase) {
       // Production: Save to Supabase
@@ -38,18 +82,20 @@ export async function POST(req: NextRequest) {
           total: body.total,
           notes: body.notes,
           status: "pending",
+          order_number: orderNumber,
         }])
         .select()
         .single();
 
       if (error) throw error;
       orderId = data.id;
+      orderNumber = data.order_number || orderNumber; // use DB value if returned
       orderData = data;
     } else {
-      // Demo/Dev mode: Generate a mock order ID (no DB needed)
-      orderId = `DEMO-${Date.now().toString(36).toUpperCase()}`;
-      orderData = { id: orderId, ...body, status: "pending", created_at: new Date().toISOString() };
-      console.log("📦 [DEMO MODE] Order placed:", { orderId, customer: body.user_name, total: body.total });
+      // Demo/Dev mode: No DB, just use the generated order number
+      orderId = orderNumber;
+      orderData = { id: orderNumber, order_number: orderNumber, ...body, status: "pending", created_at: new Date().toISOString() };
+      console.log("📦 [DEMO MODE] Order placed:", { orderNumber, customer: body.user_name, total: body.total });
     }
 
     // Send confirmation email (optional — skipped if not configured)
@@ -60,8 +106,7 @@ export async function POST(req: NextRequest) {
           auth: { user: process.env.GMAIL_SENDER_EMAIL, pass: process.env.GMAIL_APP_PASSWORD },
         });
 
-        const stringId = String(orderId);
-        const shortId = stringId.length >= 8 ? stringId.slice(0, 8).toUpperCase() : stringId.toUpperCase();
+        const shortId = orderNumber; // e.g. 2604110001
         const itemsHtml = body.items.map((item: any) => `
           <tr>
             <td style="padding:10px 14px;border-bottom:1px solid #ede8dc;color:#2c2c2c;font-family:Georgia,serif;">${item.name} ${item.variant ? `(${item.variant})` : ""} ${item.size || ""}</td>
@@ -117,9 +162,11 @@ export async function POST(req: NextRequest) {
                   </p>
                 </div>
 
+                <!-- 
                 <div style="text-align:center;margin-bottom:30px;">
                   <a href="${req.nextUrl.origin}/api/invoice?id=${orderId}" target="_blank" style="display:inline-block;padding:14px 28px;background-color:#5a7a5a;color:#ffffff;text-decoration:none;border-radius:30px;font-family:sans-serif;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Download Official Invoice</a>
                 </div>
+                -->
 
                 <div style="text-align:center;padding-top:24px;border-top:1px solid #ede8dc;">
                   <p style="color:#7a7068;font-size:13px;">The Aura Company E-Commerce Engine</p>
@@ -141,11 +188,10 @@ export async function POST(req: NextRequest) {
           ),
         });
 
-        // 2. Email to Admins (Shahharsh & Darshil)
+        // 2. Email to Admin (Sales)
         await transporter.sendMail({
           from: `"The Aura Company System" <${process.env.GMAIL_SENDER_EMAIL}>`,
-          to: "shahharsh143.hs@gmail.com",
-          bcc: "darshilgada14199@gmail.com",
+          to: "sales.theauracompany@gmail.com",
           subject: `New Order Received! [${body.user_name}] — #${shortId}`,
           html: sharedHtmlStyling(
             "Incoming Revenue 💰", 
@@ -159,7 +205,10 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    return NextResponse.json({ id: orderId, ...orderData });
+    // 3. Sync to Google Sheets in Real-time
+    await appendOrderToSheet(orderData);
+
+    return NextResponse.json({ id: orderNumber, order_number: orderNumber, uuid: orderId, ...orderData });
   } catch (err: any) {
     console.error("Order creation error:", err);
     return NextResponse.json({ error: err.message || "Failed to place order" }, { status: 500 });

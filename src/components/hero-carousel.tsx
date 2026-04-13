@@ -24,34 +24,10 @@ const FALLBACK_SLIDES = [
     sort_order: 0,
     created_at: "",
   },
-  {
-    id: "2",
-    title: "The Rose Edition.",
-    subtitle: "Infused with organic rose water for a delicate, floral sanctuary of freshness.",
-    cta_text: "Shop Rose",
-    cta_link: "/category/roll-on",
-    bg_gradient: "linear-gradient(135deg, #FDF6F4 0%, #F8EBED 100%)",
-    image_url: null,
-    is_active: true,
-    sort_order: 1,
-    created_at: "",
-  },
-  {
-    id: "3",
-    title: "Charcoal Detox.",
-    subtitle: "Activated charcoal meets pure alum crystal. The ultimate natural detox for your skin.",
-    cta_text: "Discover Pure",
-    cta_link: "/category/roll-on",
-    bg_gradient: "linear-gradient(135deg, #F0F2F0 0%, #D8DED8 100%)",
-    image_url: null,
-    is_active: true,
-    sort_order: 2,
-    created_at: "",
-  },
 ];
 
-const GLOW_COLORS = ["rgba(143,175,143,0.1)", "rgba(212,153,138,0.1)", "rgba(122,112,104,0.1)"];
-const EMOJIS = ["🌿", "🌹", "🖤"];
+const GLOW_COLORS = ["rgba(143,175,143,0.1)"];
+const EMOJIS = ["🌿"];
 
 export function HeroCarousel({ banners }: HeroCarouselProps) {
   const slides = banners.length > 0 ? banners : FALLBACK_SLIDES;
@@ -111,18 +87,11 @@ export function HeroCarousel({ banners }: HeroCarouselProps) {
                      </Link>
                   </div>
 
-                  {/* Social Proof */}
+                  {/* Social Proof Removed for Launch */}
                   <div className="mt-12 flex items-center gap-4 justify-center md:justify-start pt-8 border-t border-parchment/40">
-                    <div className="flex -space-x-3">
-                      {[1,2,3].map((i) => (
-                        <div key={i} className="w-10 h-10 rounded-full bg-cream border-2 border-white flex items-center justify-center shadow-sm text-sm overflow-hidden">
-                          {["🧑🏽","👩🏻","🧑🏿"][i-1]}
-                        </div>
-                      ))}
-                    </div>
                     <div>
-                      <span className="block text-[0.75rem] font-bold text-charcoal uppercase tracking-wider">14,000+ Real Discoveries</span>
-                      <span className="block text-[0.65rem] text-warm italic">Joined the Alum ritual this year</span>
+                      <span className="block text-[0.75rem] font-bold text-charcoal uppercase tracking-wider">Freshness Ritual Started</span>
+                      <span className="block text-[0.65rem] text-warm italic">Join the Alum evolution today</span>
                     </div>
                   </div>
                </div>
@@ -149,9 +118,9 @@ export function HeroCarousel({ banners }: HeroCarouselProps) {
                        <Leaf className="w-3.5 h-3.5 text-sage-dark" />
                        <span className="text-[0.6rem] font-black uppercase tracking-widest text-charcoal">Pure Crystal</span>
                     </div>
-                    <div className="absolute -bottom-6 -left-12 md:-left-16 bg-white/20 backdrop-blur-xl border border-white/30 px-4 py-2 rounded-full shadow-lg flex items-center gap-2 animate-float-delayed z-30">
+                    <div className="absolute -bottom-6 -left-12 md:-left-24 bg-white/20 backdrop-blur-xl border border-white/30 px-6 py-2 rounded-full shadow-lg flex items-center gap-2 animate-float-delayed z-30">
                        <ShieldCheck className="w-3.5 h-3.5 text-rose-dark" />
-                       <span className="text-[0.6rem] font-black uppercase tracking-widest text-charcoal">Dermatested</span>
+                       <span className="text-[0.6rem] font-black uppercase tracking-widest text-charcoal">Suitable for all skin types</span>
                     </div>
                   </div>
                </div>
