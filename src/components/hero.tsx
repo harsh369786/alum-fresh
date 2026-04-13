@@ -69,8 +69,8 @@ export function Hero() {
           style={{ animationDelay: "1s", opacity: 0 }}
         >
           <div className="flex flex-col gap-1">
-            <span className="font-serif text-[2.2rem] font-medium text-[#1b4332] leading-none">14k+</span>
-            <span className="text-[0.72rem] tracking-[0.1em] uppercase text-[#7baa8a]">Happy Customers</span>
+            <span className="font-serif text-[2.2rem] font-medium text-[#1b4332] leading-none">100%</span>
+            <span className="text-[0.72rem] tracking-[0.1em] uppercase text-[#7baa8a]">Real Discovery</span>
           </div>
           <div className="w-px bg-[rgba(123,170,138,0.3)]" />
           <div className="flex flex-col gap-1">
