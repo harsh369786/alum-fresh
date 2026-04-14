@@ -30,7 +30,7 @@ export function CtaBanner() {
           <em style={{ color: "#a8d5bb" }}>first order.</em>
         </h2>
         <p className="text-[0.95rem] leading-[1.8] mb-12 max-w-[500px] mx-auto" style={{ color: "rgba(255,255,255,0.6)" }}>
-          Free shipping on all orders. Use code below at checkout.
+          Free shipping on all orders. No coupon required.
         </p>
         <div className="flex flex-wrap gap-4 justify-center items-center">
           <Link
@@ -43,14 +43,7 @@ export function CtaBanner() {
             className="inline-flex items-center gap-3 px-7 py-5 rounded-full text-white text-[0.85rem] tracking-[0.05em]"
             style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.25)", backdropFilter: "blur(12px)" }}
           >
-            Use code{" "}
-            <span
-              className="font-bold tracking-[0.1em] px-3 py-1 rounded-full text-[0.8rem]"
-              style={{ background: "rgba(255,255,255,0.2)" }}
-            >
-              FRESH60
-            </span>
-            {" "}at checkout
+            No coupon required
           </div>
         </div>
       </div>
