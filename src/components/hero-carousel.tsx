@@ -1,11 +1,13 @@
 "use client";
 import React, { useCallback } from "react";
+import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoPlay from "embla-carousel-autoplay";
 import { Banner } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Leaf, Sparkles, ShieldCheck } from "lucide-react";
+import { getOptimizedImageUrl } from "@/lib/image-utils";
 
 interface HeroCarouselProps {
   banners: Banner[];
@@ -28,6 +30,8 @@ const FALLBACK_SLIDES = [
 
 const GLOW_COLORS = ["rgba(143,175,143,0.1)"];
 const EMOJIS = ["🌿"];
+
+
 
 export function HeroCarousel({ banners }: HeroCarouselProps) {
   const slides = banners.length > 0 ? banners : FALLBACK_SLIDES;
@@ -106,10 +110,13 @@ export function HeroCarousel({ banners }: HeroCarouselProps) {
 
                     {/* Product Orb */}
                     <div className="relative w-64 h-64 md:w-80 md:h-80 bg-white shadow-[0_25px_80px_rgba(44,44,44,0.08)] rounded-full flex items-center justify-center border border-parchment animate-float">
-                       <img 
-                          src={slide.image_url || "https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png"} 
+                       <Image 
+                          src={getOptimizedImageUrl(slide.image_url || "https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png", { width: 800, quality: 80 })} 
                           alt={slide.title || "Banner Product Image"} 
+                          width={400}
+                          height={400}
                           className="w-[110%] h-[110%] object-contain scale-125 drop-shadow-[0_20px_35px_rgba(44,44,44,0.15)] transition-transform duration-700 group-hover:scale-[1.35] group-hover:-translate-y-4"
+                          priority={idx === 0}
                        />
                     </div>
 

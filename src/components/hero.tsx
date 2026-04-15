@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+import { getOptimizedImageUrl } from "@/lib/image-utils";
+
 export function Hero() {
   const stageRef = useRef<HTMLDivElement>(null);
 
@@ -102,7 +104,7 @@ export function Hero() {
           {/* Product image */}
           <div className="relative z-10 animate-float drop-shadow-[0_40px_60px_rgba(27,67,50,0.18)]">
             <Image
-              src="https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png"
+              src={getOptimizedImageUrl("https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png", { width: 800, quality: 80 })}
               alt="Alum Fresh Natural Mineral Deodorant"
               width={340}
               height={400}

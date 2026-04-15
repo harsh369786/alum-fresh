@@ -19,7 +19,8 @@ export const revalidate = 60;
 
 async function getHomepageData() {
   try {
-    const allProducts = await getProducts();
+    // Optimization: Only fetch a small number of products for the homepage
+    const allProducts = await getProducts(10); 
     const sorted = allProducts
       .filter(p => !!p.in_stock)
       .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))

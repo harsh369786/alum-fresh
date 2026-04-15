@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import { getOptimizedImageUrl } from "@/lib/image-utils";
 
 const items = [
   { num: "01", title: "Mineral, Not Chemical", desc: "Potassium alum creates an inhospitable environment for odour-causing bacteria — no toxic blockers needed." },
@@ -61,7 +62,7 @@ export function IngredientsSection() {
             {/* First Image (Bottom/Back) */}
             <div className="absolute left-0 top-10 md:top-0 animate-float" style={{ animationDelay: "1s" }}>
               <Image
-                src="https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png"
+                src={getOptimizedImageUrl("https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png", { width: 400, quality: 75 })}
                 alt="Alum Fresh Edition 1"
                 width={300}
                 height={300}
@@ -73,7 +74,7 @@ export function IngredientsSection() {
             {/* Second Image (Top/Front) - THE NEW ONE */}
             <div className="relative z-10 animate-float md:translate-x-12 translate-y-8">
               <Image
-                src="https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/product_2.png"
+                src={getOptimizedImageUrl("https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/product_2.png", { width: 400, quality: 75 })}
                 alt="Alum Fresh Edition 2"
                 width={320}
                 height={320}

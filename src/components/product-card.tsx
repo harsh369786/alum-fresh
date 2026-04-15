@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Product } from "@/lib/types";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { formatPrice } from "@/lib/utils";
 import { ShoppingCart, Eye } from "lucide-react";
 import { ProductDetailModal } from "@/components/product-detail-modal";
+import { getOptimizedImageUrl } from "@/lib/image-utils";
 
 interface ProductCardProps {
   product: Product;
@@ -27,7 +29,7 @@ export function ProductCard({ product }: ProductCardProps) {
     if (gallery.length > 1) {
       const timer = setInterval(() => {
         setActiveImgIdx(prev => (prev + 1) % gallery.length);
-      }, 2000);
+      }, 4000);
       return () => clearInterval(timer);
     }
   }, [gallery.length]);
@@ -66,21 +68,29 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <>
       <div
-        className="group block rounded-3xl overflow-hidden border border-parchment bg-cream transition-all duration-450 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-2.5 hover:shadow-[0_20px_60px_rgba(44,44,44,0.13)] animate-fade-up group"
+        className="group block rounded-3xl overflow-hidden border border-parchment bg-cream transition-all duration-450 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-2.5 hover:shadow-[0_20px_60px_rgba(44,44,44,0.13)] animate-fade-up group cursor-pointer"
         onClick={() => setModalOpen(true)}
       >
         {/* Image Area */}
         <div className={`aspect-square flex items-center justify-center relative overflow-hidden transition-colors duration-500 ${styles.bg}`}>
           {gallery.length > 0 ? (
             <div className="relative w-full h-full">
-              {gallery.map((url, idx) => (
-                <img
-                  key={url}
-                  src={url}
-                  alt={product.name}
-                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${idx === activeImgIdx ? 'opacity-100 scale-105' : 'opacity-0 scale-100'}`}
-                />
-              ))}
+              {gallery.map((url, idx) => {
+                const isActive = idx === activeImgIdx;
+                if (!isActive) return null;
+                
+                return (
+                  <Image
+                    key={url}
+                    src={getOptimizedImageUrl(url, { width: 400, quality: 75 })}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-all duration-700 opacity-100 scale-105"
+                    priority={idx === 0}
+                  />
+                );
+              })}
               {gallery.length > 1 && (
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1 z-10">
                   {gallery.map((_, idx) => (

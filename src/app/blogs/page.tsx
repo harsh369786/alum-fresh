@@ -5,6 +5,9 @@ import { Footer } from "@/components/layout/footer";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import { ArrowRight, BookOpen } from "lucide-react";
 
+import Image from "next/image";
+import { getOptimizedImageUrl } from "@/lib/image-utils";
+
 export const metadata = {
   title: "Journal | The Aura Company",
   description: "Explore our editorial on natural wellness, the science of alum, and sustainable living.",
@@ -19,7 +22,7 @@ export default async function BlogsPage() {
     const supabase = createServerSupabaseClient();
     const { data } = await supabase
       .from("blogs")
-      .select("*")
+      .select("id, slug, title, short_description, image_url, category, created_at")
       .eq("status", "published")
       .order("rank", { ascending: false })
       .order("created_at", { ascending: false });
@@ -56,10 +59,12 @@ export default async function BlogsPage() {
               >
                 <div className="w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-cream border border-parchment mb-6 relative">
                   {blog.image_url ? (
-                    <img 
-                      src={blog.image_url} 
+                    <Image 
+                      src={getOptimizedImageUrl(blog.image_url, { width: 600, quality: 70 })} 
                       alt={blog.title} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center text-warm opacity-30">
