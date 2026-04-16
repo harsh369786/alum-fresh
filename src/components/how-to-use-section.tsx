@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 
 const steps = [
   {
@@ -48,10 +49,12 @@ export function HowToUseSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
            {steps.map((step, i) => (
              <div key={i} className="group relative overflow-hidden rounded-[2.5rem] bg-white border border-parchment aspect-[3875/5463] transition-all duration-500 hover:shadow-2xl translate-y-0 hover:-translate-y-2">
-                <img 
+                <Image 
                    src={step.img} 
                    alt={`${step.num}: ${step.title} - ${step.desc}`}
-                   className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
+                   fill
+                   sizes="(max-width: 768px) 100vw, 25vw"
+                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 
                 {/* Subtle Glow Overlay */}

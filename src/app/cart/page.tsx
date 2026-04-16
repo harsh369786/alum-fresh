@@ -8,6 +8,8 @@ import { FREE_SHIPPING_THRESHOLD, SHIPPING_CHARGE } from "@/lib/constants";
 import { Minus, Plus, X, ShoppingCart, Tag, Check, ArrowLeft, Truck, ShieldCheck, Ticket } from "lucide-react";
 import { AddressDialog } from "@/components/address-dialog";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
+import { getOptimizedImageUrl } from "@/lib/image-utils";
 
 export default function CartPage() {
   const { items, updateQty, removeItem, getTotal, getItemCount, clearCart } = useCart();
@@ -93,16 +95,18 @@ export default function CartPage() {
                   className="flex flex-col sm:flex-row sm:items-center gap-6 pb-6 border-b border-parchment group last:border-0"
                 >
                   {/* Image */}
-                  <div className={`w-28 h-28 rounded-2xl flex items-center justify-center transition-all duration-500 overflow-hidden ${
+                  <div className={`relative w-28 h-28 rounded-2xl flex items-center justify-center transition-all duration-500 overflow-hidden ${
                     item.variant === 'rose' ? 'bg-rose-light' : 
                     item.variant === 'charcoal' ? 'bg-parchment' : 
                     'bg-sage-light'
                   } group-hover:scale-105 shadow-inner`}>
                     {item.imageUrl ? (
-                      <img 
-                        src={item.imageUrl} 
-                        alt={item.name} 
-                        className="w-full h-full object-cover"
+                      <Image 
+                        src={getOptimizedImageUrl(item.imageUrl)} 
+                        alt={item.name}
+                        fill
+                        sizes="112px"
+                        className="object-cover"
                       />
                     ) : (
                       <span className="text-5xl">
