@@ -6,25 +6,25 @@ const steps = [
     num: "01",
     title: "Wet",
     desc: "Open the Alum Roll-on and lightly wet it under running water.",
-    img: "https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/step1.jpeg"
+    img: "/images/step1.jpeg"
   },
   {
     num: "02",
     title: "Apply",
     desc: "Apply and rub gently on one underarm.",
-    img: "https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/step2.jpeg"
+    img: "/images/step2.jpeg"
   },
   {
     num: "03",
     title: "Repeat",
     desc: "Re-wet the crystal and repeat on the other underarm.",
-    img: "https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/step3.jpeg"
+    img: "/images/step3.jpeg"
   },
   {
     num: "04",
     title: "Dry",
     desc: "Wipe dry and leave open for 15-30 mins before closing.",
-    img: "https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/step4.jpeg"
+    img: "/images/step4.jpeg"
   }
 ];
 

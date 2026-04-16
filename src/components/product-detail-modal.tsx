@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { VARIANTS, SIZES } from "@/lib/constants";
 import { ShoppingCart, Minus, Plus, Check, Leaf, Shield, Star } from "lucide-react";
+import { getOptimizedImageUrl } from "@/lib/image-utils";
 
 interface ProductDetailModalProps {
   product: Product;
@@ -78,11 +79,11 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
       <DialogContent className="p-0 bg-white border-parchment md:max-w-3xl md:rounded-[2rem]">
         <div className="flex flex-col md:flex-row md:items-stretch">
 
-          {/* ── Image Column ── fixed height on mobile, auto on desktop */}
+          {/* ── Image Column ── fixed height on mobile, proper aspect on desktop */}
           <div
             className={`
               relative flex items-center justify-center shrink-0
-              w-full h-[300px] md:h-auto md:w-[280px] lg:w-[320px]
+              w-full h-[300px] md:min-h-[400px] md:h-auto md:w-[280px] lg:w-[320px]
               transition-colors duration-500 ${styles.bg}
               md:rounded-l-[2rem] rounded-t-[2rem] md:rounded-tr-none
             `}
@@ -92,11 +93,11 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
             </div>
             <div className="relative z-10 w-full h-full flex items-center justify-center p-6 md:p-8 select-none">
               {gallery.length > 0 ? (
-                <div className="relative w-full h-[220px] md:h-full">
+                <div className="relative w-full h-[220px] md:h-[350px]">
                   {gallery.map((url, idx) => (
                     <img
                       key={url}
-                      src={url}
+                      src={getOptimizedImageUrl(url)}
                       alt={product.name}
                       className={`absolute inset-0 w-full h-full object-contain drop-shadow-2xl transition-all duration-700 ${idx === activeImgIdx ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
                     />
@@ -117,6 +118,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
               )}
             </div>
           </div>
+
 
           {/* ── Details Column ── natural flow, parent modal handles scrolling */}
           <div className="flex flex-col flex-1 p-6 md:p-8">

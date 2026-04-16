@@ -1,7 +1,10 @@
 /**
- * Utility to optimize Supabase Storage URLs using their built-in transformation service.
- * This reduces payload size and egress.
+ * Utility to redirect Supabase Storage URLs to local /images/ copies.
+ * This eliminates Supabase egress entirely for all known images.
  */
+
+const SUPABASE_BUCKET = "alumfresh-image";
+
 export function getOptimizedImageUrl(
   url: string | null | undefined,
   options: {
@@ -12,23 +15,28 @@ export function getOptimizedImageUrl(
   } = {}
 ): string {
   if (!url) return "";
-  
-  // If it's not a Supabase URL, return as is
-  if (!url.includes(".supabase.co/storage/v1/object/public/")) {
-    return url;
+
+  // If it's a Supabase storage URL, extract the filename and serve locally
+  if (url.includes(".supabase.co/storage/")) {
+    // Extract filename after the bucket name
+    const bucketPath = `/object/public/${SUPABASE_BUCKET}/`;
+    const renderPath = `/render/image/public/${SUPABASE_BUCKET}/`;
+    let filename = "";
+
+    if (url.includes(bucketPath)) {
+      filename = url.split(bucketPath).pop() || "";
+    } else if (url.includes(renderPath)) {
+      filename = url.split(renderPath).pop() || "";
+    }
+
+    // Strip any query params
+    filename = filename.split("?")[0];
+
+    if (filename) {
+      return `/images/${filename}`;
+    }
   }
 
-  const { width, height, quality = 75, format = "webp" } = options;
-
-  // Convert /object/public/ to /render/image/public/
-  let optimizedUrl = url.replace("/object/public/", "/render/image/public/");
-
-  const params = new URLSearchParams();
-  if (width) params.append("width", width.toString());
-  if (height) params.append("height", height.toString());
-  if (quality) params.append("quality", quality.toString());
-  if (format && format !== "origin") params.append("format", format);
-
-  const queryString = params.toString();
-  return queryString ? `${optimizedUrl}?${queryString}` : optimizedUrl;
+  // Non-Supabase URLs pass through unchanged
+  return url;
 }

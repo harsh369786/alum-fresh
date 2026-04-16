@@ -111,7 +111,7 @@ export function HeroCarousel({ banners }: HeroCarouselProps) {
                     {/* Product Orb */}
                     <div className="relative w-64 h-64 md:w-80 md:h-80 bg-white shadow-[0_25px_80px_rgba(44,44,44,0.08)] rounded-full flex items-center justify-center border border-parchment animate-float">
                        <Image 
-                          src={getOptimizedImageUrl(slide.image_url || "https://lyfugzdxfcqlrsmermjm.supabase.co/storage/v1/object/public/alumfresh-image/1774611862532-product.png", { width: 800, quality: 80 })} 
+                          src={getOptimizedImageUrl(slide.image_url || "/images/product.png", { width: 800, quality: 80 })} 
                           alt={slide.title || "Banner Product Image"} 
                           width={400}
                           height={400}
