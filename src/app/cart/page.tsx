@@ -39,6 +39,10 @@ export default function CartPage() {
   // If discount is 100%, waive shipping as well
   const shipping = (discountPct === 100 || afterDiscount >= shippingRules.free_shipping_threshold) ? 0 : shippingRules.shipping_charge;
   const total = afterDiscount + shipping;
+  // Total savings: MRP (999 per unit) vs actual price paid
+  const ORIGINAL_PRICE_PER_UNIT = 999;
+  const mrpTotal = items.reduce((sum, item) => sum + ORIGINAL_PRICE_PER_UNIT * item.quantity, 0);
+  const totalSavings = mrpTotal - total;
 
   function applyCode() {
     const code = discountCode.trim().toUpperCase();
@@ -146,9 +150,10 @@ export default function CartPage() {
                     </div>
 
                     <div className="text-right min-w-[100px]">
-                      <div className="font-serif text-[1.3rem] text-charcoal">{formatPrice(item.price * item.quantity)}</div>
+                      <div className="text-[0.85rem] text-warm/50 line-through font-bold leading-none mb-1">₹{999 * item.quantity}</div>
+                      <div className="font-bold text-[1.3rem] text-charcoal">{formatPrice(item.price * item.quantity)}</div>
                       {item.quantity > 1 && (
-                        <div className="text-[0.65rem] text-warm opacity-70 leading-none">@ {formatPrice(item.price)} each</div>
+                        <div className="text-[0.65rem] text-warm opacity-70 leading-none font-bold">@ {formatPrice(item.price)} each</div>
                       )}
                     </div>
 
@@ -173,8 +178,12 @@ export default function CartPage() {
 
                 <div className="space-y-6 mb-10">
                   <div className="flex justify-between items-baseline">
-                    <span className="text-[0.82rem] text-warm font-medium uppercase tracking-tighter">Subtotal</span>
-                    <span className="font-serif text-[1.3rem] text-charcoal">{formatPrice(subtotal)}</span>
+                    <span className="text-[0.82rem] text-warm font-medium uppercase tracking-tighter">Total MRP</span>
+                    <span className="font-bold text-[1.1rem] text-warm/50 line-through">{formatPrice(mrpTotal)}</span>
+                  </div>
+                  <div className="flex justify-between items-baseline">
+                    <span className="text-[0.82rem] text-warm font-medium uppercase tracking-tighter">Offer Price</span>
+                    <span className="font-bold text-[1.3rem] text-charcoal">{formatPrice(subtotal)}</span>
                   </div>
                   
                   {discountAmount > 0 && (
@@ -182,7 +191,7 @@ export default function CartPage() {
                       <span className="text-[0.82rem] font-medium uppercase tracking-tighter flex items-center gap-1.5 focus-within:">
                         <Ticket className="w-3.5 h-3.5" /> Code: {appliedCode}
                       </span>
-                      <span className="font-serif text-[1.2rem] opacity-90">-{formatPrice(discountAmount)}</span>
+                      <span className="font-bold text-[1.2rem] opacity-90">-{formatPrice(discountAmount)}</span>
                     </div>
                   )}
 
@@ -190,7 +199,7 @@ export default function CartPage() {
                     <span className="text-[0.82rem] text-warm font-medium uppercase tracking-tighter flex items-center gap-1.5">
                       <Truck className="w-3.5 h-3.5 text-sage" /> Shipping
                     </span>
-                    <span className={`font-serif text-[1.1rem] ${shipping === 0 ? "text-sage-dark" : "text-charcoal"}`}>
+                    <span className={`font-bold text-[1.1rem] ${shipping === 0 ? "text-sage-dark" : "text-charcoal"}`}>
                       {shipping === 0 ? "Complimentary" : formatPrice(shipping)}
                     </span>
                   </div>
@@ -201,16 +210,24 @@ export default function CartPage() {
                       <Link href="/category/roll-on" className="text-[0.65rem] font-black uppercase text-sage-dark hover:underline underline-offset-4 whitespace-nowrap">Explore</Link>
                     </div>
                   )}
+
+                  {/* Savings Indicator */}
+                  {totalSavings > 0 && (
+                    <div className="text-right">
+                      <span className="text-[0.65rem] font-bold text-sage-dark bg-sage-light/30 px-3 py-1 rounded-full uppercase tracking-wider">
+                        You save {formatPrice(totalSavings)} today
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="border-t-2 border-dashed border-parchment pt-6 mb-10">
-                  <div className="flex justify-between items-end">
+                  <div className="flex justify-between items-center">
                     <span className="font-serif italic text-xl text-charcoal">Total Amount</span>
                     <div className="text-right">
-                      <div className="flex items-baseline justify-end text-charcoal leading-none">
-                        <span className="text-[1.2rem] font-sans mr-1">₹</span>
-                        <span className="text-[clamp(1.8rem,5vw,2.2rem)] font-serif whitespace-nowrap">
-                          {total}
+                      <div className="text-charcoal leading-none">
+                        <span className="text-[clamp(1.8rem,5vw,2.2rem)] font-bold whitespace-nowrap">
+                          {formatPrice(total)}
                         </span>
                       </div>
                       <span className="text-[0.65rem] text-warm uppercase tracking-widest opacity-60">incl. all taxes</span>

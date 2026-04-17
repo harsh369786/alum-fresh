@@ -10,6 +10,10 @@ const testimonials = [
     txt: "This product truly works, highly recommended !! ",
     initial: "R", name: "Rahul Desai", role: "Mumbai · Verified Buyer",
   },
+  {
+    txt: "Was honestly not expecting much, but Alum Fresh really works. It doesn’t just cover the smell like deodorant, it actually keeps me fresh for hours. Feels light on the skin and no irritation at all. Definitely a daily essential now.",
+    initial: "H", name: "Harsh Shah", role: "Mumbai · Verified Buyer",
+  },
 ];
 
 const trustStats = [

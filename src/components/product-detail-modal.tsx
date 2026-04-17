@@ -70,58 +70,82 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      {/*
-        Key layout fix:
-        - The modal itself scrolls (overflow-y-auto on DialogContent).
-        - On desktop: two-column side-by-side, image column is fixed height 
-          so it never pushes the button off screen.
-        - On mobile: single column stacked (image top, form below).
-      */}
-      <DialogContent className="p-0 bg-white border-parchment md:max-w-3xl md:rounded-[2rem]">
-        <div className="flex flex-col md:flex-row md:items-stretch">
+      <DialogContent className="p-0 bg-white border-parchment w-[95vw] md:max-w-4xl lg:max-w-6xl md:rounded-[2rem] overflow-hidden">
+        <div className="flex flex-col md:flex-row md:items-stretch h-full max-h-[90vh]">
 
-          {/* ── Image Column ── fixed height on mobile, auto on desktop */}
+          {/* ── Image Column ── Vertical Auto-scrolling Gallery */}
           <div
             className={`
-              relative flex items-center justify-center shrink-0
-              w-full h-[300px] md:h-auto md:w-[280px] lg:w-[320px]
-              transition-colors duration-500 ${styles.bg}
-              md:rounded-l-[2rem] rounded-t-[2rem] md:rounded-tr-none
+              relative flex flex-col shrink-0
+              w-full md:w-[45%] lg:w-[50%]
+              bg-white border-r border-parchment/30
+              overflow-hidden
             `}
           >
-            <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[inherit]">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-white/25 rounded-full blur-[40px]" />
-            </div>
-            <div className="relative z-10 w-full h-full flex items-center justify-center p-6 md:p-8 select-none">
+            <div className="relative w-full h-full min-h-[400px] flex items-center justify-center select-none overflow-hidden bg-white">
               {gallery.length > 0 ? (
-                <div className="relative w-full h-[220px] md:h-full flex items-center justify-center">
-                  {gallery.map((url, idx) => (
-                    <Image
-                      key={url}
-                      src={getOptimizedImageUrl(url)}
-                      alt={product.name}
-                      width={400}
-                      height={400}
-                      className={`absolute w-full h-full object-contain drop-shadow-2xl transition-all duration-700 ${idx === activeImgIdx ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
-                    />
-                  ))}
-                  {gallery.length > 1 && (
-                    <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
-                      {gallery.map((_, idx) => (
-                        <div 
-                          key={idx} 
-                          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === activeImgIdx ? 'bg-charcoal w-4' : 'bg-charcoal/20'}`} 
+                <>
+                  {/* Desktop view: Vertical Auto-Sliding Stack */}
+                  <div className="hidden md:block absolute inset-0 w-full h-full">
+                    {gallery.map((url, idx) => (
+                      <div 
+                        key={`d-${url}`} 
+                        className={`absolute inset-0 w-full h-full flex items-center justify-center p-10 transition-all duration-1000 ease-in-out`}
+                        style={{ 
+                          transform: `translateY(${(idx - activeImgIdx) * 100}%)`,
+                          opacity: idx === activeImgIdx ? 1 : 0
+                        }}
+                      >
+                        <Image
+                          src={getOptimizedImageUrl(url)}
+                          alt={product.name}
+                          fill
+                          className="object-contain"
                         />
-                      ))}
-                    </div>
-                  )}
-                </div>
+                      </div>
+                    ))}
+                    {gallery.length > 1 && (
+                      <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-20">
+                        {gallery.map((_, idx) => (
+                          <div 
+                            key={`dot-d-${idx}`} 
+                            className={`w-1.5 rounded-full transition-all duration-500 ${idx === activeImgIdx ? 'bg-charcoal h-6' : 'bg-charcoal/20 h-1.5'}`} 
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Mobile view: Single image stack with dots - FULL SCALE */}
+                  <div className="md:hidden relative aspect-square w-full bg-white flex items-center justify-center">
+                    {gallery.map((url, idx) => (
+                      <Image
+                        key={`m-${url}`}
+                        src={getOptimizedImageUrl(url)}
+                        alt={product.name}
+                        fill
+                        className={`object-contain transition-all duration-700 ${idx === activeImgIdx ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
+                      />
+                    ))}
+                    {gallery.length > 1 && (
+                      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                        {gallery.map((_, idx) => (
+                          <div 
+                            key={`dot-m-${idx}`} 
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === activeImgIdx ? 'bg-charcoal w-5' : 'bg-charcoal/20'}`} 
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </>
               ) : (
-                <span className="text-[5rem] md:text-[7rem]">{styles.emoji}</span>
+                <div className="aspect-square flex items-center justify-center bg-cream w-full">
+                  <span className="text-[5rem] md:text-[7rem]">{styles.emoji}</span>
+                </div>
               )}
             </div>
           </div>
-
 
           {/* ── Details Column ── natural flow, parent modal handles scrolling */}
           <div className="flex flex-col flex-1 p-6 md:p-8">
@@ -191,12 +215,11 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
                   </button>
                 </div>
                 <div className="text-right leading-none">
-                  <div className="flex items-baseline justify-end text-charcoal leading-none">
-                    <span className="text-[1.3rem] font-sans mr-1">₹</span>
-                    <span className="font-serif text-[1.8rem] whitespace-nowrap">{product.price * qty}</span>
+                  <div className="flex items-center justify-end gap-1 text-charcoal leading-none">
+                    <span className="text-[1.8rem] font-bold">₹{product.price * qty}</span>
                   </div>
                   {product.original_price && (
-                    <div className="font-sans text-[0.8rem] text-warm line-through opacity-50 mt-1">
+                    <div className="font-sans text-[1.1rem] text-warm/50 line-through font-bold mt-1">
                       ₹{product.original_price * qty}
                     </div>
                   )}

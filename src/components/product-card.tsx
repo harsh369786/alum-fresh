@@ -86,7 +86,7 @@ export function ProductCard({ product }: ProductCardProps) {
                     alt={product.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-all duration-700 opacity-100 scale-105"
+                    className="object-contain transition-all duration-700 opacity-100"
                     priority={idx === 0}
                   />
                 );
@@ -142,12 +142,16 @@ export function ProductCard({ product }: ProductCardProps) {
           </p>
           
           <div className="flex items-center justify-between mt-auto">
-            <div className="flex items-baseline text-charcoal">
-              <span className="font-sans text-[1rem] mr-0.5">₹</span>
-              <span className="font-serif text-[1.5rem] leading-none">{product.price}</span>
+            <div>
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-[1.35rem] font-bold text-charcoal">₹{product.price}</span>
+                {product.original_price && (
+                  <span className="text-[1rem] text-warm/50 line-through font-bold">₹{product.original_price}</span>
+                )}
+              </div>
               {product.original_price && (
-                <span className="font-sans text-[0.82rem] text-warm line-through ml-2.5 opacity-60">
-                   ₹{product.original_price}
+                <span className="text-[0.62rem] font-bold tracking-wide text-white bg-rose-dark/80 px-2 py-0.5 rounded-full">
+                  {Math.round((1 - product.price / product.original_price) * 100)}% OFF
                 </span>
               )}
             </div>

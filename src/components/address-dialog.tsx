@@ -193,9 +193,10 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
       const data = await res.json();
       if (data.id) {
         const displayId = String(data.id); // YYMMDDSRNO format e.g. 2604110001
+        setOrderId(displayId); // set BEFORE redirect so success step shows correct ID
         onSuccess(); // clears cart
         onOpenChange(false); // close the dialog
-        toast({ title: "Order Confirmed! 🌿", description: `Loading your confirmation...` });
+        toast({ title: "Order Confirmed! 🌿", description: `Your order #${displayId} is confirmed.` });
         router.push(`/order-success?id=${displayId}`);
       } else {
         const errMsg = data.error || "Something went wrong saving the internal order.";
@@ -333,7 +334,7 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
                     {items.map(item => (
                       <div key={`r-${item.productId}`} className="flex justify-between items-center text-[0.82rem]">
                         <span className="text-warm italic">{item.name} <em className="text-[0.9em] opacity-60">× {item.quantity}</em></span>
-                        <span className="font-serif text-[1rem] text-charcoal">{formatPrice(item.price * item.quantity)}</span>
+                        <span className="font-bold text-[1rem] text-charcoal">{formatPrice(item.price * item.quantity)}</span>
                       </div>
                     ))}
                   </div>
@@ -355,7 +356,7 @@ export function AddressDialog({ open, onOpenChange, items, subtotal, discount, d
                     </div>
                     <div className="pt-4 flex justify-between items-end">
                       <span className="font-serif italic text-xl text-charcoal">Final Amount</span>
-                      <span className="font-serif text-2xl text-charcoal">{formatPrice(total)}</span>
+                      <span className="font-bold text-2xl text-charcoal">{formatPrice(total)}</span>
                     </div>
                   </div>
 
