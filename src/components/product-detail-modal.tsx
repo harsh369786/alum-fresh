@@ -70,7 +70,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="p-0 bg-white border-parchment w-[95vw] md:max-w-4xl lg:max-w-6xl md:rounded-[2rem] overflow-hidden">
+      <DialogContent className="p-0 bg-white border-parchment w-[95vw] md:max-w-4xl lg:max-w-6xl md:rounded-[2rem] overflow-hidden left-1/2 -translate-x-1/2 bottom-4 rounded-[2.5rem]">
         <div className="flex flex-col md:flex-row md:items-stretch h-full max-h-[90vh]">
 
           {/* ── Image Column ── Vertical Auto-scrolling Gallery */}
